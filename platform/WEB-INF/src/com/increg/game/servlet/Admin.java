@@ -11,9 +11,11 @@ import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.increg.commun.DBSession;
 import com.increg.game.bean.GameEnvironment;
+import com.increg.game.bean.GameSession;
 import com.increg.game.bean.JoueurBean;
 import com.increg.game.bean.PartieBean;
 import com.increg.game.client.Joueur;
@@ -48,8 +50,15 @@ public class Admin extends ConnectedServlet {
         // Recherche le joueur sur ce pseudo
         JoueurBean anAdmin = JoueurBean.getJoueurBeanFromPseudo(dbConnect, pseudo);
         
+        // Vérification supplémentaire pour plus de sécurité : Le joueur doit être connecté dans l'aire de jeu
+        HttpSession session = request.getSession();
+        GameSession mySession = (GameSession) session.getAttribute("mySession");
+        boolean joueurDansAire = ((mySession != null) 
+                            && (mySession.getMyJoueur() != null)
+                            && (mySession.getMyJoueur().getPseudo().equals(pseudo)));
+        
         // Vérification que le joueur est bien modérateur
-        if ((anAdmin != null) && (anAdmin.getPrivilege() >= Joueur.MODERATEUR_PRIVILEGE)) {
+        if ((anAdmin != null) && (anAdmin.getPrivilege() >= Joueur.MODERATEUR_PRIVILEGE) && joueurDansAire) {
 
             String msg = null;
             JoueurBean aJoueur = null;
