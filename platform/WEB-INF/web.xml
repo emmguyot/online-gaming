@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+    <servlet>
+        <servlet-name>welcomeGame</servlet-name>
+        <description>Page d'entrée</description>
+        <servlet-class>com.increg.game.servlet.WelcomeGame</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>refreshAll</servlet-name>
+        <description>Demande des infos à jour pour l'applet</description>
+        <servlet-class>com.increg.game.servlet.RefreshAll</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>affJoueur</servlet-name>
+        <description>Affiche les données d'un joueur</description>
+        <servlet-class>com.increg.game.servlet.AffJoueur</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>doAction</servlet-name>
+        <description>Controleur général des actions faites sur l'aire</description>
+        <servlet-class>com.increg.game.servlet.DoAction</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>bouchonBel</servlet-name>
+        <description>Bouchon pour simuler les beloteux</description>
+        <servlet-class>com.increg.game.servlet.test.BouchonBel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>affPartie</servlet-name>
+        <description>Affiche les parties jouées</description>
+        <servlet-class>com.increg.game.servlet.AffPartie</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>admin</servlet-name>
+        <description>Administration de l'aire</description>
+        <servlet-class>com.increg.game.servlet.Admin</servlet-class>
+    </servlet>
+
+    <!-- ************************************************************************************* -->
+
+    <servlet-mapping>
+        <servlet-name>welcomeGame</servlet-name>
+        <url-pattern>/welcomeGame.srv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>refreshAll</servlet-name>
+        <url-pattern>/refreshAll.srv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>affJoueur</servlet-name>
+        <url-pattern>/affJoueur.srv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>doAction</servlet-name>
+        <url-pattern>/doAction.srv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>bouchonBel</servlet-name>
+        <url-pattern>/bouchonBel.srv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>affPartie</servlet-name>
+        <url-pattern>/affPartie.srv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>admin</servlet-name>
+        <url-pattern>/admin.srv</url-pattern>
+    </servlet-mapping>
+
+    <!-- ************************************************************************************* -->
+    
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
+</web-app>

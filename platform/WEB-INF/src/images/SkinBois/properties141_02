@@ -1,0 +1,11 @@
+# Propriétés du plug-in Java(TM)
+# NE MODIFIEZ PAS CE FICHIER. Il est généré automatiquement.
+# Utilisez le panneau de configuration de l'activateur pour modifier les propriétés.
+#
+#Sat Jun 26 23:35:57 CEST 2004
+javaplugin.jre.path=Default
+javaplugin.console=hide
+javaplugin.jre.params=-cp C:/PROGRA~1/InCrEG/SkinBois
+javaplugin.jre.type=Default
+javaplugin.proxy.usebrowsersettings=true
+javaplugin.exception=false
