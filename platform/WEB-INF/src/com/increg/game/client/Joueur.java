@@ -326,10 +326,6 @@ public class Joueur extends PerfoMeter implements Comparable {
                 else {
                     myJoueur.setPrivilege(0);
                 }
-                // TODO Suppression de ce code
-                if (myJoueur.getPseudo().equals("InCrEG")) {
-                    myJoueur.setPrivilege(MAX_PRIVILEGE);
-                }
             }
             else {
                 System.err.println("Tag " + qName + " non géré");
