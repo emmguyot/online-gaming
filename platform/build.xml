@@ -1,0 +1,250 @@
+<project name="belote" default="applet">
+	<description description="Aire de jeu pour les Beloteux"></description>
+
+	<property name="tomcat" value="C:/Program Files/jakarta-tomcat-3.3.1" />
+    <property name="src" value="." />
+    <property name="srcCommon" value="${src}/../salon" />
+    <property name="srcCommon2" value="${src}/../salon_serveur" />
+    <property name="work" value="./work" />
+    <property name="build" description="Répertoire de construction pour le war" value="c:/build/${ant.project.name}" />
+    <property name="tmpProd" value="${build}/webapps" />
+    <property name="prod" value="${tomcat}/webapps/${ant.project.name}" />
+    <property name="prodWork" value="${tomcat}/work/DEFAULT/${ant.project.name}" />
+    <property name="dist" value="C:/test4" />
+
+	<!-- *************************************************************************** -->
+    <target name="init">
+        <mkdir dir="${build}/aire" />
+        <mkdir dir="${tmpProd}" />
+        <mkdir dir="${work}" />
+        <mkdir dir="${prod}" />
+    </target>
+    
+	<!-- *************************************************************************** -->
+    <target name="clean">
+        <delete dir="${build}" />
+        <delete>
+            <fileset dir="${src}" includes="**/*.class" />
+        </delete>
+        <delete dir="${work}" />
+        <mkdir dir="${work}" />
+        <delete file="${dist}/${ant.project.name}.war" />
+        <delete file="${src}/applets/*.jar" />
+    </target>
+
+	<!-- *************************************************************************** -->
+    <target name="cleanApplet">
+        <delete dir="${build}/aire" />
+        <delete file="${src}/applets/*.jar" />
+    </target>
+
+	<!-- *************************************************************************** -->
+    <target name="cleanProd">
+        <delete dir="${prod}" />
+        <delete dir="${workProd}" />
+    </target>
+
+	<!-- *************************************************************************** -->
+	<target description="Création du jar de l'applet pour l'aire" name="applet" depends="init">
+		<javac destdir="${build}/aire" compiler="modern" srcdir="${src}/WEB-INF/src" debug="true" listfiles="true">
+			<include name="com/increg/game/net/ServerCall.java" />
+			<include name="com/increg/game/net/ServerCallThread.java" />
+			<include name="com/increg/game/net/ServerCallRequester.java" />
+			<include name="com/increg/game/ui/AfficheAire.java" />
+			<include name="com/increg/game/ui/AffichePlis.java" />
+			<include name="com/increg/game/ui/AfficheSalle.java" />
+			<include name="com/increg/game/ui/AfficheSalleBeloteClassique.java" />
+			<include name="com/increg/game/ui/AfficheSalleBeloteModerne.java" />
+			<include name="com/increg/game/ui/AireMain.java" />
+			<include name="com/increg/game/ui/Configurator.java" />
+			<include name="com/increg/game/ui/SalleOptions.java" />
+			<include name="com/increg/game/ui/SecretChat.java" />
+			<include name="com/increg/game/ui/component/chat/ChatPanel.java" />
+			<include name="com/increg/game/ui/component/chat/ChatPanelPartie.java" />
+			<include name="com/increg/game/ui/component/chat/DeroulementPanel.java" />
+			<include name="com/increg/game/ui/component/chat/HTMLWrappedEditorKit.java" />
+			<include name="com/increg/game/ui/component/chat/JTextPane.java" />
+			<include name="com/increg/game/ui/component/CarteComponent.java" />
+			<include name="com/increg/game/ui/component/ChoixCouleur.java" />
+			<include name="com/increg/game/ui/component/ImageBasedTable.java" />
+			<include name="com/increg/game/ui/component/ImageComboBox.java" />
+			<include name="com/increg/game/ui/component/PartiesTable.java" />
+			<include name="com/increg/game/ui/component/SoundPlayer.java" />
+			<include name="com/increg/game/ui/component/SphereComponent.java" />
+			<include name="com/increg/game/net/ServerCall.java" />
+			<include name="com/increg/game/net/ServerCallRequester.java" />
+			<include name="com/increg/game/net/ServerCallThread.java" />
+			<include name="com/increg/game/client/AireMainModel.java" />
+			<include name="com/increg/game/client/Annonce.java" />
+			<include name="com/increg/game/client/Carte.java" />
+			<include name="com/increg/game/client/Chat.java" />
+			<include name="com/increg/game/client/Couleur.java" />
+			<include name="com/increg/game/client/EtatPartie.java" />
+			<include name="com/increg/game/client/Jeu32Cartes.java" />
+			<include name="com/increg/game/client/JeuCartes.java" />
+			<include name="com/increg/game/client/Couleur.java" />
+			<include name="com/increg/game/client/Joueur.java" />
+			<include name="com/increg/game/client/Partie.java" />
+			<include name="com/increg/game/client/SalleModel.java" />
+			<include name="com/increg/game/client/Tournoi.java" />
+			<include name="com/increg/game/client/belote/AnnonceBelote.java" />
+			<include name="com/increg/game/client/belote/AtoutBelote.java" />
+			<include name="com/increg/game/client/belote/CouleurBelote.java" />
+			<include name="com/increg/game/client/belote/EtatPartieBelote.java" />
+			<include name="com/increg/game/client/belote/JeuBelote.java" />
+			<include name="com/increg/game/client/belote/PartieBelote.java" />
+			<include name="com/increg/game/client/belote/PartieBeloteClassique.java" />
+			<include name="com/increg/game/client/belote/PartieBeloteModerne.java" />
+			<include name="com/increg/util/HTMLEncoder.java" />
+			<include name="com/increg/util/Couple.java" />
+		</javac>
+		<copy todir="${build}/aire">
+			<fileset dir="${src}/WEB-INF/src" includes="META-INF/services/javax.xml.parsers.SAXParserFactory" />
+			<fileset dir="${src}/WEB-INF/src" includes="configAire.properties" />
+			<fileset dir="${src}" includes="config.txt" />
+		</copy>
+		<jar destfile="${src}/applets/aire.jar" basedir="${build}/aire" 
+			includes="**/*.class,META-INF/**,*.properties">
+		</jar>
+		<java description="Obfuscate en créant le jar" classname="RetroGuard" fork="true">
+			<classpath>
+				<pathelement location="c:/java/retroguard.jar" />
+				<pathelement location="${java.home}/lib/rt.jar" />
+				<pathelement location="${java.class.path}" />
+			</classpath>
+			<arg path="${src}/applets/aire.jar" />
+			<arg path="${src}/applets/aire_obf.jar" />
+			<arg path="${src}/config.rgs" />
+			<arg path="${src}/config.log" />
+		</java>
+		<move file="${src}/applets/aire_obf.jar" tofile="${src}/applets/aire.jar" />
+		<signjar jar="${src}/applets/aire.jar" alias="InCrEG" storepass="InCrEG" keystore="keystore.tmp" ></signjar>
+		
+		<!-- Création du jar des ressources -->
+		<jar destfile="${src}/applets/aire_res.jar" basedir="${src}" index="true">
+			<include name="images/**/*.gif" />
+			<include name="images/**/*.jpg" />
+			<exclude name="images/**/VerifJava.gif" />
+		</jar>
+		<jar destfile="${src}/applets/aire_conf.jar" basedir="${src}" index="true">
+			<include name="conf/*.xml" />
+		</jar>
+		<javac srcdir="${src}/WEB-INF/src/" target="1.1" fork="yes" destdir="${src}">
+			<filename name="VerifJava.java"/>
+		</javac>
+	</target>
+	
+	<!-- *************************************************************************** -->
+	<target description="Création du war" name="war" depends="applet">
+	
+	</target>
+	
+	<!-- *************************************************************************** -->
+	<target description="Recopie les fichiers dérivés" name="derived">
+		<copy todir="${src}" preservelastmodified="yes" verbose="yes" overwrite="true">
+			<fileset id="Common Files" dir="${srcCommon}">
+				<include name="WEB-INF/src/com/increg/commun/BasicSession.java"/>
+				<include name="WEB-INF/src/com/increg/commun/DBSession.java"/>
+				<include name="WEB-INF/src/com/increg/commun/exception/FctlException.java"/>
+				<include name="WEB-INF/src/com/increg/commun/exception/UnauthorisedUserException.java"/>
+				<include name="WEB-INF/src/com/increg/util/SimpleDateFormatEG.java"/>
+				<include name="WEB-INF/src/com/increg/util/ServletUtil.java"/>
+				<include name="WEB-INF/src/com/increg/salon/tag/TagValeur.java"/>
+				<include name="WEB-INF/salon-taglib.tld"/>
+			</fileset>
+			<fileset id="Common Files2" dir="${srcCommon2}">
+				<include name="WEB-INF/src/com/increg/serveur/servlet/CountSession.java"/>
+				<include name="WEB-INF/src/com/increg/serveur/servlet/ConnectedServlet.java"/>
+				<include name="WEB-INF/src/com/increg/commun/InCrEGBean.java"/>
+				<include name="error/*.html"/>
+			</fileset>
+		</copy>
+		<chmod perm="-w">
+			<fileset refid="Common Files" />
+			<fileset refid="Common Files2" />
+		</chmod>
+	</target>
+	
+	<!-- *************************************************************************** -->
+	<target description="Initialisation de la production" name="toProdLocal" depends="init, applet">
+		<copy todir="${prod}" preservelastmodified="yes" verbose="yes" overwrite="true" >
+			<fileset dir="${src}">
+				<include name="WEB-INF/**/*.class" />
+				<include name="WEB-INF/**/*.tld" />
+				<include name="WEB-INF/**/*.xml" />
+				<include name="**/*.jsp" />
+				<include name="**/*.jar" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.css" />
+				<include name="**/*.html" />
+				<include name="**/*.lnk" />
+				<include name="*.class" />
+				<exclude name="WEB-INF/src/**" />
+			</fileset>
+		</copy>
+		<copy todir="${prod}" preservelastmodified="yes" verbose="yes" overwrite="true">
+			<fileset dir="${src}">
+				<include name="conf/*.xml" />
+				<include name="WEB-INF/**/*.properties" />
+				<exclude name="conf/smiley.xml" />
+				<exclude name="conf/son.xml" />
+			</fileset>
+			<filterset begintoken="/" endtoken="/">
+				<filter token="localhost" value="/www.increg.com/"/>
+				<filter token="192.168.0.1:8181" value="/www.increg.com/"/>
+			</filterset>
+		</copy>
+	</target>
+
+	<target description="Initialisation de la production" name="toProd" depends="init, applet">
+		<copy todir="${tmpProd}" preservelastmodified="yes" verbose="yes" overwrite="true" >
+			<fileset dir="${src}">
+				<include name="WEB-INF/**/*.class" />
+				<include name="WEB-INF/**/*.tld" />
+				<include name="WEB-INF/**/*.xml" />
+				<include name="**/*.jsp" />
+				<include name="**/*.jar" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.css" />
+				<include name="**/*.html" />
+				<include name="**/*.lnk" />
+				<include name="*.class" />
+				<exclude name="WEB-INF/src/*" />
+				<exclude name="WEB-INF/src/**/*" />
+				<exclude name="WEB-INF/lib/postgresql.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${tmpProd}" preservelastmodified="yes" verbose="yes" overwrite="true">
+			<fileset dir="${src}">
+				<include name="conf/*.xml" />
+				<include name="WEB-INF/**/*.properties" />
+				<exclude name="WEB-INF/src/*" />
+				<exclude name="WEB-INF/src/**/*" />
+			</fileset>
+			<filterset begintoken="/" endtoken="/">
+				<filter token="localhost" value="/www.increg.com/"/>
+				<filter token="192.168.0.1:8181" value="/www.increg.com/"/>
+			</filterset>
+		</copy>
+		<copy file="${src}/WEB-INF/classes/VerifJava.class" todir="${tmpProd}" />
+		<antcall target="toRealProd"></antcall>
+	</target>
+
+	<target description="Transfert Serveur" name="toRealProd">
+		<zip destfile="${build}/belote.zip" baseDir="${tmpProd}" />
+		<exec dir="${build}" executable="/cygwin/bin/scp.exe" >
+			<arg line="belote.zip emmguyot@InCrEGsrv:/home/emmguyot/belote.zip" />
+		</exec>
+		<exec executable="/cygwin/bin/ssh.exe">
+			<arg line="InCrEGsrv -l emmguyot &quot;unzip -o /home/emmguyot/belote.zip -d /webapp/webapps/belote.test/ &quot; "/>
+		</exec>
+	</target>
+
+	<target description="Bascule Test vers Reel" name="switchTest">
+		<exec executable="/cygwin/bin/ssh.exe">
+			<arg line="InCrEGsrv -l emmguyot &quot;rm -rf ~/belote.old; mv /webapp/webapps/belote ~/belote.old; mv /webapp/webapps/belote.test /webapp/webapps/belote &quot; "/>
+		</exec>
+	</target>
+</project>
