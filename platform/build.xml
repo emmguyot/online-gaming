@@ -210,10 +210,10 @@
 				<include name="**/*.css" />
 				<include name="**/*.html" />
 				<include name="**/*.lnk" />
+				<include name="**/*.sql" />
 				<include name="*.class" />
 				<exclude name="WEB-INF/src/*" />
 				<exclude name="WEB-INF/src/**/*" />
-				<exclude name="WEB-INF/lib/postgresql.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${tmpProd}" preservelastmodified="yes" verbose="yes" overwrite="true">
@@ -229,22 +229,7 @@
 			</filterset>
 		</copy>
 		<copy file="${src}/WEB-INF/classes/VerifJava.class" todir="${tmpProd}" />
-		<antcall target="toRealProd"></antcall>
+		<zip destfile="${build}/belote.war" baseDir="${tmpProd}" />
 	</target>
 
-	<target description="Transfert Serveur" name="toRealProd">
-		<zip destfile="${build}/belote.zip" baseDir="${tmpProd}" />
-		<exec dir="${build}" executable="/cygwin/bin/scp.exe" >
-			<arg line="belote.zip emmguyot@InCrEGsrv:/home/emmguyot/belote.zip" />
-		</exec>
-		<exec executable="/cygwin/bin/ssh.exe">
-			<arg line="InCrEGsrv -l emmguyot &quot;unzip -o /home/emmguyot/belote.zip -d /webapp/webapps/belote.test/ &quot; "/>
-		</exec>
-	</target>
-
-	<target description="Bascule Test vers Reel" name="switchTest">
-		<exec executable="/cygwin/bin/ssh.exe">
-			<arg line="InCrEGsrv -l emmguyot &quot;rm -rf ~/belote.old; mv /webapp/webapps/belote ~/belote.old; mv /webapp/webapps/belote.test /webapp/webapps/belote &quot; "/>
-		</exec>
-	</target>
 </project>
