@@ -156,7 +156,6 @@
 				<include name="WEB-INF/src/com/increg/serveur/servlet/CountSession.java"/>
 				<include name="WEB-INF/src/com/increg/serveur/servlet/ConnectedServlet.java"/>
 				<include name="WEB-INF/src/com/increg/commun/InCrEGBean.java"/>
-				<include name="error/*.html"/>
 			</fileset>
 		</copy>
 		<chmod perm="-w">
