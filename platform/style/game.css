@@ -3,30 +3,20 @@
 
 body
 {
-scrollbar-3d-light-color : blue ;
-scrollbar-arrow-color : #FFFFFF ;
-scrollbar-base-color : white ;
-scrollbar-dark-shadow-color : yellow ;
-scrollbar-face-color : #000066 ;
-scrollbar-highlight-color : white ;
-scrollbar-shadow-color : #00FFFF ;
-background-attachment : fixed ;
-background-color : #000066 ;
-background-position : left top ;
-background-repeat : repeat ;
-margin-bottom : auto ;
-margin-left : 10px ;
-margin-right : 10px ;
-margin-top : 10px ;
-font-family : "Trebuchet MS" ;
-color : #FFFFFF ;
+background-color : #5F490F;
+margin-bottom : auto;
+margin-left : 10px;
+margin-right : 10px;
+margin-top : 10px;
+font-family : Tahoma, Arial, sans-serif;
+color : #F9D994;
 }
 a:link {
-	color: white;
+	color : #F9D994;
 	font-weight: bold;
 }
 a:visited {
-	color: white;
+	color : #F9D994;
 	text-weigth: bold;
 }
 .tabScore { 

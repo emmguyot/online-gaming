@@ -170,64 +170,66 @@ public class WelcomeGame extends HttpServlet {
                         myGame = new GameSession(getServletContext(),
                                 fichConfig, pseudo, crc);
 
-                        // Recharge les données du joueur à partir du site
-                        // Beloteux
-                        // Eventuellement lève une exception si le joueur n'a
-                        // plus le droit
-                        // Prépare l'URL d'appel
-                        StringBuffer fullURL = new StringBuffer(myGame
-                                .getBaseURL());
-                        fullURL = fullURL.append("?Pseudo=").append(
-                                URLEncoder.encode(pseudo, "UTF8")).append(
-                                "&id=").append(
-                                myGame.getSecurity().getCRC(pseudo));
-                        URL curURL = new URL(fullURL.toString());
-                        HttpURLConnection aCon = (HttpURLConnection) curURL
-                                .openConnection();
-                        // Pas de cache : Sinon ca sert à rien
-                        aCon.setUseCaches(false);
-                        aCon.connect();
-
-                        if (aCon.getResponseCode() == 200) {
-                            InputStream restauStream = aCon.getInputStream();
-                            try {
-                                myGame.getMyJoueur().reloadJoueur(restauStream);
-
-                                if (myGame.getMyJoueur().getCdJoueur() == 0) {
-                                    // Création du nouveau joueur
-                                    myGame.getMyJoueur().create(
-                                            myGame.getMyDBSession());
-                                } else {
-                                    // Sauvegarde le joueur mise à jour
-                                    myGame.getMyJoueur().maj(
-                                            myGame.getMyDBSession());
+                        if (env.isSecured()) {
+                            // Recharge les données du joueur à partir du site
+                            // Beloteux
+                            // Eventuellement lève une exception si le joueur n'a
+                            // plus le droit
+                            // Prépare l'URL d'appel
+                            StringBuffer fullURL = new StringBuffer(myGame
+                                    .getBaseURL());
+                            fullURL = fullURL.append("?Pseudo=").append(
+                                    URLEncoder.encode(pseudo, "UTF8")).append(
+                                    "&id=").append(
+                                    myGame.getSecurity().getCRC(pseudo));
+                            URL curURL = new URL(fullURL.toString());
+                            HttpURLConnection aCon = (HttpURLConnection) curURL
+                                    .openConnection();
+                            // Pas de cache : Sinon ca sert à rien
+                            aCon.setUseCaches(false);
+                            aCon.connect();
+    
+                            if (aCon.getResponseCode() == 200) {
+                                InputStream restauStream = aCon.getInputStream();
+                                try {
+                                    myGame.getMyJoueur().reloadJoueur(restauStream);
+    
+                                    if (myGame.getMyJoueur().getCdJoueur() == 0) {
+                                        // Création du nouveau joueur
+                                        myGame.getMyJoueur().create(
+                                                myGame.getMyDBSession());
+                                    } else {
+                                        // Sauvegarde le joueur mise à jour
+                                        myGame.getMyJoueur().maj(
+                                                myGame.getMyDBSession());
+                                    }
+                                } catch (DataFormatException e) {
+                                    System.err
+                                            .println("Format du fichier invalide => Refus de la connexion");
+                                    throw new UnauthorisedUserException();
+                                } catch (SQLException e) {
+                                    System.err
+                                            .println("Erreur à la mise à jour du joueur : "
+                                                    + e.toString());
+                                    // Ignore l'erreur
+                                } catch (FctlException e) {
+                                    System.err
+                                            .println("Erreur à la mise à jour du joueur : "
+                                                    + e.toString());
+                                    // Ignore l'erreur
+                                } finally {
+                                    restauStream.close();
+                                    aCon.disconnect();
+                                    aCon = null;
                                 }
-                            } catch (DataFormatException e) {
-                                System.err
-                                        .println("Format du fichier invalide => Refus de la connexion");
-                                throw new UnauthorisedUserException();
-                            } catch (SQLException e) {
-                                System.err
-                                        .println("Erreur à la mise à jour du joueur : "
-                                                + e.toString());
-                                // Ignore l'erreur
-                            } catch (FctlException e) {
-                                System.err
-                                        .println("Erreur à la mise à jour du joueur : "
-                                                + e.toString());
-                                // Ignore l'erreur
-                            } finally {
-                                restauStream.close();
+                            } else {
+                                // Erreur = Pas le droit
                                 aCon.disconnect();
                                 aCon = null;
+                                throw new UnauthorisedUserException();
                             }
-                        } else {
-                            // Erreur = Pas le droit
-                            aCon.disconnect();
-                            aCon = null;
-                            throw new UnauthorisedUserException();
                         }
-
+                            
                         // Positionne l'offset de Chat
                         myGame.setLastChatSeen(env.getChatOffset());
                         mySession.setAttribute("mySession", myGame);

@@ -106,7 +106,6 @@ public class GameSession extends BasicSession implements
      * Session gelée ?
      */
     protected boolean frozen;
-
     /**
      * GameSession constructor comment. Constructeur utilisé en cas de perte de
      * session Le constructeur doit exister
@@ -143,10 +142,15 @@ public class GameSession extends BasicSession implements
         frozen = false;
         // Récupération du chemin de sauvegarde
         resConfig = ResourceBundle.getBundle(configName);
+        // Environnement de l'aire
+        GameEnvironment env = (GameEnvironment) srvCtxt.getAttribute("Env");
 
         try {
             String passPhrase = resConfig.getString("passPhrase");
-            security = new SecurityBean(pseudo, crc, passPhrase);
+            if (env.isSecured()) {
+                // Contrôle de sécurité
+                security = new SecurityBean(pseudo, crc, passPhrase);
+            }
 
             myJoueur = JoueurBean.getJoueurBeanFromPseudo(myDBSession, pseudo);
             if (myJoueur == null) {

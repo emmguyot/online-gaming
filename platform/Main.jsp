@@ -8,7 +8,7 @@
 <meta http-equiv="Expires" content="">
 <link rel="stylesheet" href="style/game.css" type="text/css">
 </head>
-<body style='{ margin: 0; padding:0; background-color: #FFFFFF; color: #000000}'><%
+<body style='{margin: 0; padding:0}'><%
     /**
      * Initialisation de la taille de l applet
      */

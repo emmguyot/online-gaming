@@ -107,7 +107,8 @@
 			includes="**/*.class,META-INF/**,*.properties">
 		</jar>
 		<!-- Use your own key here -->
-		<signjar jar="${src}/applets/aire.jar" alias="InCrEG" storepass="InCrEG" keystore="keystore.tmp" ></signjar>
+		<input message="Saisir le mot de passe du keystore" addproperty="storepwd" />
+		<signjar jar="${src}/applets/aire.jar" alias="emmguyot" storepass="${storepwd}"></signjar>
 		
 		<!-- Création du jar des ressources -->
 		<jar destfile="${src}/applets/aire_res.jar" basedir="${src}" index="true">

@@ -9,6 +9,7 @@ package com.increg.game.bean;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.io.IOException;
@@ -90,6 +91,11 @@ public class GameEnvironment {
     protected URL redirectJVMko;
 
     /**
+     * Indicateur si l'aire est sécurisée
+     */
+    protected boolean secured;
+    
+    /**
      * Constructeur
      */
     public GameEnvironment() {
@@ -112,6 +118,14 @@ public class GameEnvironment {
         } catch (MalformedURLException e) {
             // Utilise la valeur par défaut !!!
             System.err.println("redirectJVMko invalide");
+        }
+
+        try {
+            String securityType = res.getString("security"); 
+            secured = ((securityType == null) || (!securityType.equalsIgnoreCase("none")));
+        } catch (MissingResourceException ignored) {
+            // Par défaut
+            secured = true;
         }
         
         // TODO Recherche les parties initialisées pour le tournoi
@@ -717,4 +731,16 @@ public class GameEnvironment {
         addChat(byeChat);
     }
 
+    /**
+     * @return Returns the secured.
+     */
+    public boolean isSecured() {
+        return secured;
+    }
+    /**
+     * @param newSecured The secured to set.
+     */
+    public void setSecured(boolean newSecured) {
+        this.secured = newSecured;
+    }
 }
