@@ -1,5 +1,3 @@
-<%@ page import="com.increg.game.bean.GameSession
-		" %>
 <jsp:useBean id="mySession" scope="session" class="com.increg.game.bean.GameSession" />
 <html>
 <head>

@@ -9,6 +9,7 @@ package com.increg.game.bean;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Vector;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,10 +37,9 @@ import com.increg.game.client.Partie;
 import com.increg.game.client.belote.PartieBelote;
 import com.increg.game.client.belote.PartieBeloteClassique;
 
-
 /**
  * @author Manu
- *
+ * 
  * Classe de l'environnement de l'aire
  */
 public class GameEnvironment {
@@ -48,34 +48,47 @@ public class GameEnvironment {
      * Nombre de chats conservés
      */
     public static final int NB_MAX_CHAT = 100;
-    
+
     /**
      * Liste des joueurs connectés
      */
     protected Vector lstJoueur;
+
     /**
      * Liste des joueurs connectés en double
      */
     protected Vector lstJoueurDouble;
+
     /**
      * Liste des parties en cours ou activées pour les tournois
      */
     protected Vector lstPartie;
+
     /**
      * Liste des chats
      */
     protected Vector lstChat;
-    
+
     /**
      * Offset pour la liste des chats
      */
     protected long chatOffset;
-    
+
     /**
      * Numéro de séquence des parties
      */
     protected int seqPartie;
-    
+
+    /**
+     * URL par défaut sur laquelle il y aura redirection en cas de pb
+     */
+    protected URL defaultRedirect;
+
+    /**
+     * URL au cas ou la JVM n'est pas bonne
+     */
+    protected URL redirectJVMko;
+
     /**
      * Constructeur
      */
@@ -86,65 +99,84 @@ public class GameEnvironment {
         lstPartie = new Vector();
         lstChat = new Vector();
         chatOffset = 0;
+
+        ResourceBundle res = ResourceBundle.getBundle(GameSession.DEFAULT_CONFIG);
+        try {
+            defaultRedirect = new URL(res.getString("defaultRedirect"));
+        } catch (MalformedURLException e) {
+            // Utilise la valeur par défaut !!!
+            System.err.println("defaultRedirect invalide");
+        }
+        try {
+            redirectJVMko = new URL(res.getString("redirectJVMko"));
+        } catch (MalformedURLException e) {
+            // Utilise la valeur par défaut !!!
+            System.err.println("redirectJVMko invalide");
+        }
         
         // TODO Recherche les parties initialisées pour le tournoi
     }
-    
+
     /**
      * Recherche un joueur par son indice
-     * @param i indice du joueur
+     * 
+     * @param i
+     *            indice du joueur
      * @return Retourne un des joueurs connectés
      */
     public JoueurBean getJoueur(int i) {
         if ((i >= 0) && (i < lstJoueur.size())) {
             return (JoueurBean) lstJoueur.get(i);
-        }
-        else {
+        } else {
             return null;
         }
     }
 
     /**
      * Recherche une partie par son indice
-     * @param i indice de la partie
+     * 
+     * @param i
+     *            indice de la partie
      * @return Retourne une des parties
      */
     public Partie getPartie(int i) {
         if ((i >= 0) && (i < lstPartie.size())) {
             return ((PartieBean) lstPartie.get(i)).getMyPartie();
-        }
-        else {
+        } else {
             return null;
         }
     }
-    
+
     /**
      * Recherche une partie par son identifiant
-     * @param id Identifiant de la partie
+     * 
+     * @param id
+     *            Identifiant de la partie
      * @return Retourne une des parties
      */
     public Partie getPartieById(int id) {
-        
+
         boolean found = false;
-        Partie aPartie = null; 
+        Partie aPartie = null;
         for (int i = 0; !found && (i < lstPartie.size()); i++) {
             aPartie = ((PartieBean) lstPartie.get(i)).getMyPartie();
             if (aPartie.getIdentifiant() == id) {
                 found = true;
             }
         }
-        
+
         if (found) {
             return aPartie;
-        }
-        else {
+        } else {
             return null;
         }
     }
-    
+
     /**
      * Met à jour la liste des joueurs suite à la deconnection d'un joueur
-     * @param i indice du joueur
+     * 
+     * @param i
+     *            indice du joueur
      */
     public void removeJoueur(int i) {
         lstJoueur.remove(i);
@@ -152,54 +184,67 @@ public class GameEnvironment {
 
     /**
      * Met à jour la liste des joueurs suite à la deconnection d'un joueur
-     * @param aJoueur Joueur à supprimer de la liste
+     * 
+     * @param aJoueur
+     *            Joueur à supprimer de la liste
      */
     public void removeJoueur(JoueurBean aJoueur) {
         boolean done = false;
         for (int i = 0; (i < lstJoueur.size()) && !done; i++) {
-            if (((JoueurBean) lstJoueur.get(i)).getCdJoueur() == aJoueur.getCdJoueur()) {
+            if (((JoueurBean) lstJoueur.get(i)).getCdJoueur() == aJoueur
+                    .getCdJoueur()) {
                 lstJoueur.remove(i);
                 done = true;
             }
         }
         if (!done) {
-            System.err.println("Joueur >" + aJoueur.getCdJoueur() + "< introuvable dans remove");
+            System.err.println("Joueur >" + aJoueur.getCdJoueur()
+                    + "< introuvable dans remove");
         }
     }
 
     /**
-     * Met à jour la liste des joueurs en double suite à la deconnection d'un joueur par timeout
-     * @param aJoueur Joueur à supprimer de la liste
+     * Met à jour la liste des joueurs en double suite à la deconnection d'un
+     * joueur par timeout
+     * 
+     * @param aJoueur
+     *            Joueur à supprimer de la liste
      */
     public void removeJoueurDouble(JoueurBean aJoueur) {
         boolean done = false;
         for (int i = 0; (i < lstJoueurDouble.size()) && !done; i++) {
-            if (((JoueurBean) lstJoueurDouble.get(i)).getCdJoueur() == aJoueur.getCdJoueur()) {
+            if (((JoueurBean) lstJoueurDouble.get(i)).getCdJoueur() == aJoueur
+                    .getCdJoueur()) {
                 lstJoueurDouble.remove(i);
                 done = true;
             }
         }
         if (!done) {
-            System.err.println("Joueur >" + aJoueur.getCdJoueur() + "< introuvable dans removeDouble");
+            System.err.println("Joueur >" + aJoueur.getCdJoueur()
+                    + "< introuvable dans removeDouble");
         }
     }
 
     /**
-     * Met à jour la liste des parties suite à la fin d'une partie
-     * Sauvegarde la partie dans les historiques des joueurs
-     * @param i indice du joueur
+     * Met à jour la liste des parties suite à la fin d'une partie Sauvegarde la
+     * partie dans les historiques des joueurs
+     * 
+     * @param i
+     *            indice du joueur
      */
     public void removePartie(int i) {
         lstPartie.remove(i);
     }
 
     /**
-     * Met à jour la liste des parties suite à la fin d'une partie
-     * Sauvegarde la partie dans les historiques des joueurs
-     * @param aPartie Partie à supprimer
+     * Met à jour la liste des parties suite à la fin d'une partie Sauvegarde la
+     * partie dans les historiques des joueurs
+     * 
+     * @param aPartie
+     *            Partie à supprimer
      */
     public void removePartie(Partie aPartie) {
-        
+
         boolean done = false;
         for (int i = 0; !done && (i < lstPartie.size()); i++) {
             if (getPartie(i) == aPartie) {
@@ -211,7 +256,9 @@ public class GameEnvironment {
 
     /**
      * Un joueur sort de l'aire : Nettoyage complet
-     * @param myJoueur Joueur concerné
+     * 
+     * @param myJoueur
+     *            Joueur concerné
      */
     public void sortieJoueur(JoueurBean myJoueur) {
         sayBye(myJoueur);
@@ -224,8 +271,8 @@ public class GameEnvironment {
             if (joueurSeLeve(getPartie(i), myJoueur)) {
                 // La salle a été supprimée...
                 // Retour au début de la boucle
-                i = -1; 
-                    
+                i = -1;
+
             }
         }
         // Supprime le joueur
@@ -240,12 +287,13 @@ public class GameEnvironment {
     }
 
     /**
-     * @param i Indice de départ
+     * @param i
+     *            Indice de départ
      * @return Liste de l'historique de chat depuis l'indice fourni
      */
     public List getLstChat(long i) {
         if ((i - chatOffset) < 0) {
-            i = chatOffset; 
+            i = chatOffset;
         }
         if ((i - chatOffset) > lstChat.size()) {
             // Positionne à la fin : Un vector vide sera retourné
@@ -282,13 +330,15 @@ public class GameEnvironment {
 
     /**
      * Met à jour la liste des joueurs suite à la connection d'un joueur
-     * @param aJoueur Joueur qui vient de se connecter
-     * @return indicateur si l'ajout a été fait : Il ne l'est pas si le joueur y est déjà
+     * 
+     * @param aJoueur
+     *            Joueur qui vient de se connecter
+     * @return indicateur si l'ajout a été fait : Il ne l'est pas si le joueur y
+     *         est déjà
      */
     public boolean addJoueur(JoueurBean aJoueur) {
         /**
-         * Si le joueur est déjà dans la liste : 
-         * On le vire
+         * Si le joueur est déjà dans la liste : On le vire
          */
         boolean found = false;
         for (int i = 0; !found && (i < lstJoueur.size()); i++) {
@@ -303,21 +353,26 @@ public class GameEnvironment {
         if (!found) {
             lstJoueur.add(aJoueur);
         }
-        return !found; 
+        return !found;
     }
 
     /**
      * Met à jour la liste des parties suite à la création d'une partie
-     * @param aPartie Partie qui vient d'être créée
+     * 
+     * @param aPartie
+     *            Partie qui vient d'être créée
      */
     public synchronized void addPartie(Partie aPartie) {
         aPartie.setIdentifiant(++seqPartie);
-        lstPartie.add(PartieBeloteBean.getPartieBeloteBean((PartieBelote) aPartie));
+        lstPartie.add(PartieBeloteBean
+                .getPartieBeloteBean((PartieBelote) aPartie));
     }
 
     /**
      * Met à jour la liste des chats suite à un nouveau message
-     * @param aChat Chat qui vient d'être créée
+     * 
+     * @param aChat
+     *            Chat qui vient d'être créée
      */
     public void addChat(ChatBean aChat) {
         synchronized (lstChat) {
@@ -329,45 +384,55 @@ public class GameEnvironment {
         purgeChat();
     }
 
-
     /**
      * Un joueur se lève d'une partie
-     * @param aPartie Partie d'ou il sort
-     * @param aJoueur Joueur qui sort
+     * 
+     * @param aPartie
+     *            Partie d'ou il sort
+     * @param aJoueur
+     *            Joueur qui sort
      * @return indicateur si la suppression de la salle a été faite
      */
     public boolean joueurSeLeve(Partie aPartie, JoueurBean aJoueur) {
 
         boolean removed = false;
         if (aPartie.joueurSeLeve(aJoueur)) {
-            
+
             // Vérification si la partie est vide
-            if ((aPartie.getNbParticipant() == 0) 
+            if ((aPartie.getNbParticipant() == 0)
                     && (aPartie.getSpectateurs().size() == 0)) {
                 removePartie(aPartie);
                 removed = true;
             }
-                    
+
         }
         return removed;
     }
 
     /**
      * Un joueur rejoint une partie
-     * @param aPartie Partie ou il va
-     * @param aJoueur Joueur qui rejoint
-     * @param position Position à la table
+     * 
+     * @param aPartie
+     *            Partie ou il va
+     * @param aJoueur
+     *            Joueur qui rejoint
+     * @param position
+     *            Position à la table
      * @return indicateur si l'ajout dans la salle a été faite
      */
-    public boolean joueurRejoint(Partie aPartie, JoueurBean aJoueur, int position) {
+    public boolean joueurRejoint(Partie aPartie, JoueurBean aJoueur,
+            int position) {
 
         return aPartie.joueurRejoint(aJoueur, position);
     }
 
     /**
      * Un joueur rejoint une partie en tant spectateur
-     * @param aPartie Partie ou il va
-     * @param aJoueur Joueur qui rejoint
+     * 
+     * @param aPartie
+     *            Partie ou il va
+     * @param aJoueur
+     *            Joueur qui rejoint
      * @return indicateur si l'ajout dans la salle a été faite
      */
     public boolean joueurRejoint(Partie aPartie, JoueurBean aJoueur) {
@@ -397,38 +462,68 @@ public class GameEnvironment {
     }
 
     /**
-     * @param i Offset pour la liste des chats
+     * @param i
+     *            Offset pour la liste des chats
      */
     public void setChatOffset(long i) {
         chatOffset = i;
     }
 
     /**
-     * Indique la fin de la partie : Enregistre en base 
-     * @param aSession Session en cours
-     * @param i Numéro de la partie
+     * @return URL de redirection au cas de gros pépin
+     */
+    public URL getDefaultRedirect() {
+        return defaultRedirect;
+    }
+
+    /**
+     * @param url URL de redirection au cas de gros pépin
+     */
+    public void setDefaultRedirect(URL url) {
+        defaultRedirect = url;
+    }
+
+    /**
+     * @return URL si JVM ko
+     */
+    public URL getRedirectJVMko() {
+        return redirectJVMko;
+    }
+
+    /**
+     * @param url URL si JVM ko
+     */
+    public void setRedirectJVMko(URL url) {
+        redirectJVMko = url;
+    }
+
+    /**
+     * Indique la fin de la partie : Enregistre en base
+     * 
+     * @param aSession
+     *            Session en cours
+     * @param i
+     *            Numéro de la partie
      */
     public void finPartie(GameSession aSession, int i) {
-        
+
         DBSession dbConnect = aSession.getMyDBSession();
         PartieBean thePartie = (PartieBean) lstPartie.get(i);
-        
+
         // Déjà finie ?
         if (thePartie.getDtFin() == null) {
             // C'est vraiment la fin
             thePartie.setDtFin(Calendar.getInstance());
-             
+
             try {
                 ((PartieBean) lstPartie.get(i)).create(dbConnect);
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (FctlException e) {
                 e.printStackTrace();
             }
-            catch (FctlException e) {
-                e.printStackTrace();
-            }
-            
-            // Informe le site                        
+
+            // Informe le site
             informeSite(aSession, thePartie.getMyPartie());
 
         }
@@ -436,65 +531,66 @@ public class GameEnvironment {
 
     /**
      * Une partie redémarre : Mets à jour les éléments
-     * @param i Numéro de la partie
+     * 
+     * @param i
+     *            Numéro de la partie
      */
     public void restartPartie(int i) {
         PartieBean thePartie = (PartieBean) lstPartie.get(i);
-        
+
         thePartie.setDtDebut(Calendar.getInstance());
         thePartie.setDtFin(null);
     }
 
     /**
-     * Informe le site parent de la fin de la partie 
-     * @param mySession Session à utiliser
-     * @param aPartie Partie concernée
+     * Informe le site parent de la fin de la partie
+     * 
+     * @param mySession
+     *            Session à utiliser
+     * @param aPartie
+     *            Partie concernée
      */
     public void informeSite(GameSession mySession, Partie aPartie) {
         boolean erreur = false;
         String url = "";
         URL curURL = null;
         try {
-            url =
-                mySession.getFinURL()
+            url = mySession.getFinURL()
                     + "?jaea="
-                    + URLEncoder.encode(aPartie.getParticipant(0).getPseudo(), "UTF8")
+                    + URLEncoder.encode(aPartie.getParticipant(0).getPseudo(),
+                            "UTF8")
                     + "&jaeb="
-                    + URLEncoder.encode(aPartie.getParticipant(1).getPseudo(), "UTF8")
+                    + URLEncoder.encode(aPartie.getParticipant(1).getPseudo(),
+                            "UTF8")
                     + "&jbea="
-                    + URLEncoder.encode(aPartie.getParticipant(2).getPseudo(), "UTF8")
+                    + URLEncoder.encode(aPartie.getParticipant(2).getPseudo(),
+                            "UTF8")
                     + "&jbeb="
-                    + URLEncoder.encode(aPartie.getParticipant(3).getPseudo(), "UTF8")
-                    + "&sca="
-                    + aPartie.getScoreTotal(0)
-                    + "&scb="
-                    + aPartie.getScoreTotal(1)
-                    + "&type=";
+                    + URLEncoder.encode(aPartie.getParticipant(3).getPseudo(),
+                            "UTF8") + "&sca=" + aPartie.getScoreTotal(0)
+                    + "&scb=" + aPartie.getScoreTotal(1) + "&type=";
             if (aPartie instanceof PartieBeloteClassique) {
                 url += "C";
-            }
-            else {
+            } else {
                 url += "M";
             }
-            if ((aPartie instanceof PartieBelote) 
+            if ((aPartie instanceof PartieBelote)
                     && (((PartieBelote) aPartie).isAnnonce())) {
                 url += "A";
             }
-            if ((aPartie.getMyTournoi() != null) && (aPartie.getMyTournoi().getIdentifiant() > 0)) {
+            if ((aPartie.getMyTournoi() != null)
+                    && (aPartie.getMyTournoi().getIdentifiant() > 0)) {
                 url += "&tournoi=1";
-            }
-            else {
+            } else {
                 url += "&tournoi=0";
             }
-    
+
             curURL = new URL(url);
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             erreur = true;
             curURL = null;
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
             erreur = true;
             curURL = null;
@@ -505,86 +601,95 @@ public class GameEnvironment {
          */
         int nbEssai = 0;
         boolean firstOne = true;
-        while ((curURL != null) && (erreur || firstOne) && (nbEssai < 2)) {        
+        while ((curURL != null) && (erreur || firstOne) && (nbEssai < 2)) {
             try {
-                HttpURLConnection aCon = (HttpURLConnection) curURL.openConnection();
+                HttpURLConnection aCon = (HttpURLConnection) curURL
+                        .openConnection();
                 // Pas de cache : Sinon ca sert à rien
                 aCon.setUseCaches(false);
                 aCon.connect();
                 if (aCon.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     InputStream restauStream = aCon.getInputStream();
-                    // Rien à lire : C'est juste pour être sur d'avoir tout chargé
+                    // Rien à lire : C'est juste pour être sur d'avoir tout
+                    // chargé
                     restauStream.close();
                     aCon.disconnect();
                     aCon = null;
-                }
-                else {
+                } else {
                     erreur = true;
                     // Pb : Envoi par email
                     aCon.disconnect();
                     aCon = null;
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 erreur = true;
             }
-            
+
             nbEssai++;
             firstOne = false;
         }
-            
+
         if (erreur) {
+            // TODO paramétrage des éléments
+            ResourceBundle res = ResourceBundle.getBundle(GameSession.DEFAULT_CONFIG);
             Properties props = System.getProperties();
-            props.put("mail.smtp.host", "smtp.wanadoo.fr");
+            props.put("mail.smtp.host", res.getString("serveurSMTP"));
             Session mailSession = Session.getDefaultInstance(props, null);
             Message msg = new MimeMessage(mailSession);
-            
+
             try {
-                msg.setFrom(new InternetAddress("emmguyot@wanadoo.fr"));
-                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("webmaster@anothersite.com", false));
-                msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse("emmguyot@wanadoo.fr", false));
+                msg.setFrom(new InternetAddress(res.getString("fromEMail")));
+                msg.setRecipients(Message.RecipientType.TO, InternetAddress
+                        .parse(res.getString("webmaster"), false));
+                msg.setRecipients(Message.RecipientType.BCC, InternetAddress
+                        .parse(res.getString("fromEMail"), false));
                 msg.setSubject("Aire de Jeu : Fin de partie non transmise");
                 msg.setText(url);
                 msg.setHeader("X-Mailer", "InCrEG automation");
                 msg.setSentDate(new Date());
-    
+
                 Transport.send(msg);
-            }
-            catch (AddressException e1) {
+            } catch (AddressException e1) {
+                e1.printStackTrace();
+                System.err.println("URL = " + url);
+            } catch (MessagingException e1) {
                 e1.printStackTrace();
                 System.err.println("URL = " + url);
             }
-            catch (MessagingException e1) {
-                e1.printStackTrace();
-                System.err.println("URL = " + url);
-            }
-        
+
         }
     }
 
     /**
      * Envoi un chat de bienvenue
-     * @param aJoueur Joueur qui parle
+     * 
+     * @param aJoueur
+     *            Joueur qui parle
      */
-    public void sayHello (JoueurBean aJoueur) {
+    public void sayHello(JoueurBean aJoueur) {
         sayHello(aJoueur, null);
     }
-        
+
     /**
      * Envoi un chat d'aure voir
-     * @param aJoueur Joueur qui parle
+     * 
+     * @param aJoueur
+     *            Joueur qui parle
      */
-    public void sayBye (JoueurBean aJoueur) {
+    public void sayBye(JoueurBean aJoueur) {
         sayBye(aJoueur, null);
     }
 
     /**
      * Envoi un chat de bienvenue
-     * @param aJoueur Joueur qui parle
-     * @param aPartie Partie associé au bienvenue
+     * 
+     * @param aJoueur
+     *            Joueur qui parle
+     * @param aPartie
+     *            Partie associé au bienvenue
      */
-    public void sayHello (JoueurBean aJoueur, Partie aPartie) {
+    public void sayHello(JoueurBean aJoueur, Partie aPartie) {
         // Un petit chat d'avertissement
         ChatBean hiChat = new ChatBean();
         hiChat.setJoueurOrig(getSystem());
@@ -593,13 +698,16 @@ public class GameEnvironment {
         hiChat.setPartie(aPartie);
         addChat(hiChat);
     }
-        
+
     /**
      * Envoi un chat d'aure voir
-     * @param aJoueur Joueur qui parle
-     * @param aPartie Partie associé à l'au revoir
+     * 
+     * @param aJoueur
+     *            Joueur qui parle
+     * @param aPartie
+     *            Partie associé à l'au revoir
      */
-    public void sayBye (JoueurBean aJoueur, Partie aPartie) {
+    public void sayBye(JoueurBean aJoueur, Partie aPartie) {
         // Un petit chat d'avertissement
         ChatBean byeChat = new ChatBean();
         byeChat.setJoueurOrig(getSystem());
@@ -608,5 +716,5 @@ public class GameEnvironment {
         byeChat.setPartie(aPartie);
         addChat(byeChat);
     }
- 
+
 }

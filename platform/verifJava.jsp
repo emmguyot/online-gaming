@@ -1,4 +1,4 @@
-<%@ page import="com.increg.game.bean.GameSession" %>
+<jsp:useBean id="Env" scope="application" class="com.increg.game.bean.GameEnvironment" />
 <html>
 <head>
 <title>Vérification de la version de Java</title>
@@ -11,7 +11,7 @@
 
 <applet code="VerifJava" width="440" height="60" alt="Votre navigateur n'accepte pas les Applets Java, veuillez changer sa configuration pour accéder à l'aire de jeu.">
     <param name="sessionId" value="<%= session.getId() %>">
-    <param name="urlJVMko" value="<%= GameSession.getRedirectJVMko().toString() %>">
+    <param name="urlJVMko" value="<%= Env.getRedirectJVMko().toString() %>">
     Votre navigateur n'accepte pas les Applets Java, veuillez changer sa configuration pour accéder à l'aire de jeu.
 </applet>
 

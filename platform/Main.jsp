@@ -1,6 +1,6 @@
 <%@ page import="java.io.File, java.util.Date, java.text.SimpleDateFormat" %>
-<%@ page import="com.increg.game.bean.GameSession" %>
 <jsp:useBean id="mySession" scope="session" class="com.increg.game.bean.GameSession" />
+<jsp:useBean id="Env" scope="application" class="com.increg.game.bean.GameEnvironment" />
 <html>
 <head>
 <title>Parties de Belote en cours</title>
@@ -17,12 +17,7 @@
 
     if ((mySession == null) || (mySession.getMyJoueur() == null)) {
         // Déconnecté
-        if (mySession != null) {
-            response.sendRedirect(mySession.getDefaultRedirect().toExternalForm());
-        }
-        else {
-            response.sendRedirect(new GameSession().getDefaultRedirect().toExternalForm());
-        }
+        response.sendRedirect(Env.getDefaultRedirect().toExternalForm());
         return;
     }
 

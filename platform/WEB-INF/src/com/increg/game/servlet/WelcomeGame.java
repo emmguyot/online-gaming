@@ -22,35 +22,46 @@ import com.increg.game.bean.GameEnvironment;
 import com.increg.game.bean.GameSession;
 
 /**
- * Servlet d'accès à l'aire : Initialisation de la session
- * Creation date: 14 avr. 2003
+ * Servlet d'accès à l'aire : Initialisation de la session Creation date: 14
+ * avr. 2003
+ * 
  * @author Emmanuel GUYOT <emmguyot@wanadoo.fr>
  */
 public class WelcomeGame extends HttpServlet {
 
     /**
-     * Process incoming HTTP GET requests 
+     * Process incoming HTTP GET requests
      * 
-     * @param request Object that encapsulates the request to the servlet 
-     * @param response Object that encapsulates the response from the servlet
-     * @throws IOException ...
-     * @throws ServletException ...
+     * @param request
+     *            Object that encapsulates the request to the servlet
+     * @param response
+     *            Object that encapsulates the response from the servlet
+     * @throws IOException
+     *             ...
+     * @throws ServletException
+     *             ...
      */
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         performTask(request, response);
 
     }
 
     /**
-     * Process incoming HTTP POST requests 
+     * Process incoming HTTP POST requests
      * 
-     * @param request Object that encapsulates the request to the servlet 
-     * @param response Object that encapsulates the response from the servlet
-     * @throws IOException ...
-     * @throws ServletException ...
+     * @param request
+     *            Object that encapsulates the request to the servlet
+     * @param response
+     *            Object that encapsulates the response from the servlet
+     * @throws IOException
+     *             ...
+     * @throws ServletException
+     *             ...
      */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         performTask(request, response);
 
@@ -58,6 +69,7 @@ public class WelcomeGame extends HttpServlet {
 
     /**
      * Returns the servlet info string.
+     * 
      * @return Info
      */
     public String getServletInfo() {
@@ -65,6 +77,7 @@ public class WelcomeGame extends HttpServlet {
         return super.getServletInfo();
 
     }
+
     /**
      * Initializes the servlet.
      */
@@ -76,13 +89,17 @@ public class WelcomeGame extends HttpServlet {
     /**
      * Process incoming requests for information
      * 
-     * @param request Object that encapsulates the request to the servlet 
-     * @param response Object that encapsulates the response from the servlet
+     * @param request
+     *            Object that encapsulates the request to the servlet
+     * @param response
+     *            Object that encapsulates the response from the servlet
      */
-    public void performTask(HttpServletRequest request, HttpServletResponse response) {
+    public void performTask(HttpServletRequest request,
+            HttpServletResponse response) {
 
         try {
-            GameEnvironment env = (GameEnvironment) getServletContext().getAttribute("Env");
+            GameEnvironment env = (GameEnvironment) getServletContext()
+                    .getAttribute("Env");
             // Création de la session
             boolean sessionOk = false;
             HttpSession mySession = request.getSession(true);
@@ -91,16 +108,14 @@ public class WelcomeGame extends HttpServlet {
 
             try {
                 request.setCharacterEncoding("UTF8");
-            }
-            catch (UnsupportedEncodingException e1) {
+            } catch (UnsupportedEncodingException e1) {
                 e1.printStackTrace();
                 // Tant pis
             }
 
             /**
-             * Controle de la validité de la connexion
-             * Dans l'URL : pseudo et crc
-             * Le crc est calculé à partir du pseudo, de la date du jour
+             * Controle de la validité de la connexion Dans l'URL : pseudo et
+             * crc Le crc est calculé à partir du pseudo, de la date du jour
              */
             String pseudo = request.getParameter("Pseudo");
             String crc = request.getParameter("id");
@@ -109,112 +124,120 @@ public class WelcomeGame extends HttpServlet {
             GameSession myGame = null;
 
             // Vérification de la présence des paramètres
-            boolean paramOk = (pseudo != null) && (crc != null) && (pseudo.length() > 0) && (crc.length() > 0);
+            boolean paramOk = (pseudo != null) && (crc != null)
+                    && (pseudo.length() > 0) && (crc.length() > 0);
             if (!paramOk) {
-                System.err.println("Warning : Paramètres invalides pseudo=>" + pseudo + "< id=>" + crc + "<");
+                System.err.println("Warning : Paramètres invalides pseudo=>"
+                        + pseudo + "< id=>" + crc + "<");
             }
-             
+
             if (paramOk && (!mySession.isNew())) {
                 // La session existe déjà : Vérification
                 myGame = (GameSession) mySession.getAttribute("mySession");
-                
-                if ((myGame != null) 
-                        && (myGame.getMyJoueur() != null) 
+
+                if ((myGame != null) && (myGame.getMyJoueur() != null)
                         && (myGame.getMyJoueur().getPseudo().equals(pseudo))) {
                     // Réutilisation de la session
                     sessionOk = true;
                     // Positionne l'offset de Chat
                     myGame.setLastChatSeen(env.getChatOffset());
                     myGame.setFrozen(true);
-                    System.err.println("Réutilisation de la session de " + pseudo);
-                }
-                else {
+                    System.err.println("Réutilisation de la session de "
+                            + pseudo);
+                } else {
                     // Recréation
                     mySession.invalidate();
                     mySession = request.getSession(true);
                     System.err.println("Reset de la session");
                 }
-                
+
             }
 
             if (paramOk && (!sessionOk)) {
                 /**
                  * Controle de la limite des connexions
-                 */        
+                 */
                 ResourceBundle resConfig = ResourceBundle.getBundle(fichConfig);
-                if (env.getLstJoueur().size() >= Integer.parseInt(resConfig.getString("maxCnx"))) {
-                    System.err.println("Warning : Dépacement de capacité pour >" + pseudo + "<"); 
-                }
-                else {
-            
+                if (env.getLstJoueur().size() >= Integer.parseInt(resConfig
+                        .getString("maxCnx"))) {
+                    System.err
+                            .println("Warning : Dépacement de capacité pour >"
+                                    + pseudo + "<");
+                } else {
+
                     try {
                         // Affectation du Bean Session
-                        myGame = new GameSession(getServletContext(), fichConfig, pseudo, crc);
-                    
-                        // Recharge les données du joueur à partir du site Beloteux
-                        // Eventuellement lève une exception si le joueur n'a plus le droit
+                        myGame = new GameSession(getServletContext(),
+                                fichConfig, pseudo, crc);
+
+                        // Recharge les données du joueur à partir du site
+                        // Beloteux
+                        // Eventuellement lève une exception si le joueur n'a
+                        // plus le droit
                         // Prépare l'URL d'appel
-                        StringBuffer fullURL = new StringBuffer(myGame.getBaseURL());
-                        fullURL = fullURL.append("?Pseudo=")
-                                         .append(URLEncoder.encode(pseudo, "UTF8"))
-                                         .append("&id=")
-                                         .append(myGame.getSecurity().getCRC(pseudo)); 
+                        StringBuffer fullURL = new StringBuffer(myGame
+                                .getBaseURL());
+                        fullURL = fullURL.append("?Pseudo=").append(
+                                URLEncoder.encode(pseudo, "UTF8")).append(
+                                "&id=").append(
+                                myGame.getSecurity().getCRC(pseudo));
                         URL curURL = new URL(fullURL.toString());
-                        HttpURLConnection aCon = (HttpURLConnection) curURL.openConnection();
+                        HttpURLConnection aCon = (HttpURLConnection) curURL
+                                .openConnection();
                         // Pas de cache : Sinon ca sert à rien
                         aCon.setUseCaches(false);
                         aCon.connect();
-    
+
                         if (aCon.getResponseCode() == 200) {
                             InputStream restauStream = aCon.getInputStream();
                             try {
                                 myGame.getMyJoueur().reloadJoueur(restauStream);
-                            
+
                                 if (myGame.getMyJoueur().getCdJoueur() == 0) {
                                     // Création du nouveau joueur
-                                    myGame.getMyJoueur().create(myGame.getMyDBSession());
-                                }
-                                else {
+                                    myGame.getMyJoueur().create(
+                                            myGame.getMyDBSession());
+                                } else {
                                     // Sauvegarde le joueur mise à jour
-                                    myGame.getMyJoueur().maj(myGame.getMyDBSession());
+                                    myGame.getMyJoueur().maj(
+                                            myGame.getMyDBSession());
                                 }
-                            }
-                            catch (DataFormatException e) {
-                                System.err.println("Format du fichier invalide => Refus de la connexion");
+                            } catch (DataFormatException e) {
+                                System.err
+                                        .println("Format du fichier invalide => Refus de la connexion");
                                 throw new UnauthorisedUserException();
-                            }
-                            catch (SQLException e) {
-                                System.err.println("Erreur à la mise à jour du joueur : " + e.toString());
+                            } catch (SQLException e) {
+                                System.err
+                                        .println("Erreur à la mise à jour du joueur : "
+                                                + e.toString());
                                 // Ignore l'erreur
-                            }
-                            catch (FctlException e) {
-                                System.err.println("Erreur à la mise à jour du joueur : " + e.toString());
+                            } catch (FctlException e) {
+                                System.err
+                                        .println("Erreur à la mise à jour du joueur : "
+                                                + e.toString());
                                 // Ignore l'erreur
-                            }
-                            finally {
+                            } finally {
                                 restauStream.close();
                                 aCon.disconnect();
                                 aCon = null;
                             }
-                        }
-                        else {
+                        } else {
                             // Erreur = Pas le droit
                             aCon.disconnect();
                             aCon = null;
                             throw new UnauthorisedUserException();
                         }
-    
+
                         // Positionne l'offset de Chat
                         myGame.setLastChatSeen(env.getChatOffset());
                         mySession.setAttribute("mySession", myGame);
-                    }
-                    catch (UnauthorisedUserException e) {
-                        System.err.println("Warning : Accès invalide pseudo=>" + pseudo + "< id=>" + crc + "<");
+                    } catch (UnauthorisedUserException e) {
+                        System.err.println("Warning : Accès invalide pseudo=>"
+                                + pseudo + "< id=>" + crc + "<");
                         if (myGame != null) {
                             myGame.setMyJoueur(null);
                         }
-                    }
-                    catch (Throwable theException) {
+                    } catch (Throwable theException) {
                         // Erreurs non interceptées ?
                         System.err.println("Erreur dans WelcomeGame : ");
                         theException.printStackTrace();
@@ -224,29 +247,26 @@ public class WelcomeGame extends HttpServlet {
 
             if ((myGame != null) && (myGame.getMyJoueur() != null)) {
                 // Affiche la page principale
-                /** 
-                 * Forward pour conserver l'unité de transaction 
-                 * et pour pouvoir passer des paramètres via Bean Request
-                 **/
+                /**
+                 * Forward pour conserver l'unité de transaction et pour pouvoir
+                 * passer des paramètres via Bean Request
+                 */
                 if (InCrEGDebug != null) {
-                    getServletConfig().getServletContext().getRequestDispatcher("/MainDebug.jsp").forward(request, response);
+                    getServletConfig().getServletContext()
+                            .getRequestDispatcher("/MainDebug.jsp").forward(
+                                    request, response);
+                } else {
+                    getServletConfig().getServletContext()
+                            .getRequestDispatcher("/verifJava.jsp").forward(
+                                    request, response);
                 }
-                else {
-                    getServletConfig().getServletContext().getRequestDispatcher("/verifJava.jsp").forward(request, response);
-                }
-            }
-            else {
+            } else {
                 // Forward sur page par défaut
                 mySession.invalidate();
-                if (myGame != null) {
-                    response.sendRedirect(myGame.getDefaultRedirect().toExternalForm());
-                }
-                else {
-                    response.sendRedirect(new GameSession().getDefaultRedirect().toExternalForm());
-                }
+                response
+                        .sendRedirect(env.getDefaultRedirect().toExternalForm());
             }
-        }
-        catch (Throwable theException) {
+        } catch (Throwable theException) {
             System.err.println("Erreur dans WelcomeGame : ");
             theException.printStackTrace();
         }

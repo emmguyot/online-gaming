@@ -6,9 +6,12 @@
  */
 package com.increg.game.bean.test;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.ResourceBundle;
 
+import com.increg.game.bean.GameSession;
 import com.increg.game.bean.SecurityBean;
 
 import junit.framework.TestCase;
@@ -29,6 +32,8 @@ public class SecurityBeanTest extends TestCase {
     public void testCalculCRC() {
         Assert.assertEquals(SecurityBean.calcCRC("TestEGLe Club des Beloteux vous accueille19042003"), "d4a6b8ec9c45759ac3c5f0173a9c5423");
         Assert.assertEquals(SecurityBean.calcCRC("JoeLe Club des Beloteux vous accueille03052003"), "717cb2d8e07d5544985e8f45c40698af");
+        Assert.assertEquals("60d7309a1d854b7090a1cd1a82bf5e78", SecurityBean.calcCRC("TestEGMy Private PassPhrase19042003"));
+        Assert.assertEquals("c66faa4ba9ab28cc15639af6c1e4db3c", SecurityBean.calcCRC("JoeKeep your secret secret03052003"));
     }
 
     /**
@@ -39,7 +44,8 @@ public class SecurityBeanTest extends TestCase {
         
         SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
         
-        String chaine = "Le Club des Beloteux vous accueille" + format.format(Calendar.getInstance().getTime());
+        ResourceBundle res = ResourceBundle.getBundle(GameSession.DEFAULT_CONFIG);
+        String chaine = res.getString("passPhrase") + format.format(Calendar.getInstance().getTime());
         
         System.out.println("InCrEG = " + SecurityBean.calcCRC("InCrEG" + chaine));
         System.out.println("InCrEG2 = " + SecurityBean.calcCRC("InCrEG2" + chaine));
