@@ -1,3 +1,5 @@
+<%@ page import="java.net.URLEncoder, java.text.SimpleDateFormat, java.util.Calendar,
+				 java.security.MessageDigest, java.security.NoSuchAlgorithmException" %>
 <html>
 <head>
 	<title>Accès à l'aire / Game platform access</title>
@@ -17,6 +19,9 @@
 	<p>The source of this page show the program to implement to compute the URL that open the game platform.</p>
 	
 	<%
+		String playerPseudo = "currentPlayer"; // Customize with your logged in user
+		String passPhrase = "PassPhrase extracted from your config.properties"; // Customize here
+		
 		// Code Java
 		String url = "http://www.game-platform.com/game/"; // Customize with your domain and context
 		

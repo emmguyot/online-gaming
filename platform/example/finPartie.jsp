@@ -22,7 +22,7 @@
 	// Parameters are encoding in UTF8
     try {
         request.setCharacterEncoding("UTF8");
-    } catch (UnsupportedEncodingException e1) {
+    } catch (java.io.UnsupportedEncodingException e1) {
     	// Too bad
         e1.printStackTrace();
     }

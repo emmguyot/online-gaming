@@ -1,3 +1,5 @@
+<%@ page import="java.net.URLEncoder, java.io.UnsupportedEncodingException, java.text.SimpleDateFormat, java.util.Calendar,
+				java.security.MessageDigest, java.security.NoSuchAlgorithmException" %>
 <%
 	/**
 	 *	[fr] Contrôle et fourniture des infos du joueur
@@ -33,6 +35,8 @@
 	 *   2) Search for player rights
 	 *   3) Data layout
 	 */
+
+	String passPhrase = "PassPhrase extracted from your config.properties"; // Customize here
 
 	// Parameters are encoding in UTF8
     try {
@@ -97,7 +101,7 @@
 	
 	// TODO Implement here your code
 	
-	boolean playerOk = ...; // The player has been found ?
+	boolean playerOk = true || false; // The player has been found ?
 	// Low is static image / The normal is animated. They may be the same
 	String avatarURL = "http://whatYouveFoundInDatabase/../.gif"; // Or jpg
 	String avatarLow = "http://whatYouveFoundInDatabase/../.gif"; // Or jpg
