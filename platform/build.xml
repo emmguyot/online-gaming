@@ -4,7 +4,6 @@
 	<property name="tomcat" value="C:/Program Files/jakarta-tomcat-3.3.1" />
     <property name="src" value="." />
     <property name="srcCommon" value="${src}/../salon" />
-    <property name="srcCommon2" value="${src}/../salon_serveur" />
     <property name="work" value="./work" />
     <property name="build" description="Répertoire de construction pour le war" value="c:/build/${ant.project.name}" />
     <property name="tmpProd" value="${build}/webapps" />
@@ -137,15 +136,9 @@
 				<include name="WEB-INF/src/com/increg/salon/tag/TagValeur.java"/>
 				<include name="WEB-INF/salon-taglib.tld"/>
 			</fileset>
-			<fileset id="Common Files2" dir="${srcCommon2}">
-				<include name="WEB-INF/src/com/increg/serveur/servlet/CountSession.java"/>
-				<include name="WEB-INF/src/com/increg/serveur/servlet/ConnectedServlet.java"/>
-				<include name="WEB-INF/src/com/increg/commun/InCrEGBean.java"/>
-			</fileset>
 		</copy>
 		<chmod perm="-w">
 			<fileset refid="Common Files" />
-			<fileset refid="Common Files2" />
 		</chmod>
 	</target>
 	
