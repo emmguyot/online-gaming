@@ -229,10 +229,11 @@ public class AireMain extends Applet {
         super.paint(g);
         if ((model == null) || (model.getEtat() != AireMainModel.ETAT_OK)) {
             g.drawString("Chargement en cours, veuillez patienter ...", 20, 130);
-            g.drawString("InCrEG sarl", 20, 430);
-            g.drawString("8 Rue des Montées", 20, 450);
-            g.drawString("45100 Orléans", 20, 470);
-            g.drawString("http://www.InCrEG.com", 20, 490);
+            g.drawString("http://online-gaming.sourceforge.net", 20, 410);
+            g.drawString("Logiciel sous licence GPL (http://www.opensource.org)", 20, 430);
+            g.drawString("Copyright 2003-2004 Valérie Guyot et Emmanuel Guyot", 20, 450);
+            g.drawString("Ce logiciel n'offre ABSOLUMENT AUCUNE GARANTIE;", 20, 490);
+            g.drawString("Ce logiciel est gratuit et nous vous encourageons à le redistribuer selon les termes de la licence GPL", 20, 510);
         }
     }
 
