@@ -106,18 +106,7 @@
 		<jar destfile="${src}/applets/aire.jar" basedir="${build}/aire" 
 			includes="**/*.class,META-INF/**,*.properties">
 		</jar>
-		<java description="Obfuscate en créant le jar" classname="RetroGuard" fork="true">
-			<classpath>
-				<pathelement location="c:/java/retroguard.jar" />
-				<pathelement location="${java.home}/lib/rt.jar" />
-				<pathelement location="${java.class.path}" />
-			</classpath>
-			<arg path="${src}/applets/aire.jar" />
-			<arg path="${src}/applets/aire_obf.jar" />
-			<arg path="${src}/config.rgs" />
-			<arg path="${src}/config.log" />
-		</java>
-		<move file="${src}/applets/aire_obf.jar" tofile="${src}/applets/aire.jar" />
+		<!-- Use your own key here -->
 		<signjar jar="${src}/applets/aire.jar" alias="InCrEG" storepass="InCrEG" keystore="keystore.tmp" ></signjar>
 		
 		<!-- Création du jar des ressources -->
@@ -132,11 +121,6 @@
 		<javac srcdir="${src}/WEB-INF/src/" target="1.1" fork="yes" destdir="${src}">
 			<filename name="VerifJava.java"/>
 		</javac>
-	</target>
-	
-	<!-- *************************************************************************** -->
-	<target description="Création du war" name="war" depends="applet">
-	
 	</target>
 	
 	<!-- *************************************************************************** -->
@@ -165,38 +149,7 @@
 	</target>
 	
 	<!-- *************************************************************************** -->
-	<target description="Initialisation de la production" name="toProdLocal" depends="init, applet">
-		<copy todir="${prod}" preservelastmodified="yes" verbose="yes" overwrite="true" >
-			<fileset dir="${src}">
-				<include name="WEB-INF/**/*.class" />
-				<include name="WEB-INF/**/*.tld" />
-				<include name="WEB-INF/**/*.xml" />
-				<include name="**/*.jsp" />
-				<include name="**/*.jar" />
-				<include name="**/*.gif" />
-				<include name="**/*.jpg" />
-				<include name="**/*.css" />
-				<include name="**/*.html" />
-				<include name="**/*.lnk" />
-				<include name="*.class" />
-				<exclude name="WEB-INF/src/**" />
-			</fileset>
-		</copy>
-		<copy todir="${prod}" preservelastmodified="yes" verbose="yes" overwrite="true">
-			<fileset dir="${src}">
-				<include name="conf/*.xml" />
-				<include name="WEB-INF/**/*.properties" />
-				<exclude name="conf/smiley.xml" />
-				<exclude name="conf/son.xml" />
-			</fileset>
-			<filterset begintoken="/" endtoken="/">
-				<filter token="localhost" value="/www.increg.com/"/>
-				<filter token="192.168.0.1:8181" value="/www.increg.com/"/>
-			</filterset>
-		</copy>
-	</target>
-
-	<target description="Initialisation de la production" name="toProd" depends="init, applet">
+	<target description="Création du war" name="war" depends="init, applet">
 		<copy todir="${tmpProd}" preservelastmodified="yes" verbose="yes" overwrite="true" >
 			<fileset dir="${src}">
 				<include name="WEB-INF/**/*.class" />
@@ -211,6 +164,7 @@
 				<include name="**/*.lnk" />
 				<include name="**/*.sql" />
 				<include name="*.class" />
+				<include name="example/*" />
 				<exclude name="WEB-INF/src/*" />
 				<exclude name="WEB-INF/src/**/*" />
 			</fileset>
@@ -223,8 +177,8 @@
 				<exclude name="WEB-INF/src/**/*" />
 			</fileset>
 			<filterset begintoken="/" endtoken="/">
-				<filter token="localhost" value="/www.increg.com/"/>
-				<filter token="192.168.0.1:8181" value="/www.increg.com/"/>
+				<filter token="localhost" value="/www.yourplatform.com/"/>
+				<filter token="192.168.0.1:8181" value="/www.yourplatform.com/"/>
 			</filterset>
 		</copy>
 		<copy file="${src}/WEB-INF/classes/VerifJava.class" todir="${tmpProd}" />
