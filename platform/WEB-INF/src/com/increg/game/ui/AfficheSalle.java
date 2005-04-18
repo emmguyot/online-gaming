@@ -25,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -227,6 +228,10 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
      * Timer de ramassage automatique
      */
     private Timer autoRamasse;
+    /**
+     * Durée de ramassage automatique des cartes
+     */
+    static private int tempoRamasse = -1;
     
     /**
      * Cache du joueur ouvreur
@@ -1198,7 +1203,12 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
                     // Ramassage automatique des cartes
                     ramassageDone = false;
                     if (autoRamasse == null) {
-                        autoRamasse = new Timer(2000, this);
+                        if (tempoRamasse < 0) {
+                            // Chargement pour la première fois de la tempo de ramassage
+                            ResourceBundle resConfig = ResourceBundle.getBundle("configAire");
+                            tempoRamasse = Integer.parseInt(resConfig.getString("tempoRamassage"));
+                        }
+                        autoRamasse = new Timer(tempoRamasse, this);
                         autoRamasse.setRepeats(false);
                         autoRamasse.setCoalesce(true);
                     }
