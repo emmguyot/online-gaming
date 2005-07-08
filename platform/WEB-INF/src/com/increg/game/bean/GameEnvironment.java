@@ -645,7 +645,6 @@ public class GameEnvironment {
         }
 
         if (erreur) {
-            // TODO paramétrage des éléments
             ResourceBundle res = ResourceBundle.getBundle(GameSession.DEFAULT_CONFIG);
             Properties props = System.getProperties();
             props.put("mail.smtp.host", res.getString("serveurSMTP"));

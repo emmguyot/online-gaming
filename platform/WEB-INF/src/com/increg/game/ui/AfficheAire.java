@@ -533,15 +533,17 @@ public class AfficheAire extends JPanel implements ActionListener, MouseListener
         if ((e.getSource() == tableJoueur) && (e.getClickCount() > 1)) {
             // Double clic dans la liste des joueurs
             String pseudo = (String) tableJoueur.getSelectedValue();
-            if (pseudo.charAt(0) == EN_PARTIE) {
-                // Supprime le chevron devant le joueur qui est en partie
-                pseudo = pseudo.substring(2);
+            if (pseudo != null) {
+	            if (pseudo.charAt(0) == EN_PARTIE) {
+	                // Supprime le chevron devant le joueur qui est en partie
+	                pseudo = pseudo.substring(2);
+	            }
+	            if (pseudo.charAt(pseudo.length() - 1) == MODERATEUR) {
+	                // Supprime l'étoile des modérateurs
+	                pseudo = pseudo.substring(0, pseudo.length() - 2);
+	            }
+	            aire.ouvrePageJoueur(pseudo);
             }
-            if (pseudo.charAt(pseudo.length() - 1) == MODERATEUR) {
-                // Supprime l'étoile des modérateurs
-                pseudo = pseudo.substring(0, pseudo.length() - 2);
-            }
-            aire.ouvrePageJoueur(pseudo);
         }
     }
 
