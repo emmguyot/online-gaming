@@ -48,7 +48,7 @@ public class AireMain extends Applet {
      * @return Information sur l'applet
      */
     public String getAppletInfo() {
-        return "Aire de jeu de Belote - Développée par InCrEG sarl (2003)";
+        return "Aire de jeu de Belote - Développée par Valérie et Emmanuel Guyot (2003-2005)";
     }
 
     /**
@@ -99,12 +99,11 @@ public class AireMain extends Applet {
             fh = new FileHandler("%h/InCrEG_Game.log", 5000000, 1, true);
             fh.setFormatter(new SimpleFormatter());
             logger.addHandler(fh);
-            logger.setLevel(Level.ALL);
+            // Par défaut : Pas trop de log
+            logger.setLevel(Level.INFO);
             if (System.getProperty("LogDebug") != null) {
+            	// Force le niveau de log
                 logger.setLevel(Level.parse(System.getProperty("LogDebug")));
-            }
-            if (System.getProperty("NoLogDebug") != null) {
-                logger.setLevel(Level.INFO);
             }
         }
         catch (SecurityException e1) {
