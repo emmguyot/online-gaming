@@ -24,13 +24,21 @@ import com.increg.game.client.Partie;
  * Gestion de l'aire de jeu
  * Particularité : Aucune session n'est requise
  */
-public class Admin extends AdminConnectedServlet {
+public class ParamAire extends AdminConnectedServlet {
 
     /**
      * @see com.increg.game.servlet.ConnectedServlet#performTask(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public void performTaskAdmin(HttpServletRequest request, HttpServletResponse response) {
-        
+
+    	/**
+    	 * TODO ************* Implémentation
+    	 * Eléments paramétrables : 
+    	 * - Nombre de points par partie (par type)
+    	 * - Mots interdits dans chat
+    	 * - ...
+    	 * 
+    	 */
         String action = request.getParameter("Action");
         String joueur = request.getParameter("Joueur");
         String partie = request.getParameter("Partie");

@@ -5,13 +5,13 @@
                 java.util.Vector, java.util.Iterator
 		" %>
 <jsp:useBean id="mySession" scope="session" class="com.increg.game.bean.GameSession" />
-<%@ taglib uri="WEB-INF/salon-taglib.tld" prefix="salon" %>
+<%@ taglib uri="../WEB-INF/salon-taglib.tld" prefix="salon" %>
 <html>
 <head>
 <title>Parties jouées</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="Expires" content="">
-<link rel="stylesheet" href="style/game.css" type="text/css">
+<link rel="stylesheet" href="../style/game.css" type="text/css">
 </head>
 <body>
 <script type="text/javascript" language="JavaScript"><!--
@@ -26,7 +26,8 @@
         lstPartie = new Vector();
     }
 %>
-    <h1>Parties jouées du <%= debut %> au <%= fin %></h1>
+    <h1>Parties jouées du <salon:valeur valeur="<%= debut %>" valeurNulle="null">%% au</salon:valeur> 
+        <salon:valeur valeur="<%= fin %>" valeurNulle="null">%%</salon:valeur></h1>
         <p><%= lstPartie.size() %> parties effectuées.</p>
         <table width="100%" border=1>
         <tr>

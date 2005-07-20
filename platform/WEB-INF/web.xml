@@ -41,6 +41,11 @@
         <description>Administration de l'aire</description>
         <servlet-class>com.increg.game.servlet.Admin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>paramAire</servlet-name>
+        <description>Paramétrage de l'aire</description>
+        <servlet-class>com.increg.game.servlet.ParamAire</servlet-class>
+    </servlet>
 
     <!-- ************************************************************************************* -->
 
@@ -66,11 +71,15 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>affPartie</servlet-name>
-        <url-pattern>/affPartie.srv</url-pattern>
+        <url-pattern>/admin/affPartie.srv</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>admin</servlet-name>
-        <url-pattern>/admin.srv</url-pattern>
+        <url-pattern>/admin/admin.srv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>paramAire</servlet-name>
+        <url-pattern>/admin/paramAire.srv</url-pattern>
     </servlet-mapping>
 
     <!-- ************************************************************************************* -->

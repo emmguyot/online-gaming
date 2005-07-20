@@ -132,8 +132,8 @@ public abstract class ConnectedServlet extends HttpServlet {
         else {
             if (request.getAttribute("noRAZ") == null) {
                 // RAZ des messages
-                ((GameSession) mySession.getAttribute("mySession")).setMessage("Erreur", null);
-                ((GameSession) mySession.getAttribute("mySession")).setMessage("Info", null);
+                ((GameSession) mySession.getAttribute("mySession")).setMessage("Erreur", (String) null);
+                ((GameSession) mySession.getAttribute("mySession")).setMessage("Info", (String) null);
             }
         }
         return true;

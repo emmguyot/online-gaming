@@ -2,13 +2,13 @@
                 com.increg.game.bean.PartieBean,
                 java.util.Vector, java.util.Iterator
 		" %>
-<%@ taglib uri="WEB-INF/salon-taglib.tld" prefix="salon" %>
+<%@ taglib uri="../WEB-INF/salon-taglib.tld" prefix="salon" %>
 <html>
 <head>
 <title>Administration de l'Aire de Jeu InCrEG</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="Expires" content="">
-<link rel="stylesheet" href="style/game.css" type="text/css">
+<link rel="stylesheet" href="../style/game.css" type="text/css">
 </head>
 <body>
 <%
@@ -130,7 +130,7 @@
         </blockquote>
         <input type="submit">
     </form>
-    <p><a href="affPartie.jsp">Affichage des parties effectuées</a></p>
+    <p><a href="index.jsp">Retour au menu</a></p>
 <script language="Javascript">
 
 function refresh() {

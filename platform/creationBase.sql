@@ -35,3 +35,14 @@ ALTER TABLE ONLY partie
 ALTER TABLE ONLY joueur
     ADD CONSTRAINT pk_joueur PRIMARY KEY (cdjoueur);
 
+-- Ajouts le 20/07/05
+create table PARAM (
+    CD_PARAM     numeric(2)      not null,
+    LIB_PARAM    varchar(40)     not null,
+    VAL_PARAM    varchar(200)    not null,
+        constraint PK_PARAM primary key (CD_PARAM)
+);
+
+create sequence SEQ_PARAM;
+
+alter table PARAM alter CD_PARAM set default nextval('SEQ_PARAM');

@@ -39,7 +39,13 @@ public class AffPartie extends ConnectedServlet {
         }
         
         String debut = request.getParameter("Debut");
+        if ((debut != null) && (debut.length() == 0)) {
+        	debut = null;
+        }
         String fin = request.getParameter("Fin");
+        if ((fin != null) && (fin.length() == 0)) {
+        	fin = null;
+        }
 
         DBSession dbConnect = null;
         dbConnect = (DBSession) getServletContext().getAttribute("dbSession");
@@ -47,11 +53,17 @@ public class AffPartie extends ConnectedServlet {
         try {
             // Charge son historique
             // Recherche le joueur sur ce pseudo
-            String reqSQL =
-                "select * from partie, joueur where partie.pseudo[1] = joueur.pseudo "
-                    + "and dtDebut >= " + DBSession.quoteWith(debut, '\'')
-                    + "and dtDebut <= " + DBSession.quoteWith(fin, '\'')
-                    + "order by dtDebut desc";
+            String reqSQL = "select * from partie, joueur where partie.pseudo[1] = joueur.pseudo";
+            if (debut != null) {
+                reqSQL += " and dtDebut >= " + DBSession.quoteWith(debut, '\'');
+            }
+            if (fin != null) {
+                reqSQL += " and dtDebut <= " + DBSession.quoteWith(fin, '\'');
+            }
+            if ((debut == null) && (fin == null)) {
+                reqSQL += " and dtDebut >= now() - '1 day'::interval";
+            }
+            reqSQL += " order by dtDebut desc";
             Vector res = new Vector();
 
             // Interroge la Base
@@ -69,7 +81,7 @@ public class AffPartie extends ConnectedServlet {
 
             request.setAttribute("lstPartie", res);
             
-            forward(request, response, "/affPartie.jsp");
+            forward(request, response, "/admin/affPartie.jsp");
         }
         catch (ServletException e) {
             try {
