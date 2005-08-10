@@ -86,6 +86,7 @@ public class ServerCall {
             session = parent.getParameter("sessionId");
         }
         myThread = new ServerCallThread(docBase, session, defaultCaller);
+        myThread.setPriority(Thread.NORM_PRIORITY);
     }
     
     /**
