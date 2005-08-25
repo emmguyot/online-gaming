@@ -1,7 +1,22 @@
+/*
+ * 
+ * Copyright (C) 2003-2005 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; 
+ * if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ */
 package com.increg.game.bean;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -484,21 +499,7 @@ public class GameSession extends BasicSession implements
                     // Simple déconnexion alors qu'en parallèle c'est ok
                     env.removeJoueurDouble(myJoueur);
                 } else {
-                    // Dit au revoir
-                    env.sayBye(myJoueur);
-                    // Supprime le joueur des tables
-                    for (int i = 0; i < env.getLstPartie().size(); i++) {
-                        PartieBean aPartieBean = (PartieBean) env
-                                .getLstPartie().get(i);
-                        if (aPartieBean.getMyPartie()
-                                .joueurVoitPartie(myJoueur)) {
-                            // Ajoute le chat correspondant
-                            env.sayBye(myJoueur, aPartieBean.getMyPartie());
-                        }
-                        env.joueurSeLeve(aPartieBean.getMyPartie(), myJoueur);
-                    }
-                    // Supprime le joueur
-                    env.removeJoueur(myJoueur);
+                    env.sortieJoueur(myJoueur);
                     //System.out.println("Suppression de la liste");
                 }
             } else {

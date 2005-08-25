@@ -1,8 +1,19 @@
 /*
- * Created on 3 mai 2003
- *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * 
+ * Copyright (C) 2003-2005 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; 
+ * if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
  */
 package com.increg.game.bean;
 
@@ -49,6 +60,11 @@ public class GameEnvironment {
      * Nombre de chats conservés
      */
     public static final int NB_MAX_CHAT = 100;
+
+    /**
+     * Duree de vie des chats (en heures)
+     */
+    public static final int DUREE_VIE_CHAT = 2;
 
     /**
      * Liste des joueurs connectés
@@ -291,6 +307,12 @@ public class GameEnvironment {
         }
         // Supprime le joueur
         removeJoueur(myJoueur);
+        
+        // Ménage dans le chat
+        if (getLstJoueur().size() == 0) {
+        	// Plus personne : Reset
+        	setChatOffset(0);
+        }
     }
 
     /**
@@ -351,6 +373,30 @@ public class GameEnvironment {
      *         est déjà
      */
     public boolean addJoueur(JoueurBean aJoueur) {
+    	
+    	// Suppression des vieux chats
+    	if ((lstJoueur.size() == 0) && (lstChat.size() > 0)) {
+    		Calendar dateLimite = Calendar.getInstance();
+    		dateLimite.add(Calendar.HOUR, -DUREE_VIE_CHAT);
+	        synchronized (lstChat) {
+	    		ChatBean vieuxChat;
+				// Purge autant que nécessaire
+				int nbPurge = -1;
+	    		int i = 0;
+				do {
+	        		vieuxChat = (ChatBean) lstChat.get(i);
+	    			nbPurge++;
+	    			i++;
+				}
+				while ((i < lstChat.size()) && (vieuxChat.getDate().before(dateLimite)));
+				
+				// Purge réellement
+				if (nbPurge > 0) {
+	                chatOffset += nbPurge;
+	                lstChat.subList(0, nbPurge - 1).clear();
+				}
+	        }
+    	}
         /**
          * Si le joueur est déjà dans la liste : On le vire
          */
@@ -376,10 +422,12 @@ public class GameEnvironment {
      * @param aPartie
      *            Partie qui vient d'être créée
      */
-    public synchronized void addPartie(Partie aPartie) {
-        aPartie.setIdentifiant(++seqPartie);
-        lstPartie.add(PartieBeloteBean
+    public void addPartie(Partie aPartie) {
+    	synchronized (lstPartie) {
+    		aPartie.setIdentifiant(++seqPartie);
+    		lstPartie.add(PartieBeloteBean
                 .getPartieBeloteBean((PartieBelote) aPartie));
+    	}
     }
 
     /**
