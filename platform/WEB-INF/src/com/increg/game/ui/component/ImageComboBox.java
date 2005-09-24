@@ -183,61 +183,63 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
      */
     public void actionPerformed(ActionEvent e) {
         // Clic sur le bouton
-        if (contents.get(titre) == null) {
-            // Initialise la popup
-            JPanel aContent = new JPanel(new GridLayout(tailleY, tailleX));
-            
-            for (int i = 0; i < images.length; i++) {
-    
-                JLabel aLabel = new JLabel();
-                aLabel.setVerticalAlignment(SwingConstants.CENTER);
-                aLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                aLabel.setToolTipText(valeur[i]);
-                try {
-                    aLabel.setIcon(aire.getImageIcon(images[i]));
-                }
-                catch (MalformedURLException e1) {
-                    e1.printStackTrace();
-                }                
-                aContent.add(aLabel);
-                aLabel.addMouseListener(this);
-            }
-            
-            aContent.setBackground(Color.WHITE);
-            contents.put(titre, aContent);
-        }
-        if (popups.get(titre) == null) {
-            // Affiche la popup
-            JPanel panelComplet = new JPanel(new BorderLayout());
-            panelComplet.add((JPanel) contents.get(titre), BorderLayout.CENTER);
-            JLabel aLegende = new JLabel(" ");
-            aLegende.setHorizontalAlignment(SwingConstants.CENTER);
-            panelComplet.add(aLegende, BorderLayout.SOUTH);
-            panelComplet.setBackground(Color.WHITE);
-            legende.put(titre, aLegende);
-
-            JFrame aPopup = new JFrame(titre);
-            aPopup.setContentPane(panelComplet);
-            aPopup.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            aPopup.addWindowListener(this);
-            aPopup.pack(); 
-            aPopup.setResizable(false);
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            aPopup.setLocation(screenSize.width - aPopup.getWidth(), 0);
-
-            popups.put(titre, aPopup);
-        }
-        
-        // Initialise le timer qui ferme automatiquement la fenêtre
-        if (timerClose == null) {
-            // Chargement pour la première fois de la tempo de ramassage
-        	// TODO : Changer le mode de configuration
-            ResourceBundle resConfig = ResourceBundle.getBundle("configAire");
-            int tempoClose = Integer.parseInt(resConfig.getString("tempoPopup"));
-	        timerClose = new Timer(tempoClose, this);
-	        timerClose.setRepeats(false);
-	        timerClose.setCoalesce(true);
-        }
+    	if (e.getSource() != timerClose) {
+	        if (contents.get(titre) == null) {
+	            // Initialise la popup
+	            JPanel aContent = new JPanel(new GridLayout(tailleY, tailleX));
+	            
+	            for (int i = 0; i < images.length; i++) {
+	    
+	                JLabel aLabel = new JLabel();
+	                aLabel.setVerticalAlignment(SwingConstants.CENTER);
+	                aLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	                aLabel.setToolTipText(valeur[i]);
+	                try {
+	                    aLabel.setIcon(aire.getImageIcon(images[i]));
+	                }
+	                catch (MalformedURLException e1) {
+	                    e1.printStackTrace();
+	                }                
+	                aContent.add(aLabel);
+	                aLabel.addMouseListener(this);
+	            }
+	            
+	            aContent.setBackground(Color.WHITE);
+	            contents.put(titre, aContent);
+	        }
+	        if (popups.get(titre) == null) {
+	            // Affiche la popup
+	            JPanel panelComplet = new JPanel(new BorderLayout());
+	            panelComplet.add((JPanel) contents.get(titre), BorderLayout.CENTER);
+	            JLabel aLegende = new JLabel(" ");
+	            aLegende.setHorizontalAlignment(SwingConstants.CENTER);
+	            panelComplet.add(aLegende, BorderLayout.SOUTH);
+	            panelComplet.setBackground(Color.WHITE);
+	            legende.put(titre, aLegende);
+	
+	            JFrame aPopup = new JFrame(titre);
+	            aPopup.setContentPane(panelComplet);
+	            aPopup.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	            aPopup.addWindowListener(this);
+	            aPopup.pack(); 
+	            aPopup.setResizable(false);
+	            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	            aPopup.setLocation(screenSize.width - aPopup.getWidth(), 0);
+	
+	            popups.put(titre, aPopup);
+	        }
+	        
+	        // Initialise le timer qui ferme automatiquement la fenêtre
+	        if (timerClose == null) {
+	            // Chargement pour la première fois de la tempo de ramassage
+	        	// TODO : Changer le mode de configuration
+	            ResourceBundle resConfig = ResourceBundle.getBundle("configAire");
+	            int tempoClose = Integer.parseInt(resConfig.getString("tempoPopup"));
+		        timerClose = new Timer(tempoClose, this);
+		        timerClose.setRepeats(false);
+		        timerClose.setCoalesce(true);
+	        }
+    	}
         if (timerClose.isRunning()) {
         	timerClose.stop();
         }
@@ -264,7 +266,9 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
 
                 aListener.actionPerformed(new ActionEvent(this, e.getID(), ((JLabel) e.getSource()).getToolTipText()));
             }
-            timerClose.restart();
+            if (timerClose != null) {
+            	timerClose.restart();
+            }
         }
     }
 
