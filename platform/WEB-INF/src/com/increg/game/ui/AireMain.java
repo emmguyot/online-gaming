@@ -96,15 +96,21 @@ public class AireMain extends Applet {
                 }
             }
             // Ajout notre traitement des log
-            fh = new FileHandler("%h/InCrEG_Game.log", 5000000, 1, true);
-            fh.setFormatter(new SimpleFormatter());
-            logger.addHandler(fh);
-            // Par défaut : Pas trop de log
-            logger.setLevel(Level.INFO);
-            if (System.getProperty("LogDebug") != null) {
-            	// Force le niveau de log
-                logger.setLevel(Level.parse(System.getProperty("LogDebug")));
+            try {
+            	fh = new FileHandler("%h/InCrEG_Game.log", 5000000, 1, true);
+            	fh.setFormatter(new SimpleFormatter());
+            	logger.addHandler(fh);
+                // Par défaut : Pas trop de log
+                logger.setLevel(Level.INFO);
+                if (System.getProperty("LogDebug") != null) {
+                	// Force le niveau de log
+                    logger.setLevel(Level.parse(System.getProperty("LogDebug")));
+                }
             }
+            catch (SecurityException e) {
+            	System.err.println("Exception ignorée :");
+				e.printStackTrace();
+			}
         }
         catch (SecurityException e1) {
             e1.printStackTrace();
@@ -145,11 +151,16 @@ public class AireMain extends Applet {
         
         setVisible(true);
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                model.init();
-            }
-            });
+        if (SwingUtilities.isEventDispatchThread()) {
+            model.init();
+        }
+        else {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    model.init();
+                }
+                });
+        }
     }
 
     /**

@@ -219,10 +219,10 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
             popups.put(titre, aPopup);
         }
         if (((JFrame) popups.get(titre)).isVisible()) {
-            ((JFrame) popups.get(titre)).hide();
+            ((JFrame) popups.get(titre)).setVisible(false);
         }
         else {
-            ((JFrame) popups.get(titre)).show();
+            ((JFrame) popups.get(titre)).setVisible(true);
             // Au cas où la fenêtre a été mise en icône
             ((JFrame) popups.get(titre)).setExtendedState(JFrame.NORMAL);
         }
@@ -332,11 +332,13 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
     /**
      * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
      */
-    public synchronized void windowClosing(WindowEvent e) {
-        if (e.getSource() == popups.get(titre)) {
-            ((JFrame) popups.get(titre)).removeWindowListener(this);
-            popups.remove(titre);
-        }
+    public void windowClosing(WindowEvent e) {
+    	synchronized (popups) {
+	        if (e.getSource() == popups.get(titre)) {
+	            ((JFrame) popups.get(titre)).removeWindowListener(this);
+	            popups.remove(titre);
+	        }
+    	}
     }
 
     /**

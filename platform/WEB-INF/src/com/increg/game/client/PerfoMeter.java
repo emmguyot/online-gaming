@@ -80,8 +80,13 @@ public class PerfoMeter {
      * Sauvegarde l'indice de performance pour la prochaine fois
      */
     protected static void sauveIndicPerf() {
-        Preferences pref = Preferences.systemRoot().node("/com/increg/game");
-        pref.putInt("indicPerf", indicPerf);
+		try {
+	        Preferences pref = Preferences.systemRoot().node("/com/increg/game");
+	        pref.putInt("indicPerf", indicPerf);
+		} catch (SecurityException e) {
+        	System.err.println("Exception ignorée :");
+			e.printStackTrace();
+		}
     }
         
     /**
@@ -89,8 +94,15 @@ public class PerfoMeter {
      * @return retourne l'indice préalablement sauvegardé, -1 sinon
      */
     protected static int getIndicPerf() {
-        Preferences pref = Preferences.systemRoot().node("/com/increg/game");
-        return pref.getInt("indicPerf", -1);
+        Preferences pref;
+		try {
+			pref = Preferences.systemRoot().node("/com/increg/game");
+	        return pref.getInt("indicPerf", -1);
+		} catch (SecurityException e) {
+        	System.err.println("Exception ignorée :");
+			e.printStackTrace();
+			return -1;
+		}
     }
         
 }

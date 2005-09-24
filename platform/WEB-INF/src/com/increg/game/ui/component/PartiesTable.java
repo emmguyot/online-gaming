@@ -151,7 +151,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
     /**
      * Mise à jour globale de la liste (à partir du model)
      */
-    public synchronized void updateParties() {
+    public void updateParties() {
 
         boolean actionDone = false;
                 

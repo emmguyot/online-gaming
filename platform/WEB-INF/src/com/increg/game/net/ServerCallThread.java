@@ -14,6 +14,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -30,7 +31,7 @@ public class ServerCallThread extends Thread {
     /**
      * Au minimum : Une requête toutes les secondes
      */
-    public static final int POLL_INTERVAL = 1000;
+    private int POLL_INTERVAL = 1000;
     
     /**
      * Taille des bouts lus
@@ -92,6 +93,11 @@ public class ServerCallThread extends Thread {
         documentBase = docBase;
         sessionId = session;
         connect = new HashMap(2);
+        // Chargement du rythme d'interrogation au serveur 
+        // TODO homogénéiser la gestion de la configuration
+        ResourceBundle resConfig = ResourceBundle.getBundle("configAire");
+	    POLL_INTERVAL = Integer.parseInt(resConfig.getString("tempoRefreshServeur"));
+
     }
     
     /**

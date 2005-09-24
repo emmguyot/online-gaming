@@ -64,7 +64,7 @@ public class ServerCall {
         
         // Il faut démarrer le thread
         try {
-        docBase = masterParent.getDocBase();
+        	docBase = masterParent.getDocBase();
         }
         catch (NullPointerException e) {
             docBase = "";
@@ -77,16 +77,20 @@ public class ServerCall {
             docBase = docBase + "/";
         }
 
-        String session; 
-        if (System.getProperty("Debug") != null) {
-            // Débuggage : Ajoute la session aux URL
-            session = System.getProperty("Debug");
+        String session = parent.getParameter("sessionId");
+        try {
+	        if (System.getProperty("Debug") != null) {
+	            // Débuggage : Ajoute la session aux URL
+	            session = System.getProperty("Debug");
+	        }
         }
-        else {
-            session = parent.getParameter("sessionId");
-        }
+        catch (SecurityException e) {
+        	System.err.println("Exception ignorée :");
+			e.printStackTrace();
+		}
         myThread = new ServerCallThread(docBase, session, defaultCaller);
-        myThread.setPriority(Thread.NORM_PRIORITY);
+        // Priorité en relatif car la JVM donne une certaine priorité au groupe 4?
+        myThread.setPriority(Thread.currentThread().getPriority() - 1);
     }
     
     /**

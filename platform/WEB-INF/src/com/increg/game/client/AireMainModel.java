@@ -1032,7 +1032,7 @@ public class AireMainModel implements ServerCallRequester {
         lstPartie.clear();
         
         // Charge la page de fin
-        ouvrePopup(parent.getDocBase() + "/" + "bye.html", "_top");
+        ouvrePopup(parent.getDocBase() + "/" + "bye.html", "");
         
     }
 
