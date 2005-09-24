@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.util.ResourceBundle;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -285,9 +286,6 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
         }
         
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-        System.runFinalization();
-        System.gc();
     }
 
     /**
@@ -823,7 +821,9 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
         offsetJoueur = offset;
 
         // Log Optimisation Vitesse
-        salle.getLogger().finest(System.currentTimeMillis() + " : Début refresh salle");
+        if (salle.getLogger().isLoggable(Level.FINEST)) {
+        	salle.getLogger().finest(System.currentTimeMillis() + " : Début refresh salle");
+        }
         PartieBelote myPartie = salle.getMyPartie();
 
         int nbJoueur = pseudoJoueur.length;
@@ -1107,7 +1107,9 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
                 maitre = toLocalIndice(myPartie.getEtat().getJoueur());
             }
             // Log Optimisation Vitesse
-            salle.getLogger().finest(System.currentTimeMillis() + " : Fin refresh part1");
+            if (salle.getLogger().isLoggable(Level.FINEST)) {
+            	salle.getLogger().finest(System.currentTimeMillis() + " : Fin refresh part1");
+            }
             sphere.setState(toLocalIndice((myPartie.getEtat().getJoueurCoupe() + 1) % pseudoJoueur.length), 
                             maitre, 
                             toLocalIndice(myPartie.getEtat().getJoueur()));
@@ -1118,7 +1120,9 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
         scrollEvent.refresh();
         chat.refresh();
         // Log Optimisation Vitesse
-        salle.getLogger().finest(System.currentTimeMillis() + " : Fin refresh part2");
+        if (salle.getLogger().isLoggable(Level.FINEST)) {
+        	salle.getLogger().finest(System.currentTimeMillis() + " : Fin refresh part2");
+        }
 
         /**
          * Affichage groupé pour limiter les problèmes de multithread avec Swing
@@ -1136,7 +1140,9 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
         repaint();
 
         // Log Optimisation Vitesse
-        salle.getLogger().finest(System.currentTimeMillis() + " : Avant dialog");
+        if (salle.getLogger().isLoggable(Level.FINEST)) {
+        	salle.getLogger().finest(System.currentTimeMillis() + " : Avant dialog");
+        }
         
         // Le reste n'est que pour les joueurs : Pas pour les spectateurs
         if (myPartie.getPositionJoueur(salle.getMyJoueur()) >= 0) {
@@ -1415,7 +1421,9 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
     public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             // Log Optimisation Vitesse
-            salle.getLogger().finest(System.currentTimeMillis() + " : Clic souris");
+            if (salle.getLogger().isLoggable(Level.FINEST)) {
+            	salle.getLogger().finest(System.currentTimeMillis() + " : Clic souris");
+            }
             // Traite comme un clic
             boolean found = false;
             // Vérification que c'est bien à son tour de jouer

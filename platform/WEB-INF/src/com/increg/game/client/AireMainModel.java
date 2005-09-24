@@ -21,6 +21,7 @@ import java.net.URLEncoder;
 import java.util.Stack;
 import java.util.TreeSet;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.DataFormatException;
 import java.util.zip.GZIPInputStream;
@@ -867,10 +868,14 @@ public class AireMainModel implements ServerCallRequester {
             try {
                 Refresher aRefresh = new Refresher();
                 // Log Optimisation Vitesse
-                parent.getLogger().finest(System.currentTimeMillis() + " : Avant parse");
+                if (parent.getLogger().isLoggable(Level.FINEST)) {
+                	parent.getLogger().finest(System.currentTimeMillis() + " : Avant parse");
+                }
                 parser.parse(fluxByte, aRefresh);
                 // Log Optimisation Vitesse
-                parent.getLogger().finest(System.currentTimeMillis() + " : Après parse");
+                if (parent.getLogger().isLoggable(Level.FINEST)) {
+                	parent.getLogger().finest(System.currentTimeMillis() + " : Après parse");
+                }
                 cr = aRefresh.getLastReceivedId();    
             }
             catch (IOException e) {
@@ -896,7 +901,9 @@ public class AireMainModel implements ServerCallRequester {
                     public void run() {
                         // Informe la vue
                         // Log Optimisation Vitesse
-                        parent.getLogger().finest(System.currentTimeMillis() + " : Début refresh graphique");
+                        if (parent.getLogger().isLoggable(Level.FINEST)) {
+                        	parent.getLogger().finest(System.currentTimeMillis() + " : Début refresh graphique");
+                        }
                         while (lstSalleASuppr.size() > 0) {
                             SalleModel salle = (SalleModel) lstSalleASuppr.remove(0);
                             salle.suppressionSalle();
@@ -913,7 +920,9 @@ public class AireMainModel implements ServerCallRequester {
                             view.refresh();
                         }
                         // Log Optimisation Vitesse
-                        parent.getLogger().finest(System.currentTimeMillis() + " : Fin Refresh graphique");
+                        if (parent.getLogger().isLoggable(Level.FINEST)) {
+                        	parent.getLogger().finest(System.currentTimeMillis() + " : Fin Refresh graphique");
+                        }
                     }
                     });
             }
@@ -1066,10 +1075,14 @@ public class AireMainModel implements ServerCallRequester {
             // Récupération de l'état
             try {
                 // Log Optimisation Vitesse
-                parent.getLogger().finest(System.currentTimeMillis() + " : Avant dispatch");
+                if (parent.getLogger().isLoggable(Level.FINEST)) {
+                	parent.getLogger().finest(System.currentTimeMillis() + " : Avant dispatch");
+                }
                 lastReceivedId = dispatchRefresh(new GZIPInputStream(new ByteArrayInputStream(content)));
                 // Log Optimisation Vitesse
-                parent.getLogger().finest(System.currentTimeMillis() + " : Après dispatch");
+                if (parent.getLogger().isLoggable(Level.FINEST)) {
+                	parent.getLogger().finest(System.currentTimeMillis() + " : Après dispatch");
+                }
             }
             catch (IOException e) {
                 e.printStackTrace();

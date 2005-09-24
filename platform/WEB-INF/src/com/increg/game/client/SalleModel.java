@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.Icon;
@@ -430,7 +431,9 @@ public class SalleModel {
     public void setCarteJouee(Couleur carte) {
 
         // Log Optimisation Vitesse
-        aire.getLogger().finest(System.currentTimeMillis() + " : CarteJouee Début");
+        if (aire.getLogger().isLoggable(Level.FINEST)) {
+        	aire.getLogger().finest(System.currentTimeMillis() + " : CarteJouee Début");
+        }
         // Vérification de la validité de la carte
         if (myPartie.peutJouer(carte)) {
             try {
@@ -438,7 +441,9 @@ public class SalleModel {
                     // =========== Similaire à DoAction.doJoueCarte ===============
                     if (myPartie.getParticipant(myPartie.getEtat().getJoueur()).equals(myJoueur)) {
                         // Log Optimisation Vitesse
-                        aire.getLogger().finest(System.currentTimeMillis() + " : Action to be queued");
+                        if (aire.getLogger().isLoggable(Level.FINEST)) {
+                        	aire.getLogger().finest(System.currentTimeMillis() + " : Action to be queued");
+                        }
 
                         // Exécute l'action directement pour gagner en réactivité
                         if (myPartie.getEtat().getEtat() == EtatPartieBelote.ETAT_FIN_TOUR) {
