@@ -20,6 +20,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -27,6 +28,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 import com.increg.game.client.AireMainModel;
@@ -34,8 +36,7 @@ import com.increg.game.client.AireMainModel;
 /**
  * @author Manu
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * Gestion des popups présentant les smileys et les sons
  */
 public class ImageComboBox extends JButton implements ActionListener, MouseListener, WindowListener {
 
@@ -90,6 +91,11 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
     protected static HashMap legende = new HashMap(2);
 
     /**
+     * Timer permettant de fermer automatiquement la fenêtre des smileys
+     */
+    protected Timer timerClose;
+    
+    /**
      * Constructeur 
      * @param items Valeur des items
      * @param chImages URL des images correspondantes aux items
@@ -111,7 +117,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
         if (myListener.get(titre) == null) {
             myListener.put(titre, new Vector());
         }
-                
+
         super.addActionListener(this);
     }
 
@@ -166,6 +172,9 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
                 popups.remove(titre);
                 contents.remove(titre);
             }
+            if ((timerClose != null) && (timerClose.isRunning())) {
+            	timerClose.stop();
+            }
         }
     }
 
@@ -218,6 +227,21 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
 
             popups.put(titre, aPopup);
         }
+        
+        // Initialise le timer qui ferme automatiquement la fenêtre
+        if (timerClose == null) {
+            // Chargement pour la première fois de la tempo de ramassage
+        	// TODO : Changer le mode de configuration
+            ResourceBundle resConfig = ResourceBundle.getBundle("configAire");
+            int tempoClose = Integer.parseInt(resConfig.getString("tempoPopup"));
+	        timerClose = new Timer(tempoClose, this);
+	        timerClose.setRepeats(false);
+	        timerClose.setCoalesce(true);
+        }
+        if (timerClose.isRunning()) {
+        	timerClose.stop();
+        }
+
         if (((JFrame) popups.get(titre)).isVisible()) {
             ((JFrame) popups.get(titre)).setVisible(false);
         }
@@ -225,6 +249,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
             ((JFrame) popups.get(titre)).setVisible(true);
             // Au cas où la fenêtre a été mise en icône
             ((JFrame) popups.get(titre)).setExtendedState(JFrame.NORMAL);
+            timerClose.start();
         }
     }
 
@@ -239,6 +264,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
 
                 aListener.actionPerformed(new ActionEvent(this, e.getID(), ((JLabel) e.getSource()).getToolTipText()));
             }
+            timerClose.restart();
         }
     }
 

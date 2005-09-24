@@ -8,6 +8,7 @@ package com.increg.game.ui.component;
 
 import java.applet.AudioClip;
 import java.net.MalformedURLException;
+import java.util.logging.Level;
 
 import com.increg.game.client.AireMainModel;
 import com.increg.util.Semaphore;
@@ -49,7 +50,9 @@ public class SoundPlayer implements Runnable {
     public void run() {
         try {
             Thread.yield();
-            aire.getLogger().finest(System.currentTimeMillis() + " : Debut son (" + Thread.activeCount() + ")");
+            if (aire.getLogger().isLoggable(Level.FINEST)) {
+            	aire.getLogger().finest(System.currentTimeMillis() + " : Debut son (" + Thread.activeCount() + ")");
+            }
             AudioClip sonAJouer = aire.getAudioClip(son, false);
             if (sonAJouer != null) {
                 // Joue le maintenant
@@ -62,7 +65,9 @@ public class SoundPlayer implements Runnable {
                 semaphoreLecture.release();
                 sonAJouer.play();
             }
-            aire.getLogger().finest(System.currentTimeMillis() + " : Fin son(" + Thread.activeCount() + ")");
+            if (aire.getLogger().isLoggable(Level.FINEST)) {
+            	aire.getLogger().finest(System.currentTimeMillis() + " : Fin son(" + Thread.activeCount() + ")");
+            }
         }
         catch (MalformedURLException ignore) {
             // Ignore l'erreur
