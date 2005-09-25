@@ -31,7 +31,7 @@ public class ServerCallThread extends Thread {
     /**
      * Au minimum : Une requête toutes les secondes
      */
-    private int POLL_INTERVAL = 1000;
+    public static int POLL_INTERVAL = 1000;
     
     /**
      * Taille des bouts lus
@@ -191,7 +191,9 @@ public class ServerCallThread extends Thread {
                     }
                     caller = (ServerCallRequester) callers.removeFirst();
                     // TODO Suppression trace
-                    caller.getLogger().fine(theRequest.toString());
+                    if (caller.getLogger().isLoggable(Level.FINE)) {
+                    	caller.getLogger().fine(theRequest.toString());
+                    }
                 }
             }
             
