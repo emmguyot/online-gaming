@@ -1,0 +1,13 @@
+# Automatically generated script for RetroGuard bytecode obfuscator.
+# To be used with Java JAR-file: C:\ProjetsInCrEG\beloteux\applets\aire.jar
+# 5 juil. 2003 01:02:02
+#
+.class com/increg/game/ui/AireMain public method 
+.method com/increg/game/ui/AireMain/start ()V
+.method com/increg/game/ui/AireMain/stop ()V
+.method com/increg/game/ui/AireMain/paint (Ljava/awt/Graphics;)V
+.method com/increg/game/ui/AireMain/destroy ()V
+.method com/increg/game/ui/AireMain/update (Ljava/awt/Graphics;)V
+.method com/increg/game/ui/AireMain/getParameterInfo ()[[Ljava/lang/String;
+.method com/increg/game/ui/AireMain/init ()V
+.method com/increg/game/ui/AireMain/getAppletInfo ()Ljava/lang/String;

@@ -107,6 +107,19 @@
 		</jar>
 		<!-- Use your own key here -->
 		<input message="Saisir le mot de passe du keystore" addproperty="storepwd" />
+		<!-- Optimisation du fichier jar -->
+		<java description="Obfuscate en créant le jar" classname="RetroGuard" fork="true">
+			<classpath>
+				<pathelement location="c:/java/retroguard.jar" />
+				<pathelement location="${java.home}/lib/rt.jar" />
+				<pathelement location="${java.class.path}" />
+			</classpath>
+			<arg path="${src}/applets/aire.jar" />
+			<arg path="${src}/applets/aire_obf.jar" />
+			<arg path="${src}/config.rgs" />
+			<arg path="${src}/config.log" />
+		</java>
+		<move file="${src}/applets/aire_obf.jar" tofile="${src}/applets/aire.jar" />
 		<signjar jar="${src}/applets/aire.jar" alias="emmguyot" storepass="${storepwd}"></signjar>
 		
 		<!-- Création du jar des ressources -->
