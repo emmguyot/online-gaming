@@ -1,11 +1,28 @@
-<%@ page import="com.increg.game.bean.GameSession,
-                com.increg.game.bean.JoueurBean,
-                com.increg.game.bean.PartieBean,
-                com.increg.game.client.belote.PartieBelote,
-                java.util.Vector, java.util.Iterator
-		" %>
-<jsp:useBean id="mySession" scope="session" class="com.increg.game.bean.GameSession" />
-<%@ taglib uri="../WEB-INF/salon-taglib.tld" prefix="salon" %>
+<%
+/*
+ * Page affichant la liste des parties disputées
+ * Copyright (C) 2002-2005 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; 
+ * if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ */
+%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 <title>Parties jouées</title>
@@ -14,47 +31,43 @@
 <link rel="stylesheet" href="../style/game.css" type="text/css">
 </head>
 <body>
-<script type="text/javascript" language="JavaScript"><!--
-    self.resizeTo(700, 500); 
-// --></script>
-<%
-    String debut = request.getParameter("Debut");
-    String fin = request.getParameter("Fin");
-
-    Vector lstPartie = (Vector) request.getAttribute("lstPartie");
-    if (lstPartie == null) {
-        lstPartie = new Vector();
-    }
-%>
-    <h1>Parties jouées du <salon:valeur valeur="<%= debut %>" valeurNulle="null">%% au</salon:valeur> 
-        <salon:valeur valeur="<%= fin %>" valeurNulle="null">%%</salon:valeur></h1>
-        <p><%= lstPartie.size() %> parties effectuées.</p>
+    <html:form action="/admin/lstPartie.do" method="POST" onsubmit="return validateIntervalForm(this);">
+    <h1>Parties jouées du <c:out value="${intervalForm.debut}" /> au <c:out value="${intervalForm.fin}" /></h1>
+        <p><c:out value="${fn:length(intervalForm.lignes)}" /> parties effectuées.</p>
         <table width="100%" border=1>
         <tr>
-            <th>Type de partie</th>
             <th>Débutée le</th>
-            <th>Joueurs</th>
+            <th>Type de partie</th>
+            <th>1<sup>ère</sup> Equipe</th>
+            <th>2<sup>ème</sup> Equipe</th>
             <th>Scores</th>
+            <th>Fin à</th>
         </tr>
-<%
-        Iterator partieIter = lstPartie.iterator();
-        while (partieIter.hasNext()) {
-            PartieBean aPartieBean = (PartieBean) partieIter.next();
-            PartieBelote aPartie = (PartieBelote) aPartieBean.getMyPartie();
-%>
+        <c:forEach var="aPartieBean" items="${intervalForm.lignes}" >
             <tr>
-                <td><%= aPartie.toString() %></td>
-                <td><salon:valeur valeur="<%= (aPartieBean.getDtDebut() != null) ? aPartieBean.getDtDebut() : null %>" valeurNulle="null" format="dd/MM/yyyy HH:mm">%%</salon:valeur></td>
-                <td><%= aPartie.getParticipant(0).getPseudo() %> et <%= aPartie.getParticipant(2).getPseudo() %> contre<br><%= aPartie.getParticipant(1).getPseudo() %> et <%= aPartie.getParticipant(3).getPseudo() %></td>
-                <td><%= aPartie.getScoreTotal(0) %><br><%= aPartie.getScoreTotal(1) %></td>
+                <td><fmt:formatDate value="${aPartieBean.dtDebut.time}" pattern="dd/MM/yyyy HH:mm" /></td>
+                <td><c:out value="${aPartieBean.myPartie}" /></td>
+                <td><c:out value="${aPartieBean.myPartie.participant[0].pseudo}" /> et <c:out value="${aPartieBean.myPartie.participant[2].pseudo}" /></td>
+                <td><c:out value="${aPartieBean.myPartie.participant[1].pseudo}" /> et <c:out value="${aPartieBean.myPartie.participant[3].pseudo}" /></td>
+                <td><c:out value="${aPartieBean.myPartie.currentScore[0]}" /> / <c:out value="${aPartieBean.myPartie.currentScore[1]}" /></td>
+                <td><fmt:formatDate value="${aPartieBean.dtFin.time}" pattern="dd/MM/yyyy HH:mm" /></td>
             </tr>
-<%
-        }
-%>
+        </c:forEach>
         </table>
-        <form action="affPartie.srv" method="POST">
         <p>Autre requête :</p>
-        <p>Du <input type="text" name="Debut" size="15"> au <input type="text" name="Fin" size="15"> <input type="submit"></p>
-        </form>
+        <p>Du <html:text property="debut" size="15" /> au <html:text property="fin" size="15"/> <html:submit /></p>
+        <p><html:errors /></p>
+        <html:javascript formName="intervalForm" staticJavascript="false" />
+        <html:hidden property="pseudo" />
+        <html:hidden property="action" />
+        <p><a href="javascript:goMenu()">Menu d'administration</a></p>
+    </html:form>
+    <script language="Javascript" src="../js/validation.js" ></script>
+    <script language="Javascript">
+        function goMenu() {
+            document.forms[0].action.value = "menu";
+            document.forms[0].submit();
+        }
+    </script>
 </body>
 </html>

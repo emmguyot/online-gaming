@@ -684,7 +684,7 @@ public class AireMainModel implements ServerCallRequester {
      */
     public void ouvreAdmin() {
         try {
-            ouvrePopup("admin/index.jsp?Pseudo=" + URLEncoder.encode(myJoueur.getPseudo(), "UTF8"), "adminInCrEG");
+            ouvrePopup("admin/admin.do?pseudo=" + URLEncoder.encode(myJoueur.getPseudo(), "UTF8"), "adminInCrEG");
         }
         catch (UnsupportedEncodingException e) {
             parent.getLogger().severe("Problème d'encodage de l'URL");

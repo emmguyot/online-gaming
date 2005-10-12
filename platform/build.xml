@@ -1,5 +1,5 @@
 <project name="belote" default="applet">
-	<description description="Aire de jeu pour les Beloteux"></description>
+	<description description="Aire de jeux"></description>
 
 	<property name="tomcat" value="C:/Program Files/jakarta-tomcat-3.3.1" />
     <property name="src" value="." />

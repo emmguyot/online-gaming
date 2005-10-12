@@ -1,6 +1,6 @@
 <%
 /*
- * Bean assurant la gestion du catalogue fournisseur (articles fournis par un fournisseur)
+ * Page assurant la gestion de l'aire de jeu
  * Copyright (C) 2002-2005 Emmanuel Guyot <See emmguyot on SourceForge> 
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms 
@@ -17,11 +17,12 @@
  * 
  */
 %>
-<%@ page import="com.increg.game.bean.JoueurBean,
-                com.increg.game.bean.PartieBean,
-                java.util.Vector, java.util.Iterator
-		" %>
-<%@ taglib uri="../WEB-INF/salon-taglib.tld" prefix="salon" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 <title>Menu d'administration de l'Aire de Jeu InCrEG</title>
@@ -30,39 +31,35 @@
 <link rel="stylesheet" href="../style/game.css" type="text/css">
 </head>
 <body>
-<%
-    String pseudo = request.getParameter("Pseudo");
-%>
     <h1>Administration de <a href="http://online-gaming.sourceforge.net">l'Aire de Jeu InCrEG</a></h1>
-    <salon:valeur valeurNulle="null" valeur='<%= (String) request.getAttribute("Message") %>'>%%</salon:valeur>
+    <html:errors />
+    <html:form action="/admin/admin.do" method="POST">
+        <html:hidden property="pseudo" />
+        <html:hidden property="action" />
 
-    <p><form name="admin" action="admin.srv" method="POST">
-        <input type="hidden" name="Pseudo" value="<%= pseudo %>">
-        <a href="javascript:admin.submit()">Exclure des joueurs</a>
-    </form></p>
+    <p><a href="javascript:submit('exclure')">Exclure des joueurs</a></p>
 
-    <p><form name="affPartie" action="affPartie.srv" method="POST">
-        <input type="hidden" name="Pseudo" value="<%= pseudo %>">
-        <a href="javascript:affPartie.submit()">Voir les parties jouées</a>
-    </form></p>
+    <p><a href="javascript:submit('affPartie')">Voir les parties jouées</a></p>
 
-    <p><form name="paramAire" action="paramAire.srv" method="POST">
-        <input type="hidden" name="Pseudo" value="<%= pseudo %>">
-        <a href="javascript:paramAire.submit()">Paramétrer l'aire</a>
-    </form></p>
+    <p><a href="javascript:submit('paramAire')">Paramétrer l'aire</a></p>
 
-    <p><form name="purge" action="purge.srv" method="POST">
-        <input type="hidden" name="Pseudo" value="<%= pseudo %>">
-        <a href="javascript:purge.submit()">Purger la base et l'optimiser</a>
-    </form></p>
+    <p><a href="javascript:submit('purge')">Purger la base et l'optimiser</a></p>
+    </html:form>
 
     <hr/>
-    <p>Tester l'installation : 
+    <p>Tests de l'installation : 
         <ol><li><a href="../test/Test01.jsp">Test Tomcat / Java</a>,</li>
         <li><a href="../test/Test02.jsp">Test base de données</a>,</li>
         <li><a href="../test/Test03.jsp">Test accès externe</a>,</li>
         <li><a href="../test/Test04.jsp">Test envoi mail</a></li>
         </ol>
     </p>
+
+    <script language="javascript">
+    function submit(action) {
+        document.forms[0].action.value = action;
+        document.forms[0].submit();
+    }
+    </script>
 </body>
 </html>
