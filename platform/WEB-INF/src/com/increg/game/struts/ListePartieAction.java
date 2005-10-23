@@ -48,7 +48,7 @@ public class ListePartieAction extends AdminAction {
 
 		IntervalForm intervalForm = (IntervalForm) form;
 		
-		ActionErrors errors = form.validate(mapping, request);
+		ActionMessages errors = form.validate(mapping, request);
 		if (errors.isEmpty()) {
 	        DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
 	        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -76,6 +76,7 @@ public class ListePartieAction extends AdminAction {
             intervalForm.setLignes(res);
 		}
 		
+        saveErrors(request, errors);
 		return mapping.findForward("page");
 	}
 

@@ -72,7 +72,7 @@
 		end sample -->
 		<form-bean name="adminForm" type="com.increg.game.struts.AdminForm" />
 		<form-bean name="intervalForm" type="com.increg.game.struts.IntervalForm" />
-	</form-beans>
+	<form-bean name="exclureForm" type="com.increg.game.struts.ExclureForm" /></form-beans>
 	
 	
 	<!-- ========================================= Global Exception Definitions -->
@@ -134,13 +134,11 @@
 			<forward name="purge" path="/admin/purge.do" redirect="false" />
 			<forward name="error" path="/error.html" redirect="false" />
 		</action>
-		<action path="/admin/lstPartie" parameter="action"
-			type="com.increg.game.struts.ListePartieAction" name="intervalForm"
-			scope="request">
-			<forward name="page" path="/admin/affPartie.jsp" redirect="false"/>
-			<forward name="menu" path="/admin/admin.do" redirect="false"/>
+		<action path="/admin/lstPartie" parameter="action" type="com.increg.game.struts.ListePartieAction" name="intervalForm" scope="request">
+			<forward name="page" path="/admin/affPartie.jsp" redirect="false" />
+			<forward name="menu" path="/admin/admin.do" redirect="false" />
 		</action>
-	</action-mappings>
+	<action path="/admin/exclure" parameter="action" type="com.increg.game.struts.ExclureAction" name="exclureForm" scope="request"><forward name="page" path="/admin/exclure.jsp" redirect="false" /><forward name="menu" path="/admin/admin.do" redirect="false" /></action></action-mappings>
 	
 	
 	<!-- ============================================= Controller Configuration -->

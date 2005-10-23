@@ -51,11 +51,6 @@
         <servlet-class>com.increg.game.servlet.test.BouchonBel</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>affPartie</servlet-name>
-        <description>Affiche les parties jouées</description>
-        <servlet-class>com.increg.game.servlet.AffPartie</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>admin</servlet-name>
         <description>Administration de l'aire</description>
         <servlet-class>com.increg.game.servlet.Admin</servlet-class>
@@ -93,10 +88,6 @@
     <servlet-mapping>
         <servlet-name>bouchonBel</servlet-name>
         <url-pattern>/bouchonBel.srv</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>affPartie</servlet-name>
-        <url-pattern>/admin/affPartie.srv</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>admin</servlet-name>
