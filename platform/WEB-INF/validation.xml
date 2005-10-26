@@ -44,6 +44,15 @@
 				<arg0 key="label.fin"/>
 			</field>
 		</form>
+		<form name="purgeForm">
+			<field property="dtPurge" depends="date, required">
+				<var>
+					<var-name>datePattern</var-name>
+					<var-value>dd/MM/yyyy</var-value>
+				</var>
+				<arg0 key="label.dtPurge"/>
+			</field>
+		</form>
 	</formset>
 	
 </form-validation>

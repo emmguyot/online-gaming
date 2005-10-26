@@ -18,7 +18,6 @@
 package com.increg.game.struts;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,8 +33,6 @@ import org.apache.struts.action.ActionMessage;
  *
  */
 public class IntervalForm extends AdminForm {
-
-	protected static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
 	protected String debut;
 	protected String fin;

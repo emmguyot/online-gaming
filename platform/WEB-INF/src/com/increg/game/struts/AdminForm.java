@@ -17,6 +17,8 @@
  */
 package com.increg.game.struts;
 
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionErrors;
@@ -30,6 +32,8 @@ import org.apache.struts.validator.ValidatorActionForm;
  */
 public class AdminForm extends ValidatorActionForm {
 	
+	protected static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+
 	/**
 	 * User connecté
 	 */

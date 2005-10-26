@@ -36,54 +36,54 @@ public class ExclureForm extends AdminForm {
 	/**
 	 * Joueur sélectionné parmis tous les joueurs
 	 */
-    String joueur;
+	protected String joueur;
     /**
      * Partie sélectionnée pour le joueur
      */
-    String partie;
+	protected String partie;
 
     /**
      * Partie sélectionnée parmis toutes
      */
-    String partieComp;
+	protected String partieComp;
     /**
      * Joueur sélectionné dans les parties
      */
-    String joueurPartie;
+	protected String joueurPartie;
 
     /**
      * Joueurs connectés
      */
-    Vector lstJoueur;
+	protected Vector lstJoueur;
     /**
      * Joueur sélectionné
      */
-    JoueurBean aJoueur;
+	protected JoueurBean aJoueur;
     /**
      * Parties visibles par le joueur
      */
-    Vector lstPartie;
+	protected Vector lstPartie;
     /**
      * Partie sélectionnée
      */
-    PartieBean aPartie;
+	protected PartieBean aPartie;
 
     /**
      * Liste des parties
      */
-    Vector lstPartieComp;
+	protected Vector lstPartieComp;
     /**
      * Partie sélectionnée
      */
-    PartieBean aPartieComp;
+	protected PartieBean aPartieComp;
     /**
      * Liste des joueurs de la partie
      */
-    Vector lstJoueurPartie;
+	protected Vector lstJoueurPartie;
     /**
      * Joueur sélectionné dans la partie
      */
-    JoueurBean aJoueurPartie;
+	protected JoueurBean aJoueurPartie;
 
 	/* (non-Javadoc)
 	 * @see com.increg.game.struts.AdminForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
