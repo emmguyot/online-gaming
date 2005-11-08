@@ -120,13 +120,14 @@ public class PurgeAction extends AdminAction {
         
 		DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
 
-        // Nettoyage de la base
+		ActionMessages errors = new ActionMessages();
+
+		// Nettoyage de la base
         try {
             dbConnect.doExecuteSQL(new String[] {"vacuum"});
         }
         catch (SQLException e) {
-            e.printStackTrace();
-            // Ignore l'erreur
+        	errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.detail", e));
         }
 
         // Optimisation de la base
@@ -134,10 +135,10 @@ public class PurgeAction extends AdminAction {
             dbConnect.doExecuteSQL(new String[] {"vacuum analyze"});
         }
         catch (SQLException e) {
-            e.printStackTrace();
-            // Ignore l'erreur
+        	errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("error.detail", e));
         }
 
+        saveErrors(request, errors);
         return purge(mapping, form, request, response);
 	}
 

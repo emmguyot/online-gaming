@@ -1,16 +1,19 @@
-<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+<!DOCTYPE struts-config PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+	"http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
 <!--
-     This is a blank Struts configuration file with an example
-     welcome action/page and other commented sample elements.
+This is a blank Struts configuration file with an example
+welcome action/page and other commented sample elements.
 
-     Tiles and the Struts Validator are configured using the factory defaults
-     and are ready-to-use.
+Tiles and the Struts Validator are configured using the factory defaults
+and are ready-to-use.
 
-     NOTE: If you have a generator tool to create the corresponding Java classes
-     for you, you could include the details in the "form-bean" declarations.
-     Otherwise, you would only define the "form-bean" element itself, with the
-     corresponding "name" and "type" attributes, as shown here.
---><struts-config>
+NOTE: If you have a generator tool to create the corresponding Java classes
+for you, you could include the details in the "form-bean" declarations.
+Otherwise, you would only define the "form-bean" element itself, with the
+corresponding "name" and "type" attributes, as shown here.
+-->
+<struts-config>
 	
 	
 	<!-- ============================================ Data Source Configuration -->
@@ -70,9 +73,14 @@
 		type="java.lang.String"/>
 		</form-bean>
 		end sample -->
-		<form-bean name="adminForm" type="com.increg.game.struts.AdminForm" />
-		<form-bean name="intervalForm" type="com.increg.game.struts.IntervalForm" />
-	<form-bean name="exclureForm" type="com.increg.game.struts.ExclureForm" /><form-bean name="purgeForm" type="com.increg.game.struts.PurgeForm" /></form-beans>
+		<form-bean name="adminForm" type="com.increg.game.struts.AdminForm"/>
+		<form-bean name="intervalForm"
+			type="com.increg.game.struts.IntervalForm"/>
+		<form-bean name="exclureForm" type="com.increg.game.struts.ExclureForm"/>
+		<form-bean name="purgeForm" type="com.increg.game.struts.PurgeForm"/>
+		<form-bean name="paramAireForm"
+			type="com.increg.game.struts.ParamAireForm"/>
+	</form-beans>
 	
 	
 	<!-- ========================================= Global Exception Definitions -->
@@ -93,7 +101,8 @@
 		<!-- Default forward to "Welcome" action -->
 		<!-- Demonstrates using index.jsp to forward -->
 		
-	<forward name="menu" path="/admin/admin.do" redirect="false" /></global-forwards>
+		<forward name="menu" path="/admin/admin.do" redirect="false"/>
+	</global-forwards>
 	
 	
 	<!-- =========================================== Action Mapping Definitions -->
@@ -126,19 +135,38 @@
 		input="/pages/Edit{1}.jsp"/>
 		
 		end samples -->
-		<action path="/admin/admin" parameter="action" type="com.increg.game.struts.AdminAction" unknown="true" name="adminForm" scope="request" validate="false">
-			<forward name="menu" path="/admin/index.jsp" redirect="false" />
-			<forward name="lstPartie" path="/admin/lstPartie.do" redirect="false" />
-			<forward name="exclusion" path="/admin/exclure.do" redirect="false" />
-			<forward name="param" path="/admin/paramAire.do" redirect="false" />
-			<forward name="purge" path="/admin/purge.do" redirect="false" />
-			<forward name="error" path="/error.html" redirect="false" />
+		<action path="/admin/admin" parameter="action"
+			type="com.increg.game.struts.AdminAction" unknown="true"
+			name="adminForm" scope="request" validate="false">
+			<forward name="menu" path="/admin/index.jsp" redirect="false"/>
+			<forward name="lstPartie" path="/admin/lstPartie.do" redirect="false"/>
+			<forward name="exclusion" path="/admin/exclure.do" redirect="false"/>
+			<forward name="param" path="/admin/paramAire.do" redirect="false"/>
+			<forward name="purge" path="/admin/purge.do" redirect="false"/>
+			<forward name="error" path="/error.html" redirect="false"/>
 		</action>
-		<action path="/admin/lstPartie" parameter="action" type="com.increg.game.struts.ListePartieAction" name="intervalForm" scope="request" validate="false">
-			<forward name="page" path="/admin/affPartie.jsp" redirect="false" />
+		<action path="/admin/lstPartie" parameter="action"
+			type="com.increg.game.struts.ListePartieAction" name="intervalForm"
+			scope="request" validate="false">
+			<forward name="page" path="/admin/affPartie.jsp" redirect="false"/>
 			
 		</action>
-	<action path="/admin/exclure" parameter="action" type="com.increg.game.struts.ExclureAction" name="exclureForm" scope="request" validate="false"><forward name="page" path="/admin/exclure.jsp" redirect="false" /></action><action path="/admin/purge" parameter="action" type="com.increg.game.struts.PurgeAction" name="purgeForm" scope="request" validate="false"><forward name="page" path="/admin/purge.jsp" redirect="false" /></action></action-mappings>
+		<action path="/admin/exclure" parameter="action"
+			type="com.increg.game.struts.ExclureAction" name="exclureForm"
+			scope="request" validate="false">
+			<forward name="page" path="/admin/exclure.jsp" redirect="false"/>
+		</action>
+		<action path="/admin/purge" parameter="action"
+			type="com.increg.game.struts.PurgeAction" name="purgeForm"
+			scope="request" validate="false">
+			<forward name="page" path="/admin/purge.jsp" redirect="false"/>
+		</action>
+		<action path="/admin/paramAire" parameter="action"
+			type="com.increg.game.struts.ParamAireAction" name="paramAireForm"
+			validate="false" scope="request">
+			<forward name="page" path="/admin/paramAire.jsp" redirect="false"/>
+		</action>
+	</action-mappings>
 	
 	
 	<!-- ============================================= Controller Configuration -->
@@ -146,7 +174,7 @@
 	
 	<!-- ======================================== Message Resources Definitions -->
 	
-	<message-resources parameter="messages" />
+	<message-resources parameter="messages"/>
 	
 	
 	<!-- =============================================== Plug Ins Configuration -->
@@ -192,7 +220,8 @@
 	<!-- =================================================== Validator plugin -->
 	
 	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
-		<set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
 	</plug-in>
 	
 </struts-config>

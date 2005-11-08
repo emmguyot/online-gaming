@@ -38,7 +38,7 @@ ALTER TABLE ONLY joueur
 -- Ajouts le 20/07/05
 create table PARAM (
     CD_PARAM     numeric(2)      not null,
-    LIB_PARAM    varchar(40)     not null,
+    LIB_PARAM    varchar(100)    not null,
     VAL_PARAM    varchar(200)    not null,
         constraint PK_PARAM primary key (CD_PARAM)
 );
@@ -46,3 +46,23 @@ create table PARAM (
 create sequence SEQ_PARAM;
 
 alter table PARAM alter CD_PARAM set default nextval('SEQ_PARAM');
+
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique sans annonce hors tournoi', '1000');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique sans annonce dans un tournoi', '1000');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique avec annonces hors tournoi', '1000');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique avec annonces dans un tournoi', '1000');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne sans annonce hors tournoi', '3000');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne sans annonce dans un tournoi', '3000');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne avec annonces hors tournoi', '3000');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne avec annonces dans un tournoi', '3000');
+insert into PARAM (libParam, valParam) values ('Sauvegarde des chats', 'N');
+insert into PARAM (libParam, valParam) values ('Mots interdits dans le chats (régulars expressions séparées par des ,)', '[mM][eE][rR][dD][eE]');
+
+create table CHAT (
+	pseudo varchar(80) not null, 
+	pseudoDest varchar(80),
+	idPartie integer,
+	msg varchar(255) not null,
+	dtCreat timestamp with time zone default now() not null,
+	constraint pk_chat primary key (dtCreat, pseudo)
+);

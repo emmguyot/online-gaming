@@ -53,6 +53,11 @@
 				<arg0 key="label.dtPurge"/>
 			</field>
 		</form>
+		<form name="paramAireForm">
+			<field property="valParam" depends="required">
+				<arg0 key="label.valParam"/>
+			</field>
+		</form>
 	</formset>
 	
 </form-validation>

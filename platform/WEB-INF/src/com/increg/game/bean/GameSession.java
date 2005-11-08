@@ -159,6 +159,7 @@ public class GameSession extends BasicSession implements
         resConfig = ResourceBundle.getBundle(configName);
         // Environnement de l'aire
         GameEnvironment env = (GameEnvironment) srvCtxt.getAttribute("Env");
+        env.loadParamAire(myDBSession);
 
         try {
             String passPhrase = resConfig.getString("passPhrase");

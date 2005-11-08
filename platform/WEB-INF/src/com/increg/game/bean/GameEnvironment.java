@@ -17,12 +17,6 @@
  */
 package com.increg.game.bean;
 
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.List;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.Vector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -30,8 +24,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
+import java.util.Vector;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -112,6 +115,11 @@ public class GameEnvironment {
     protected boolean secured;
     
     /**
+     * Paramètres de l'aire
+     */
+    protected Map paramAire;
+    
+    /**
      * Constructeur
      */
     public GameEnvironment() {
@@ -148,6 +156,54 @@ public class GameEnvironment {
     }
 
     /**
+	 * @return Returns the paramAire.
+	 */
+	public Map getParamAire() {
+		return paramAire;
+	}
+
+    /**
+	 * @param code code du paramètre à charger
+	 * @return Returns la valeur du paramètre.
+	 */
+	public String getParamAire(int code) {
+		return (String) paramAire.get(new Integer(code));
+	}
+
+	/**
+	 * @param paramAire The paramAire to set.
+	 */
+	public void setParamAire(Map paramAire) {
+		this.paramAire = paramAire;
+	}
+
+	/**
+	 * @param dbConnect Connection base à utiliser
+	 */
+	public void loadParamAire(DBSession dbConnect) {
+		if (paramAire == null) {
+			paramAire = new TreeMap();
+
+			String reqSQL = "select * from param";
+			try {
+				ResultSet rs = dbConnect.doRequest(reqSQL);
+				
+				while (rs.next()) {
+					ParamBean aParam = new ParamBean(rs);
+					paramAire.put(new Integer(aParam.getCdParam()), aParam.getLibParam());
+				}
+				rs.close();
+			}
+			catch (SQLException e) {
+				// Problème de lecture : Il faudra recommencer
+	            System.err.println("Problème à la lecture des paramètres :");
+	            e.printStackTrace();
+				paramAire = null;
+			}
+		}
+	}
+	
+	/**
      * Recherche un joueur par son indice
      * 
      * @param i
