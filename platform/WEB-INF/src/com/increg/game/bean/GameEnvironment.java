@@ -28,13 +28,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.Vector;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -43,6 +47,8 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.increg.commun.DBSession;
 import com.increg.commun.exception.FctlException;
@@ -120,6 +126,11 @@ public class GameEnvironment {
     protected Map paramAire;
     
     /**
+     * Cache pour les mots interdits 
+     */
+    protected Map cachePatternMotInterdit;
+    
+    /**
      * Constructeur
      */
     public GameEnvironment() {
@@ -129,6 +140,7 @@ public class GameEnvironment {
         lstPartie = new Vector();
         lstChat = new Vector();
         chatOffset = 0;
+        cachePatternMotInterdit = new HashMap();
 
         ResourceBundle res = ResourceBundle.getBundle(GameSession.DEFAULT_CONFIG);
         try {
@@ -167,7 +179,12 @@ public class GameEnvironment {
 	 * @return Returns la valeur du paramètre.
 	 */
 	public String getParamAire(int code) {
-		return (String) paramAire.get(new Integer(code));
+		if (paramAire != null) {
+			return (String) paramAire.get(new Integer(code));
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
@@ -181,16 +198,26 @@ public class GameEnvironment {
 	 * @param dbConnect Connection base à utiliser
 	 */
 	public void loadParamAire(DBSession dbConnect) {
+		loadParamAire(dbConnect, false);
+	}
+
+	/**
+	 * @param dbConnect Connection base à utiliser
+	 * @param reload force le rechargement
+	 */
+	public void loadParamAire(DBSession dbConnect, boolean reload) {
 		if (paramAire == null) {
 			paramAire = new TreeMap();
-
+		}
+		
+		if (paramAire.isEmpty() || reload) {
 			String reqSQL = "select * from param";
 			try {
 				ResultSet rs = dbConnect.doRequest(reqSQL);
 				
 				while (rs.next()) {
 					ParamBean aParam = new ParamBean(rs);
-					paramAire.put(new Integer(aParam.getCdParam()), aParam.getLibParam());
+					paramAire.put(new Integer(aParam.getCdParam()), aParam.getValParam());
 				}
 				rs.close();
 			}
@@ -198,8 +225,16 @@ public class GameEnvironment {
 				// Problème de lecture : Il faudra recommencer
 	            System.err.println("Problème à la lecture des paramètres :");
 	            e.printStackTrace();
-				paramAire = null;
+	            if (!reload) {
+	            	// Reset pour rechargement
+	            	paramAire = null;
+	            }
 			}
+		}
+		
+		if (reload) {
+			// Reset du cache
+			cachePatternMotInterdit.clear();
 		}
 	}
 	
@@ -489,17 +524,54 @@ public class GameEnvironment {
     /**
      * Met à jour la liste des chats suite à un nouveau message
      * 
-     * @param aChat
-     *            Chat qui vient d'être créée
+     * @param aChat Chat qui vient d'être créée
+     * @param dbConnect Connexion base à utiliser
      */
-    public void addChat(ChatBean aChat) {
-        synchronized (lstChat) {
-            // Numérote le chat en absolu
-            aChat.setId(lstChat.size() + chatOffset);
-            lstChat.add(aChat);
+    public void addChat(ChatBean aChat, DBSession dbConnect) {
+    	// Vérification par rapport aux mots autorisés
+    	String motsInterdits = getParamAire(ParamBean.CD_PARAM_MOT_INTERDIT_CHAT);
+    	boolean chatOk = true;
+        if (!StringUtils.isEmpty(motsInterdits)) {
+        	StringTokenizer token = new StringTokenizer(motsInterdits, ",");
+        	while (chatOk && token.hasMoreElements()) {
+				String chainePattern = (String) token.nextElement();
+				Pattern pattern = (Pattern) cachePatternMotInterdit.get(chainePattern);
+				try {
+					if (pattern == null) {
+						pattern = Pattern.compile(chainePattern, Pattern.CASE_INSENSITIVE);
+						cachePatternMotInterdit.put(chainePattern, pattern);
+					}
+					chatOk = !(pattern.matcher(aChat.getText()).find());
+				} catch (PatternSyntaxException e) {
+					// Ignore l'expression
+		            System.err.println("addChat : Erreur de syntaxe sur le mot interdit " + chainePattern);
+				}
+			}
         }
-        // Limite le nombre
-        purgeChat();
+
+        if (chatOk) {
+	        /**
+	         * Bloc de maj des chats
+	         */
+	        synchronized (lstChat) {
+	            // Numérote le chat en absolu
+	            aChat.setId(lstChat.size() + chatOffset);
+	            lstChat.add(aChat);
+	        }
+	
+	        // Sauvegarde en base si besoin
+	        if ((dbConnect != null) && (getParamAire(ParamBean.CD_PARAM_SAVE_CHAT) != null) && (getParamAire(ParamBean.CD_PARAM_SAVE_CHAT).equals("O"))) {
+	        	try {
+					aChat.create(dbConnect);
+				} catch (SQLException e) {
+		            System.err.println("addChat : Sauvegarde du chat en erreur : " + e);
+				} catch (FctlException e) {
+		            System.err.println("addChat : Sauvegarde du chat en erreur : " + e);
+				}
+	        }
+	        // Limite le nombre
+	        purgeChat();
+        }
     }
 
     /**
@@ -813,7 +885,7 @@ public class GameEnvironment {
         hiChat.setStyle("<font color=\"green\"><b>");
         hiChat.setText("Bonjour " + aJoueur.getPseudo() + " [salut]");
         hiChat.setPartie(aPartie);
-        addChat(hiChat);
+        addChat(hiChat, null);
     }
 
     /**
@@ -831,7 +903,7 @@ public class GameEnvironment {
         byeChat.setStyle("<font color=\"red\"><b>");
         byeChat.setText("Au revoir " + aJoueur.getPseudo());
         byeChat.setPartie(aPartie);
-        addChat(byeChat);
+        addChat(byeChat, null);
     }
 
     /**

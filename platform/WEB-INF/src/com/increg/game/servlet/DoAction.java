@@ -628,7 +628,7 @@ public class DoAction extends ConnectedServlet {
         if (!couleur.equals("#000000")) {
             aChat.setStyle("<font color=\"" + couleur + "\">");
         }
-        env.addChat(aChat);
+        env.addChat(aChat, mySession.getMyDBSession());
         
         // Sauvegarde la couleur du joueur
         String oldCouleur = mySession.getMyJoueur().getCouleur();
@@ -727,7 +727,7 @@ public class DoAction extends ConnectedServlet {
                     aChat.setText(aPartie.getCurrentEvent().substring(posD, posF));
                 }
                 aChat.setPartie(aPartie);
-                env.addChat(aChat);
+                env.addChat(aChat, null);
 
                 posD = posF + 1;
             }

@@ -62,7 +62,7 @@ public class ParamAireAction extends AdminAction {
         	aParam.maj(dbConnect);
         	
         	// Maj en direct du serveur
-            env.loadParamAire(dbConnect);
+            env.loadParamAire(dbConnect, true);
         }
         
 		String reqSQL = "select * from param order by libParam";
@@ -123,7 +123,7 @@ public class ParamAireAction extends AdminAction {
 				"insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne avec annonces hors tournoi', '3000')", 
 				"insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne avec annonces dans un tournoi', '3000')", 
 				"insert into PARAM (libParam, valParam) values ('Sauvegarde des chats', 'N')", 
-				"insert into PARAM (libParam, valParam) values ('Mots interdits dans le chats (regulars expressions séparées par des ,)', '[mM][eE][rR][dD][eE]')",
+				"insert into PARAM (libParam, valParam) values ('Mots interdits dans le chats (regulars expressions séparées par des ,)', 'merde,conard')",
 				"create table CHAT ("
 				+ "pseudo varchar(80) not null,"
 				+ "pseudoDest varchar(80),"

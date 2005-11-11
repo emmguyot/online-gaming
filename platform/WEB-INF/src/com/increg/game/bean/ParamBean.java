@@ -25,6 +25,17 @@ import com.increg.commun.InCrEGBean;
 import com.increg.commun.exception.FctlException;
 
 public class ParamBean implements InCrEGBean {
+	
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE = 1;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE_TOURNOI = 2;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES = 3;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES_TOURNOI = 4;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE = 5;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE_TOURNOI = 6;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES = 7;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES_TOURNOI = 8;
+	public static final int CD_PARAM_SAVE_CHAT = 9;
+	public static final int CD_PARAM_MOT_INTERDIT_CHAT = 10;
 	/**
 	 * Code du paramètre
 	 */

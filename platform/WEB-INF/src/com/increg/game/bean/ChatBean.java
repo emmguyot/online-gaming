@@ -24,6 +24,7 @@ import com.increg.commun.DBSession;
 import com.increg.commun.InCrEGBean;
 import com.increg.commun.exception.FctlException;
 import com.increg.game.client.Chat;
+import com.increg.util.SimpleDateFormatEG;
 
 /**
  * @author Manu
@@ -55,7 +56,61 @@ public class ChatBean extends Chat implements InCrEGBean {
      * @see com.increg.commun.InCrEGBean#create(com.increg.commun.DBSession)
      */
     public void create(DBSession dbConnect) throws SQLException, FctlException {
-        throw new FctlException("Fonction non implémentée");
+        SimpleDateFormatEG formatDate  = new SimpleDateFormatEG("dd/MM/yyyy HH:mm:ss");
+
+        StringBuffer req = new StringBuffer("insert into CHAT ");
+        StringBuffer colonne = new StringBuffer("(");
+        StringBuffer valeur = new StringBuffer(" values ( ");
+    
+        if (joueurOrig != null) {
+            colonne.append("pseudo,");
+            valeur.append(DBSession.quoteWith(joueurOrig.getPseudo(), '\''));
+            valeur.append(",");
+        }
+
+        if (joueurDest != null) {
+            colonne.append("pseudoDest,");
+            valeur.append(DBSession.quoteWith(joueurDest.getPseudo(), '\''));
+            valeur.append(",");
+        }
+
+        if (partie != null) {
+            colonne.append("idPartie,");
+            valeur.append(partie.getIdentifiant());
+            valeur.append(",");
+        }
+
+        if ((text != null) && (text.length() != 0)) {
+            colonne.append("msg,");
+            valeur.append(DBSession.quoteWith(text, '\''));
+            valeur.append(",");
+        }
+
+        if (date != null) {
+            colonne.append("dtCreat,");
+            valeur.append(DBSession.quoteWith(formatDate.formatEG(date.getTime()), '\''));
+            valeur.append(",");
+        }
+
+        // retire les dernières virgules
+        colonne.setLength(colonne.length() - 1);
+        valeur.setLength(valeur.length() - 1);
+
+        // Constitue la requete finale
+        req.append(colonne);
+        req.append(")");
+        req.append(valeur);
+        req.append(")");
+
+        // Execute la création
+        String[] reqs = new String[1];
+        reqs[0] = req.toString();
+        int[] nb = new int[1];
+        nb = dbConnect.doExecuteSQL(reqs);
+
+        if (nb[0] != 1) {
+            throw (new SQLException("Création non effectuée"));
+        }   
     }
 
     /**
