@@ -45,7 +45,8 @@
 
 	<!-- *************************************************************************** -->
 	<target description="Création du jar de l'applet pour l'aire" name="applet" depends="init">
-		<javac destdir="${build}/aire" compiler="modern" srcdir="${src}/WEB-INF/src" debug="true" listfiles="true">
+		<javac destdir="${build}/aire" compiler="modern" srcdir="${src}/WEB-INF/src" debug="true" listfiles="true" optimize="true">
+	 		<compilerarg value="-Xlint:unchecked"/>
 			<include name="com/increg/game/net/ServerCall.java" />
 			<include name="com/increg/game/net/ServerCallThread.java" />
 			<include name="com/increg/game/net/ServerCallRequester.java" />
