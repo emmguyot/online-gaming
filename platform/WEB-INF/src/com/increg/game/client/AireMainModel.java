@@ -1096,6 +1096,15 @@ public class AireMainModel implements ServerCallRequester {
         return lastReceivedId;
     }
 
+    /**
+     * @see com.increg.game.net.ServerCallRequester#notifyLoadAbort(java.net.URL)
+     */
+	public int notifyLoadAbort(URL currentUrl) {
+		// Annulation du chargement suite à gros pb
+		dropAll();
+		return 0;
+	}
+    
     /* ***************************************
      * 
      * *************************************** */
@@ -1873,5 +1882,5 @@ public class AireMainModel implements ServerCallRequester {
      * Indicateur si les performances du client sont bonnes
      */
     public static final String URL_HAUTE_PERF = "p";
-    
+
 }

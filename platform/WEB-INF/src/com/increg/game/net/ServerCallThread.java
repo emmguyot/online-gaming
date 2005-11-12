@@ -293,6 +293,7 @@ public class ServerCallThread extends Thread {
                 // 10 erreurs consécutives : On arrete
                 shouldStop = true;
                 caller.getLogger().severe("Trop d'erreurs : Arrêt du thread");
+                caller.notifyLoadAbort(theRequest);
             }
         }
         
