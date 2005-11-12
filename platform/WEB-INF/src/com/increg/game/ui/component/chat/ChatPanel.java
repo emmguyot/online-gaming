@@ -504,10 +504,10 @@ public class ChatPanel extends JComponent implements ActionListener, MouseListen
         }
         
         if (frameChooser.isVisible()) {
-            frameChooser.hide();
+            frameChooser.setVisible(false);
         }
         else {
-            frameChooser.show();
+            frameChooser.setVisible(true);
             // Au cas où la fenêtre a été mise en icône
             frameChooser.setExtendedState(JFrame.NORMAL);
         }
@@ -561,7 +561,7 @@ public class ChatPanel extends JComponent implements ActionListener, MouseListen
             // Affiche la liste des joueurs connectés
             SecretChat secretDialog = new SecretChat(aire, aire.getLstJoueur());
             SecretChat.SecretChatModel model = secretDialog.getModel();
-            secretDialog.show();
+            secretDialog.setVisible(true);
             
             destinataire = model.getPseudo();
             resetDestinataire = model.isOneOnly();
