@@ -4,7 +4,7 @@
                 java.util.Iterator
 		" %>
 <jsp:useBean id="mySession" scope="session" class="com.increg.game.bean.GameSession" />
-<%@ taglib uri="WEB-INF/salon-taglib.tld" prefix="salon" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 <title>Fiche d'un joueur</title>
@@ -41,7 +41,7 @@
 %>
             <tr>
                 <td><%= aPartie.toString() %></td>
-                <td><salon:valeur valeur="<%= (aPartieBean.getDtDebut() != null) ? aPartieBean.getDtDebut() : null %>" valeurNulle="null" format="dd/MM/yyyy HH:mm">%%</salon:valeur></td>
+                <td><fmt:formatDate value="<%= aPartieBean.getDtDebut().getTime() %>" pattern="dd/MM/yyyy HH:mm" /></td>
                 <td><%= aPartie.getParticipant(0).getPseudo() %> et <%= aPartie.getParticipant(2).getPseudo() %> contre<br><%= aPartie.getParticipant(1).getPseudo() %> et <%= aPartie.getParticipant(3).getPseudo() %></td>
                 <td><%= aPartie.getScoreTotal(0) %><br><%= aPartie.getScoreTotal(1) %></td>
             </tr>
