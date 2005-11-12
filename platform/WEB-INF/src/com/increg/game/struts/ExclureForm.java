@@ -89,7 +89,6 @@ public class ExclureForm extends AdminForm {
 	 * @see com.increg.game.struts.AdminForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
 	 */
 	public void reset(ActionMapping arg0, HttpServletRequest arg1) {
-		// TODO Auto-generated method stub
 		super.reset(arg0, arg1);
 		
 		lstJoueur = new Vector();
@@ -111,7 +110,6 @@ public class ExclureForm extends AdminForm {
 	 * @see com.increg.game.struts.AdminForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
 	 */
 	public ActionErrors validate(ActionMapping arg0, HttpServletRequest arg1) {
-		// TODO Auto-generated method stub
 		return super.validate(arg0, arg1);
 	}
 

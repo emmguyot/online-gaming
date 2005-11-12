@@ -116,6 +116,25 @@ public class PurgeAction extends AdminAction {
 	/* (non-Javadoc)
 	 * @see org.apache.struts.actions.DispatchAction#unspecified(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
+	public ActionForward purgeChat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		PurgeForm purgeForm = (PurgeForm) form;
+		
+        DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
+        
+		ActionMessages errors = form.validate(mapping, request);
+		if (errors.isEmpty()) {
+	        String reqSQL = "delete from chat where dtcreat < " + DBSession.quoteWith(purgeForm.dtPurge, '\'');
+	        int[] nb = dbConnect.doExecuteSQL(new String[] { reqSQL });
+	        errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("purge.chat", new Integer(nb[0])));
+		}
+        
+        saveErrors(request, errors);
+        return purge(mapping, form, request, response);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.struts.actions.DispatchAction#unspecified(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	public ActionForward optimise(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
 		DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();

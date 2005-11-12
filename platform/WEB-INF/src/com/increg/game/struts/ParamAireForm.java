@@ -64,7 +64,6 @@ public class ParamAireForm extends AdminForm {
 	 * @see com.increg.game.struts.AdminForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
 	 */
 	public ActionErrors validate(ActionMapping arg0, HttpServletRequest arg1) {
-		// TODO Auto-generated method stub
 		return super.validate(arg0, arg1);
 	}
 

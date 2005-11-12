@@ -17,6 +17,7 @@
  */
 package com.increg.game.bean;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 
@@ -24,6 +25,7 @@ import com.increg.commun.DBSession;
 import com.increg.commun.InCrEGBean;
 import com.increg.commun.exception.FctlException;
 import com.increg.game.client.Chat;
+import com.increg.game.server.FakePartie;
 import com.increg.util.SimpleDateFormatEG;
 
 /**
@@ -53,6 +55,69 @@ public class ChatBean extends Chat implements InCrEGBean {
     }
 
     /**
+     * Constructeur à partir de la base
+     * @param rs Résultat d'une requete de recherche
+     */
+    public ChatBean(ResultSet rs) {
+        super();
+        /**
+         * Chargement des données du Joueur
+         */
+        try {
+            String pseudo = rs.getString("pseudo");
+            joueurOrig = new JoueurBean();
+            joueurOrig.setPseudo(pseudo);
+        }
+        catch (SQLException e) {
+            if (e.getErrorCode() != 1) {
+                System.err.println("Erreur dans ChatBean (RS) : " + e.toString());
+            }
+        }
+        try {
+            String pseudo = rs.getString("pseudoDest");
+            if (pseudo != null) {
+            	joueurDest = new JoueurBean();
+            	joueurDest.setPseudo(pseudo);
+            }
+        }
+        catch (SQLException e) {
+            if (e.getErrorCode() != 1) {
+                System.err.println("Erreur dans ChatBean (RS) : " + e.toString());
+            }
+        }
+        try {
+            int idPartie = rs.getInt("idPartie");
+            if (idPartie != 0) {
+            	partie = new FakePartie();
+            	partie.setIdentifiant(idPartie);
+            }
+        }
+        catch (SQLException e) {
+            if (e.getErrorCode() != 1) {
+                System.err.println("Erreur dans ChatBean (RS) : " + e.toString());
+            }
+        }
+        try {
+            text = rs.getString("msg");
+        }
+        catch (SQLException e) {
+            if (e.getErrorCode() != 1) {
+                System.err.println("Erreur dans ChatBean (RS) : " + e.toString());
+            }
+        }
+        date = Calendar.getInstance();  
+        try {
+            date.setTime(rs.getTimestamp("dtCreat"));
+        }
+        catch (SQLException e) {
+            if (e.getErrorCode() != 1) {
+                System.out.println("Erreur dans ChatBean (RS) : " + e.toString());
+            }
+        }
+        
+	}
+
+	/**
      * @see com.increg.commun.InCrEGBean#create(com.increg.commun.DBSession)
      */
     public void create(DBSession dbConnect) throws SQLException, FctlException {

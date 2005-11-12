@@ -37,13 +37,14 @@
         <html:hidden property="pseudo" />
         <html:hidden property="action" />
 
-    <p><a href="javascript:submit('exclure')">Exclure des joueurs</a></p>
-
-    <p><a href="javascript:submit('affPartie')">Voir les parties jouées</a></p>
-
-    <p><a href="javascript:submit('paramAire')">Paramétrer l'aire</a></p>
-
-    <p><a href="javascript:submit('purge')">Purger la base et l'optimiser</a></p>
+        <p>Les différentes actions d'administration de l'aire sont les suivantes :</p>
+        <ul type="square">
+        <li><a href="javascript:submit('exclure')">Exclure des joueurs</a></li>
+        <li><a href="javascript:submit('affPartie')">Voir les parties jouées</a></li>
+        <li><a href="javascript:submit('affChat')">Voir les messages chats</a></li>
+        <li><a href="javascript:submit('paramAire')">Paramétrer l'aire</a></li>
+        <li><a href="javascript:submit('purge')">Purger la base et l'optimiser</a></li>
+        </ul>
     </html:form>
 
     <hr/>

@@ -1,6 +1,6 @@
 <%
 /*
- * Page permettant de gérer la base de données
+ * Page affichant la liste des messages chats échangés
  * Copyright (C) 2002-2005 Emmanuel Guyot <See emmguyot on SourceForge> 
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms 
@@ -25,32 +25,37 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-<title>Purge de la base de données</title>
+<title>Messages chats échangés</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="Expires" content="">
 <link rel="stylesheet" href="../style/game.css" type="text/css">
 </head>
 <body>
-    <h1>Purge de la base de données</h1>
-    <html:form action="/admin/purge.do" method="POST" onsubmit="return validatePurgeForm(this);">
+    <html:form action="/admin/lstChat.do" method="POST" onsubmit="return validateIntervalForm(this);">
+    <h1>Messages échangés du <c:out value="${intervalForm.debut}" /> au <c:out value="${intervalForm.fin}" /></h1>
+        <p><c:out value="${fn:length(intervalForm.lignes)}" /> messages échangés.</p>
+        <table width="100%" border=1>
+        <tr>
+            <th>Date</th>
+            <th>Origine</th>
+            <th>Message</th>
+            <th>Dans partie N°<br/>(identifiant interne)</th>
+            <th>Destinataire<br/>(chuchotement)</th>
+        </tr>
+        <c:forEach var="aChatBean" items="${intervalForm.lignes}" >
+            <tr>
+                <td><fmt:formatDate value="${aChatBean.date.time}" pattern="dd/MM/yyyy HH:mm" /></td>
+                <td><c:out value="${aChatBean.joueurOrig.pseudo}" /></td>
+                <td><c:out value="${aChatBean.text}" /></td>
+                <td><c:out value="${aChatBean.partie.identifiant}" />&nbsp;</td>
+                <td><c:out value="${aChatBean.joueurDest.pseudo}" />&nbsp;</td>
+            </tr>
+        </c:forEach>
+        </table>
+        <p>Autre requête :</p>
+        <p>Du <html:text property="debut" size="15" /> au <html:text property="fin" size="15"/> <html:submit /></p>
         <p><html:errors /></p>
-        <p>Compteurs :</p>
-        <ul>
-        <li><c:out value="${purgeForm.nbPartieTot}" /> parties effectuées.</li>
-        <li><c:out value="${purgeForm.nbJoueurs}" /> joueurs enregistrés.</li>
-        <li>Dernier joueur non connecté le <fmt:formatDate value="${purgeForm.dtVieuxJoueur}" pattern="dd/MM/yyyy HH:mm" /></li>
-        <li>Première partie de l'historique le <fmt:formatDate value="${purgeForm.dtVieillePartie}" pattern="dd/MM/yyyy HH:mm" /></li>
-        </ul>
-
-        <p>Purge jusqu'au <html:text property="dtPurge" size="15" /></p>
-        <ul>
-            <li><a href="javascript:valideEtPurge('purgePartie')">des parties</a></li>
-            <li><a href="javascript:valideEtPurge('purgeJoueur')">des joueurs</a></li>
-            <li><a href="javascript:valideEtPurge('purgeChat')">des messages du chat</a></li>
-        </ul>
-        <p><a href="javascript:goOptim()">Optimisation de la base</a></p>
-
-        <html:javascript formName="purgeForm" staticJavascript="false" />
+        <html:javascript formName="intervalForm" staticJavascript="false" />
         <html:hidden property="pseudo" />
         <html:hidden property="action" />
         <p><a href="javascript:goMenu()">Menu d'administration</a></p>
@@ -59,16 +64,6 @@
     <script language="Javascript">
         function goMenu() {
             document.forms[0].action.value = "menu";
-            document.forms[0].submit();
-        }
-        function valideEtPurge(action) {
-            if (document.forms[0].onsubmit()) {
-                document.forms[0].action.value = action;
-                document.forms[0].submit();
-            }
-        }
-        function goOptim() {
-            document.forms[0].action.value = "optimise";
             document.forms[0].submit();
         }
     </script>
