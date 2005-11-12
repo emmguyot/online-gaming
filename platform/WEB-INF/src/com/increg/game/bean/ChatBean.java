@@ -121,7 +121,7 @@ public class ChatBean extends Chat implements InCrEGBean {
      * @see com.increg.commun.InCrEGBean#create(com.increg.commun.DBSession)
      */
     public void create(DBSession dbConnect) throws SQLException, FctlException {
-        SimpleDateFormatEG formatDate  = new SimpleDateFormatEG("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormatEG formatDate  = new SimpleDateFormatEG("dd/MM/yyyy HH:mm:ss.SSS");
 
         StringBuffer req = new StringBuffer("insert into CHAT ");
         StringBuffer colonne = new StringBuffer("(");
