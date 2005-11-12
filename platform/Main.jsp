@@ -55,8 +55,32 @@ else if (ns4up || ns6up) {
 else {
     self.resizeTo(<%= width + 10 %>, <%= height + 28 %>); 
 }
+
+function MM_findObj(n, d) { //v4.01
+    var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+        d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+    if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+    for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+    if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_showHideLayers() { //v3.0
+    var i,p,v,obj,args=MM_showHideLayers.arguments;
+    for (i=0; i<(args.length-2); i+=3) if ((obj=MM_findObj(args[i]))!=null) { v=args[i+2];
+        if (obj.style) { obj=obj.style; v=(v=='show')?'visible':(v='hide')?'hidden':v; }
+        obj.visibility=v; }
+}
+
+function doClose() {
+    // Masque pour FireFox qui refuse la fermeture
+    MM_showHideLayers('appletDiv','','hide');
+    opener = self;
+    self.close();
+}
+
 // --></script> 
-<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%"><tr><td valign="middle" align="center"><applet code="com.increg.game.ui.AireMain" width="<%= width %>" height="<%= height %>" >
+<div id="appletDiv">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%"><tr><td valign="middle" align="center"><applet code="com.increg.game.ui.AireMain" width="<%= width %>" height="<%= height %>" MAYSCRIPT>
     <param name="cache_archive" value="<% for (int i = 0 ; i < jar.length; i++) { if (i>0) { out.write(','); } out.write(jar[i]); } %>">
     <param name="cache_version" value="<% for (int i = 0 ; i < version.length; i++) { if (i>0) { out.write(','); } out.write(version[i]); } %>">
     <param name="pseudo" value="<%= mySession.getMyJoueur().getPseudo() %>" >
@@ -70,4 +94,4 @@ else {
     <param name="boxfgcolor" value="black">
     <param name="progresscolor" value="orange">
     Votre navigateur n'accepte pas les Applets Java, veuillez changer sa configuration pour accéder à l'aire de jeu.
-</applet></td></tr></table></body></html>
+</applet></td></tr></table></div></body></html>

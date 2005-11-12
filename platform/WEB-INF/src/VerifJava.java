@@ -35,7 +35,7 @@ public class VerifJava extends Applet {
         this.add(labVersionVendor);
         
         String ver = System.getProperty("java.version");
-        if (ver.compareTo("1.4") <= 0) {
+        if (ver.compareTo("1.5") < 0) {
             // Pas bonne version
             stop();
             // Out...

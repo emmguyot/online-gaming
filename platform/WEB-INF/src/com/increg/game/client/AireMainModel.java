@@ -35,6 +35,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import netscape.javascript.JSObject;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -1040,8 +1042,9 @@ public class AireMainModel implements ServerCallRequester {
         lstSalle.clear();
         lstPartie.clear();
         
-        // Charge la page de fin
-        ouvrePopup(parent.getDocBase() + "/" + "bye.html", "");
+        // Fermeture
+        JSObject win = JSObject.getWindow(parent);
+        win.call("doClose", null);
         
     }
 
@@ -1068,7 +1071,7 @@ public class AireMainModel implements ServerCallRequester {
         }
         else if (etat == QUIT) {
             // C'est la fin
-            ouvrePopup(parent.getDocBase() + "/" + "bye.html", "_top");
+            dropAll();
         }
         else if ((currentUrl.getFile().indexOf("refreshAll") != 0) 
                   || (currentUrl.getFile().indexOf("doAction.srv") != 0)) {
