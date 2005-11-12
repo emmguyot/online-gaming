@@ -23,17 +23,19 @@ import java.sql.SQLException;
 import com.increg.commun.DBSession;
 import com.increg.commun.InCrEGBean;
 import com.increg.commun.exception.FctlException;
+import com.increg.game.client.belote.PartieBeloteClassique;
+import com.increg.game.client.belote.PartieBeloteModerne;
 
 public class ParamBean implements InCrEGBean {
 	
-	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE = 1;
-	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE_TOURNOI = 2;
-	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES = 3;
-	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES_TOURNOI = 4;
-	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE = 5;
-	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE_TOURNOI = 6;
-	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES = 7;
-	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES_TOURNOI = 8;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE = PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE_TOURNOI = PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE_TOURNOI;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES = PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES_TOURNOI = PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES_TOURNOI;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE = PartieBeloteModerne.CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE_TOURNOI = PartieBeloteModerne.CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE_TOURNOI;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES = PartieBeloteModerne.CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES_TOURNOI = PartieBeloteModerne.CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES_TOURNOI;
 	public static final int CD_PARAM_SAVE_CHAT = 9;
 	public static final int CD_PARAM_MOT_INTERDIT_CHAT = 10;
 	/**

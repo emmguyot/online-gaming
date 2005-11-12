@@ -519,6 +519,8 @@ public class GameEnvironment {
     		lstPartie.add(PartieBeloteBean
                 .getPartieBeloteBean((PartieBelote) aPartie));
     	}
+    	// Positionne le score max en fonction du paramétrage
+    	aPartie.setScoreMaxPartie(getParamAire());
     }
 
     /**

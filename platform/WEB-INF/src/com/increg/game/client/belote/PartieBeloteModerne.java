@@ -6,6 +6,8 @@
  */
 package com.increg.game.client.belote;
 
+import java.util.Map;
+
 import com.increg.game.client.Couleur;
 
 /**
@@ -16,7 +18,12 @@ import com.increg.game.client.Couleur;
  */
 public class PartieBeloteModerne extends PartieBelote {
 
-    /**
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE = 5;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE_TOURNOI = 6;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES = 7;
+	public static final int CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES_TOURNOI = 8;
+
+	/**
      * Pseudo-Couleur tout atout
      */
     public static final int TOUT_ATOUT = 5;
@@ -203,13 +210,6 @@ public class PartieBeloteModerne extends PartieBelote {
     }
 
     /**
-     * @see com.increg.game.client.belote.PartieBelote#getScoreMaxPartie()
-     */
-    protected int getScoreMaxPartie() {
-        return 3001;
-    }
-
-    /**
      * @see com.increg.game.client.belote.PartieBelote#buildCarte(int, int)
      */
     public Couleur buildCarte(int hauteur, int couleur) {
@@ -224,4 +224,33 @@ public class PartieBeloteModerne extends PartieBelote {
         }
     }
 
+    /**
+     * @see com.increg.game.client.Partie#setScoreMaxPartie(java.util.Map)
+     */
+	public void setScoreMaxPartie(Map lstParam) {
+    	String valeur;
+        if ((myTournoi != null) && (myTournoi.getIdentifiant() > 0)) {
+        	if (annonce) {
+            	valeur = (String) lstParam.get(new Integer(PartieBeloteModerne.CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES_TOURNOI));
+        	}
+        	else {
+            	valeur = (String) lstParam.get(new Integer(PartieBeloteModerne.CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE_TOURNOI));
+        	}
+        }
+        else {
+        	if (annonce) {
+            	valeur = (String) lstParam.get(new Integer(PartieBeloteModerne.CD_PARAM_NB_POINT_BELOTE_MODERNE_AVEC_ANNONCES));
+        	}
+        	else {
+            	valeur = (String) lstParam.get(new Integer(PartieBeloteModerne.CD_PARAM_NB_POINT_BELOTE_MODERNE_SS_ANNONCE));
+        	}
+        }
+        if (valeur != null) {
+        	setScoreMaxPartie(Integer.parseInt(valeur));
+        }
+        else {
+        	// Valeur par défaut
+        	setScoreMaxPartie(3001);
+        }
+	}
 }

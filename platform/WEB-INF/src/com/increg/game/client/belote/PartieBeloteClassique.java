@@ -6,6 +6,8 @@
  */
 package com.increg.game.client.belote;
 
+import java.util.Map;
+
 import com.increg.game.client.Couleur;
 
 /**
@@ -16,7 +18,12 @@ import com.increg.game.client.Couleur;
  */
 public class PartieBeloteClassique extends PartieBelote {
 
-    /**
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE = 1;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE_TOURNOI = 2;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES = 3;
+	public static final int CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES_TOURNOI = 4;
+
+	/**
      * @see java.lang.Object#toString()
      */
     public String toString() {
@@ -141,10 +148,33 @@ public class PartieBeloteClassique extends PartieBelote {
     }
 
     /**
-     * @see com.increg.game.client.belote.PartieBelote#getScoreMaxPartie()
+     * @see com.increg.game.client.Partie#setScoreMaxPartie(java.util.Map)
      */
-    protected int getScoreMaxPartie() {
-        return 1001;
-    }
+	public void setScoreMaxPartie(Map lstParam) {
+    	String valeur;
+        if ((myTournoi != null) && (myTournoi.getIdentifiant() > 0)) {
+        	if (annonce) {
+            	valeur = (String) lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES_TOURNOI));
+        	}
+        	else {
+            	valeur = (String) lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE_TOURNOI));
+        	}
+        }
+        else {
+        	if (annonce) {
+            	valeur = (String) lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES));
+        	}
+        	else {
+            	valeur = (String) lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE));
+        	}
+        }
+        if (valeur != null) {
+        	setScoreMaxPartie(Integer.parseInt(valeur));
+        }
+        else {
+        	// Valeur par défaut
+        	setScoreMaxPartie(1001);
+        }
+	}
 
 }

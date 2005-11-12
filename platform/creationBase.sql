@@ -47,14 +47,14 @@ create sequence SEQ_PARAM;
 
 alter table PARAM alter CD_PARAM set default nextval('SEQ_PARAM');
 
-insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique sans annonce hors tournoi', '1000');
-insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique sans annonce dans un tournoi', '1000');
-insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique avec annonces hors tournoi', '1000');
-insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique avec annonces dans un tournoi', '1000');
-insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne sans annonce hors tournoi', '3000');
-insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne sans annonce dans un tournoi', '3000');
-insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne avec annonces hors tournoi', '3000');
-insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne avec annonces dans un tournoi', '3000');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique sans annonce hors tournoi', '1001');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique sans annonce dans un tournoi', '1001');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique avec annonces hors tournoi', '1001');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique avec annonces dans un tournoi', '1001');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne sans annonce hors tournoi', '3001');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne sans annonce dans un tournoi', '3001');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne avec annonces hors tournoi', '3001');
+insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote moderne avec annonces dans un tournoi', '3001');
 insert into PARAM (libParam, valParam) values ('Sauvegarde des chats', 'N');
 insert into PARAM (libParam, valParam) values ('Mots interdits dans le chats (régulars expressions séparées par des ,)', 'merde,conard');
 

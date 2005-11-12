@@ -18,6 +18,8 @@
  */
 package com.increg.game.server;
 
+import java.util.Map;
+
 import com.increg.game.client.Partie;
 
 /**
@@ -37,6 +39,12 @@ public class FakePartie extends Partie {
 	 * @see com.increg.game.client.Partie#impacteCoupe(int)
 	 */
 	public void impacteCoupe(int pos) {
+	}
+
+	/**
+	 * @see com.increg.game.client.Partie#setScoreMaxPartie(java.util.Map)
+	 */
+	public void setScoreMaxPartie(Map lstParam) {
 	}
 
 }

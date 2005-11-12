@@ -777,12 +777,6 @@ public abstract class PartieBelote extends Partie {
                 return "?";
         }
     }
-    /**
-     * @return Score Max de la partie
-     */
-    protected int getScoreMaxPartie() {
-        return 10;
-    }
 
     /**
      * Construit une carte en tenant compte si c'est de l'atout ou pas

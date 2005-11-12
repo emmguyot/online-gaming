@@ -5,6 +5,7 @@
  */
 package com.increg.game.client;
 
+import java.util.Map;
 import java.util.Vector;
 
 import com.increg.game.client.belote.EtatPartieBelote;
@@ -86,6 +87,11 @@ public abstract class Partie implements Comparable {
      * et de savoir si cela correspond à un vieil état ou pas
      */
     protected long step;
+    
+    /**
+     * Score max de la partie
+     */
+    protected int scoreMaxPartie;
     
     /* ***************************************
      * Méthodes
@@ -662,4 +668,22 @@ public abstract class Partie implements Comparable {
         return res;
     }
 
+	/**
+	 * @return Returns the scoreMaxPartie.
+	 */
+	public int getScoreMaxPartie() {
+		return scoreMaxPartie;
+	}
+
+	/**
+	 * @param scoreMaxPartie The scoreMaxPartie to set.
+	 */
+	protected void setScoreMaxPartie(int scoreMaxPartie) {
+		this.scoreMaxPartie = scoreMaxPartie;
+	}
+
+	/**
+	 * @param lstParam Paramètre de l'aire de jeu
+	 */
+	public abstract void setScoreMaxPartie(Map lstParam);
 }
