@@ -146,8 +146,6 @@
 				<include name="WEB-INF/src/com/increg/commun/exception/UnauthorisedUserException.java"/>
 				<include name="WEB-INF/src/com/increg/util/SimpleDateFormatEG.java"/>
 				<include name="WEB-INF/src/com/increg/util/ServletUtil.java"/>
-				<include name="WEB-INF/src/com/increg/salon/tag/TagValeur.java"/>
-				<include name="WEB-INF/salon-taglib.tld"/>
 			</fileset>
 		</copy>
 		<chmod perm="-w">
