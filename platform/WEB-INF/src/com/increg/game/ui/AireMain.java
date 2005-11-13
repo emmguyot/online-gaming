@@ -59,6 +59,7 @@ public class AireMain extends Applet {
             // Parameter Name     Kind of Value   Description
             {"pseudo",     "String",          "Nom du joueur"},
             {"avatar",        "URL",          "Icône de l'avatar"},
+            {"avatarLow",     "URL",          "Icône de l'avatar non animée"},
             {"config",        "URL",          "Fichier de configuration"},
             {"couleur",    "String",          "Couleur d'écriture"},
             {"sessionId",  "String",          "Session J2EE"}
@@ -239,9 +240,10 @@ public class AireMain extends Applet {
         super.paint(g);
         if ((model == null) || (model.getEtat() != AireMainModel.ETAT_OK)) {
             g.drawString("Chargement en cours, veuillez patienter ...", 20, 130);
-            g.drawString("http://online-gaming.sourceforge.net", 20, 410);
+            g.drawString("InCrEG Online gaming platform V1.3 http://online-gaming.sourceforge.net", 20, 410);
             g.drawString("Logiciel sous licence GPL (http://www.opensource.org)", 20, 430);
             g.drawString("Copyright 2003-2005 Valérie et Emmanuel Guyot", 20, 450);
+            // g.drawString("Version modifiée par XXXX Copyright 2003-2005", 20, 470);
             g.drawString("Ce logiciel n'offre ABSOLUMENT AUCUNE GARANTIE", 20, 490);
             g.drawString("Ce logiciel est gratuit et nous vous encourageons à le redistribuer selon les termes de la licence GPL", 20, 510);
         }
