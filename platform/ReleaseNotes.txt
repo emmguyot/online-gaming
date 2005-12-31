@@ -1,0 +1,51 @@
+Notes:
+[fr] Amélioration des performances de l'aire. Refonte complète du module d'administration.
+
+Attention : Lors de la mise à jour, il est indispensable d'activer la partie paramétrage de l'aire du module d'administration pour mettre à jour la base.
+
+[en] Performance of the platform has been improved. The administration module has been widely revised.
+
+Warning : To update, you have to activate the parameter part of the platform from the administration. This will update the database.
+
+--------------------------------------------------------------------------------
+Changes:
+[fr]
+- Optimisation des performances de la partie cliente en affinant les différents locks entre les threads et les priorités des threads
+- Refonte et extension du module d'administration : 
+    * Sauvegarde du chat,
+    * Filtre des chats avec des expressions régulières,
+    * Epuration de la base,
+    * Paramétrage des scores des parties
+- Ajout de la configuration coté de l'applet de différentes temporisation afin de permettre un réglage fin des performances
+- Fermeture automatique des smileys pour optimiser les performances
+- Ajout d'un test d'installation pour l'envoi de mails
+- Passage à une version minimale 1.5 de Java
+- Corrections diverses
+
+[en]
+- Tuning of the client part though thread locks and thread priority
+- Full revision and extension of the admin module:
+    * Save the chats,
+    * Filter the chats with regular expressions,
+    * Database cleanup,
+    * Game score setup
+- Enable to parameter applet with timer values to be able to precisely tune the performance
+- Auto close of the smileys window to improve performance
+- A new setup test for mails
+- Now the 1.5 release of Java is the minimum
+- Various bug corrections
+
+
+
+--------------------------------------------------------------------------------
+News :
+Summary: IOGP Belote V1.3 released 
+An important new step for the InCrEG Online Gaming Platform : The release 1.3 improves greatly the performances and the administration module is now a real one.
+ 
+Important : Check the release notes for the update at http://sourceforge.net/project/shownotes.php?release_id=370656  
+ 
+=================== French Part / Partie Française ====================  
+Une évolution important pour l'aire de jeu en ligne InCrEG : La version 1.3 améliore significativement les performances et le module d'administration devient un composant à part entière de l'aire.
+
+Important : Consultez les notes pour la mise à jour à l'adresse http://sourceforge.net/project/shownotes.php?release_id=370656
+
