@@ -291,10 +291,9 @@ public class AireMainModel implements ServerCallRequester {
         // Initialisations pour la lecture XML
         SAXParserFactory parserFactory = SAXParserFactory.newInstance();
         
-        parserFactory.setValidating(true);
-        parserFactory.setNamespaceAware(true);
+        parserFactory.setValidating(false);
+        parserFactory.setNamespaceAware(false);
         
-        SAXParser parser = null;
         try {
             parser = parserFactory.newSAXParser();
         }
