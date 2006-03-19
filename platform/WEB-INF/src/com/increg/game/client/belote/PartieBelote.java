@@ -74,6 +74,7 @@ public abstract class PartieBelote extends Partie {
         super();
         
         participant = new Joueur[NB_JOUEUR];
+        dernierParticipant = new Joueur[NB_JOUEUR];
         scores.add(new int[NB_JOUEUR / 2]);
         annonce = false;
         etat = new EtatPartieBelote();

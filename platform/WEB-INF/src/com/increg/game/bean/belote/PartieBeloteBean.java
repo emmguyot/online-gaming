@@ -187,18 +187,18 @@ public class PartieBeloteBean extends PartieBean {
 
         colonne.append("pseudo,");
         String lstJoueur = "";
-        for (int i = 0; i < myPartie.getParticipant().length; i++) {
+        for (int i = 0; i < myPartie.getDernierParticipant().length; i++) {
             if (lstJoueur.length() > 0) {
                 lstJoueur = lstJoueur + ",";
             }
-            lstJoueur = lstJoueur + DBSession.quoteWith(myPartie.getParticipant()[i].getPseudo(), '\"');
+            lstJoueur = lstJoueur + DBSession.quoteWith(myPartie.getDernierParticipant()[i].getPseudo(), '\"');
         }
         valeur.append(DBSession.quoteWith("{" + lstJoueur + "}", '\''));
         valeur.append(",");
 
         colonne.append("score,");
         String lstScore = "";
-        for (int i = 0; i < (myPartie.getParticipant().length / 2); i++) {
+        for (int i = 0; i < (myPartie.getDernierParticipant().length / 2); i++) {
             if (lstScore.length() > 0) {
                 lstScore = lstScore + ",";
             }

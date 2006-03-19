@@ -33,6 +33,11 @@ public abstract class Partie implements Comparable {
     protected Joueur[] participant;
     
     /**
+     * Derniers Joueurs de la partie (au cas où qq'un est parti en route)
+     */
+    protected Joueur[] dernierParticipant;
+
+    /**
      * Joueurs spectateurs
      */
     protected Vector spectateurs;
@@ -157,6 +162,21 @@ public abstract class Partie implements Comparable {
     }
 
     /**
+     * @return Derniers Joueurs de la partie
+     */
+    public Joueur[] getDernierParticipant() {
+        return dernierParticipant;
+    }
+
+    /**
+     * @param i indice du joueur
+     * @return un joueur de la partie
+     */
+    public Joueur getDernierParticipant(int i) {
+        return dernierParticipant[i];
+    }
+
+    /**
      * @return Scores de la partie
      */
     public Vector getScores() {
@@ -209,6 +229,7 @@ public abstract class Partie implements Comparable {
      */
     public void setParticipant(Joueur[] joueurs) {
         participant = joueurs;
+        dernierParticipant = joueurs;
     }
 
     /**
@@ -217,6 +238,7 @@ public abstract class Partie implements Comparable {
      */
     public void addParticipant(Joueur joueur, int position) {
         participant[position] = joueur;
+        dernierParticipant[position] = joueur;
     }
 
     /**
@@ -423,6 +445,7 @@ public abstract class Partie implements Comparable {
             if (participant[position] == null) {
                 // Effectue l'ajout
                 participant[position] = aJoueur;
+                dernierParticipant[position] = aJoueur;
                 done = true;
                 // Si pas de propriétaire, il le devient
                 if (owner == null) {

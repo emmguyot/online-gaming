@@ -749,16 +749,16 @@ public class GameEnvironment {
         try {
             url = mySession.getFinURL()
                     + "?jaea="
-                    + URLEncoder.encode(aPartie.getParticipant(0).getPseudo(),
+                    + URLEncoder.encode(aPartie.getDernierParticipant(0).getPseudo(),
                             "UTF8")
                     + "&jaeb="
-                    + URLEncoder.encode(aPartie.getParticipant(1).getPseudo(),
+                    + URLEncoder.encode(aPartie.getDernierParticipant(1).getPseudo(),
                             "UTF8")
                     + "&jbea="
-                    + URLEncoder.encode(aPartie.getParticipant(2).getPseudo(),
+                    + URLEncoder.encode(aPartie.getDernierParticipant(2).getPseudo(),
                             "UTF8")
                     + "&jbeb="
-                    + URLEncoder.encode(aPartie.getParticipant(3).getPseudo(),
+                    + URLEncoder.encode(aPartie.getDernierParticipant(3).getPseudo(),
                             "UTF8") + "&sca=" + aPartie.getScoreTotal(0)
                     + "&scb=" + aPartie.getScoreTotal(1) + "&type=";
             if (aPartie instanceof PartieBeloteClassique) {
