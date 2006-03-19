@@ -60,6 +60,9 @@ public class AdminForm extends ValidatorActionForm {
 		ActionErrors errors = super.validate(arg0, arg1);
 		
 		if ((pseudo == null) || (pseudo.length() == 0)) {
+			if (errors == null) {
+				errors = new ActionErrors();
+			}
 			errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage("errors.security"));
 		}
 		
