@@ -37,15 +37,15 @@ ALTER TABLE ONLY joueur
 
 -- Ajouts le 20/07/05
 create table PARAM (
-    CD_PARAM     numeric(2)      not null,
-    LIB_PARAM    varchar(100)    not null,
-    VAL_PARAM    varchar(200)    not null,
-        constraint PK_PARAM primary key (CD_PARAM)
+    CDPARAM     numeric(2)      not null,
+    LIBPARAM    varchar(100)    not null,
+    VALPARAM    varchar(200)    not null,
+        constraint PK_PARAM primary key (CDPARAM)
 );
 
 create sequence SEQ_PARAM;
 
-alter table PARAM alter CD_PARAM set default nextval('SEQ_PARAM');
+alter table PARAM alter CDPARAM set default nextval('SEQ_PARAM');
 
 insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique sans annonce hors tournoi', '1001');
 insert into PARAM (libParam, valParam) values ('Nombre de points pour les parties de Belote classique sans annonce dans un tournoi', '1001');
