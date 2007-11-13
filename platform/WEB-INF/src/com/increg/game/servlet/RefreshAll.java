@@ -129,10 +129,14 @@ public class RefreshAll extends ConnectedServlet {
                         .append(" ").append(AireMainModel.XML_ATT_PSEUDO).append("=\"").append(HTMLencoder.htmlEncode(aJoueur.getPseudo())).append("\" ");
                 subXml.append(AireMainModel.XML_ATT_AVATAR).append("=\"");
                 if (hautePerf) {
-                    subXml.append(HTMLencoder.htmlEncode(aJoueur.getAvatarHautePerf().toString()));
+                    if (aJoueur.getAvatarHautePerf() != null) {
+                    	subXml.append(HTMLencoder.htmlEncode(aJoueur.getAvatarHautePerf().toString()));
+                    }
                 }
                 else {
-                    subXml.append(HTMLencoder.htmlEncode(aJoueur.getAvatarFaiblePerf().toString()));
+                	if (aJoueur.getAvatarFaiblePerf() != null) {
+                		subXml.append(HTMLencoder.htmlEncode(aJoueur.getAvatarFaiblePerf().toString()));
+                	}
                 }
                 subXml.append("\" ");
                 if (aJoueur.getPrivilege() >= Joueur.MODERATEUR_PRIVILEGE) {
