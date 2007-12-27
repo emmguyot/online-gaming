@@ -234,7 +234,8 @@ public class WelcomeGame extends HttpServlet {
                         myGame.setLastChatSeen(env.getChatOffset());
                         mySession.setAttribute("mySession", myGame);
                     } catch (UnauthorisedUserException e) {
-                        System.err.println("Warning : Accès invalide pseudo=>"
+                    	e.printStackTrace();
+                    	System.err.println("Warning : Accès invalide pseudo=>"
                                 + pseudo + "< id=>" + crc + "<");
                         if (myGame != null) {
                             myGame.setMyJoueur(null);
