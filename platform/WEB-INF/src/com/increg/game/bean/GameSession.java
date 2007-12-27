@@ -17,6 +17,7 @@
  */
 package com.increg.game.bean;
 
+import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -172,9 +173,21 @@ public class GameSession extends BasicSession implements
             if (myJoueur == null) {
                 // nouveau joueur
                 myJoueur = new JoueurBean();
+                myJoueur.setPseudo(pseudo);
+                myJoueur.setPrivilege(0);
+                try {
+	                myJoueur.setAvatarFaiblePerf(new URL("file:///images/avatar.gif"));
+	                myJoueur.setAvatarHautePerf(new URL("file:///images/avatar.gif"));
+                	myJoueur.create(myDBSession);
+                }
+                catch (Exception e) {
+                	e.printStackTrace();
+					throw (new UnauthorisedUserException(e.toString()));
+				}
             }
         } catch (UnauthorisedUserException e) {
             myJoueur = null;
+        	e.printStackTrace();
             throw (new UnauthorisedUserException("Accès refusé"));
         }
 
