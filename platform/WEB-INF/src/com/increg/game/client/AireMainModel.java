@@ -111,27 +111,27 @@ public class AireMainModel implements ServerCallRequester {
     /**
      * Liste des joueurs connectés
      */
-    private Vector lstJoueur;
+    private Vector<Joueur> lstJoueur;
 
     /**
      * Liste des parties
      */
-    private Vector lstPartie;
+    private Vector<Partie> lstPartie;
 
     /**
      * Liste des salles
      */
-    private Vector lstSalle;
+    private Vector<SalleModel> lstSalle;
 
     /**
      * Liste des salles a supprimer dès que possible
      */
-    private Vector lstSalleASuppr;
+    private Vector<SalleModel> lstSalleASuppr;
 
     /**
      * Liste des salles a créer dès que possible
      */
-    private Vector lstSalleACreer;
+    private Vector<SalleModel> lstSalleACreer;
 
     /**
      * Etat en cours du model
@@ -174,11 +174,11 @@ public class AireMainModel implements ServerCallRequester {
         
         // Initialise les autres éléments
         liaisonSrv = new ServerCall(a, this);
-        lstJoueur = new Vector();
-        lstPartie = new Vector();
-        lstSalle = new Vector();
-        lstSalleASuppr = new Vector();
-        lstSalleACreer = new Vector();
+        lstJoueur = new Vector<Joueur>();
+        lstPartie = new Vector<Partie>();
+        lstSalle = new Vector<SalleModel>();
+        lstSalleASuppr = new Vector<SalleModel>();
+        lstSalleACreer = new Vector<SalleModel>();
         etat = ETAT_INIT;
         view = null;
         lastReceivedId = -1;
@@ -400,14 +400,14 @@ public class AireMainModel implements ServerCallRequester {
     /**
      * @return Liste des joueurs
      */
-    public Vector getLstJoueur() {
+    public Vector<Joueur> getLstJoueur() {
         return lstJoueur;
     }
 
     /**
      * @return Liste des parties
      */
-    public Vector getLstPartie() {
+    public Vector<Partie> getLstPartie() {
         return lstPartie;
     }
 
@@ -1115,7 +1115,7 @@ public class AireMainModel implements ServerCallRequester {
         /**
          * Eléments rencontrés : Donne la hiérarchie
          */
-        protected Stack elements;
+        protected Stack<String> elements;
 
         /**
          * Dernier identifiant reçu
@@ -1135,16 +1135,16 @@ public class AireMainModel implements ServerCallRequester {
         /**
          * Liste temporaire des joueurs
          */
-        protected Vector lstInterneJoueur;
+        protected Vector<Joueur> lstInterneJoueur;
 
         /**
          * Liste temporaire des parties nouvelles
          */
-        protected Vector lstInternePartie;
+        protected Vector<Partie> lstInternePartie;
         /**
          * Liste temporaire des parties mise à jour (pour gestion des suppressions)
          */
-        protected TreeSet lstPartieMaj;
+        protected TreeSet<Partie> lstPartieMaj;
         /**
          * Partie en cours de rechargement
          */
@@ -1168,7 +1168,7 @@ public class AireMainModel implements ServerCallRequester {
          *
          */
         public Refresher() {        
-            elements = new Stack();
+            elements = new Stack<String>();
         }
 
         /**
@@ -1597,9 +1597,9 @@ public class AireMainModel implements ServerCallRequester {
          */
         public void startDocument() throws SAXException {
             // Initialise les variables de bascule
-            lstInterneJoueur = new Vector();
-            lstInternePartie = new Vector();
-            lstPartieMaj = new TreeSet();
+            lstInterneJoueur = new Vector<Joueur>();
+            lstInternePartie = new Vector<Partie>();
+            lstPartieMaj = new TreeSet<Partie>();
             lastReceivedId = AireMainModel.this.lastReceivedId;
         }
 

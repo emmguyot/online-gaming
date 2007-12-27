@@ -84,7 +84,7 @@ public class SalleModel {
     /**
      * Chat en attente d'affichage (quand la vue n'est pas encore créée)
      */
-    private Vector lstPendingChat;
+    private Vector<Chat> lstPendingChat;
 
     /**
      * Constructeur
@@ -101,7 +101,7 @@ public class SalleModel {
 
         // Initialise les autres éléments
         lstJoueur = new Joueur[Joueur.NB_MAX_JOUEUR];
-        lstPendingChat = new Vector();
+        lstPendingChat = new Vector<Chat>();
         view = null;
         requestSent = false;
     }
@@ -138,9 +138,9 @@ public class SalleModel {
         fenetre.addWindowListener(view);
         fenetre.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        Iterator chatIter = lstPendingChat.iterator();
+        Iterator<Chat> chatIter = lstPendingChat.iterator();
         while (chatIter.hasNext()) {
-            Chat aChat = (Chat) chatIter.next();
+            Chat aChat = chatIter.next();
             view.addPendingChat(aChat);
             chatIter.remove();
         }
@@ -578,7 +578,7 @@ public class SalleModel {
                     for (int iAnnonce = 0; iAnnonce < myPartie.getJeu().getAnnonces()[j].size(); iAnnonce++) {
                         AnnonceBelote anAnnonce = (AnnonceBelote) myPartie.getJeu().getAnnonces()[j].get(iAnnonce);
                         if (!anAnnonce.isAnnonceFaite()) {
-                            List listCartes = new ArrayList();
+                            List<Carte> listCartes = new ArrayList<Carte>();
 
                             for (int iCarte = 0; iCarte < anAnnonce.getCartes().length; iCarte++) {
                                 listCartes.add(anAnnonce.getCartes()[iCarte]);

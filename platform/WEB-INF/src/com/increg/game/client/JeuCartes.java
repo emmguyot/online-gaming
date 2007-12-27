@@ -20,27 +20,27 @@ public class JeuCartes {
     /**
      * Jeu initial
      */
-    protected Vector jeuInit;
+    protected Vector<Carte> jeuInit;
     /**
      * Tas regroupé des cartes
      */
-    protected Vector tas;
+    protected Vector<Carte> tas;
     /**
      * Plis effectué
      */
-    protected Vector[] plis;
+    protected Vector<Carte>[] plis;
     /**
      * Cartes en main
      */
-    protected Vector[] mains;
+    protected Vector<Carte>[] mains;
     /**
      * Tapis
      */
-    protected Vector tapis;
+    protected Vector<Carte> tapis;
     /**
      * Annonces des joueurs : Tableau indicé par le joueur et Vector d'Annonce
      */
-    protected Vector[] annonces;
+    protected Vector<Annonce>[] annonces;
 
     /**
      * Constructeur
@@ -50,17 +50,17 @@ public class JeuCartes {
     public JeuCartes(int nbCarte, int nbJoueur) {
         
         // Initialise les tableaux
-        jeuInit = new Vector(nbCarte);
-        tas = new Vector(nbCarte);
+        jeuInit = new Vector<Carte>(nbCarte);
+        tas = new Vector<Carte>(nbCarte);
         plis = new Vector[nbJoueur];
         mains = new Vector[nbJoueur];
-        tapis = new Vector(nbJoueur);
+        tapis = new Vector<Carte>(nbJoueur);
         annonces = new Vector[nbJoueur];
         
         for (int i = 0; i < nbJoueur; i++) {
-            plis[i] = new Vector(nbCarte);
-            mains[i] = new Vector(nbCarte / nbJoueur);
-            annonces[i] = new Vector();
+            plis[i] = new Vector<Carte>(nbCarte);
+            mains[i] = new Vector<Carte>(nbCarte / nbJoueur);
+            annonces[i] = new Vector<Annonce>();
         }
         
         // Création du jeu initial
@@ -90,8 +90,8 @@ public class JeuCartes {
             int indice1 = alea.nextInt(jeuInit.size());
             int indice2 = alea.nextInt(jeuInit.size());
             
-            Carte carte1 = (Carte) tas.get(indice1);
-            Carte carte2 = (Carte) tas.get(indice2);
+            Carte carte1 = tas.get(indice1);
+            Carte carte2 = tas.get(indice2);
             
             tas.set(indice2, carte1);
             tas.set(indice1, carte2);
@@ -113,7 +113,7 @@ public class JeuCartes {
             // Reparre d'un tas neuf !
             melangeTas();
         }
-        Vector newTas = new Vector(tas.size());
+        Vector<Carte> newTas = new Vector<Carte>(tas.size());
         newTas.addAll(tas.subList(pos, tas.size()));
         newTas.addAll(tas.subList(0, pos));
 
@@ -123,14 +123,14 @@ public class JeuCartes {
     /**
      * @return Tableau par joueur de cartes en mains
      */
-    public Vector[] getMains() {
+    public Vector<Carte>[] getMains() {
         return mains;
     }
 
     /**
      * @return Tableau par joueur des plis
      */
-    public Vector[] getPlis() {
+    public Vector<Carte>[] getPlis() {
         return plis;
     }
 
@@ -138,7 +138,7 @@ public class JeuCartes {
      * @param i indice du joueur
      * @return Cartes en main d'un joueur
      */
-    public Vector getMains(int i) {
+    public Vector<Carte> getMains(int i) {
         return mains[i];
     }
 
@@ -146,14 +146,14 @@ public class JeuCartes {
      * @param i indice du joueur
      * @return Plis du joueurs
      */
-    public Vector getPlis(int i) {
+    public Vector<Carte> getPlis(int i) {
         return plis[i];
     }
     
     /**
      * @return Ensemble des cartes dans le tas
      */
-    public Vector getTas() {
+    public Vector<Carte> getTas() {
         return tas;
     }
 
@@ -247,42 +247,42 @@ public class JeuCartes {
     /**
      * @return tapis des cartes jouées
      */
-    public Vector getTapis() {
+    public Vector<Carte> getTapis() {
         return tapis;
     }
 
     /**
      * @param vectors Cartes en main
      */
-    public void setMains(Vector[] vectors) {
+    public void setMains(Vector<Carte>[] vectors) {
         mains = vectors;
     }
 
     /**
      * @param vectors Plis effectué
      */
-    public void setPlis(Vector[] vectors) {
+    public void setPlis(Vector<Carte>[] vectors) {
         plis = vectors;
     }
 
     /**
      * @param vector Tapis
      */
-    public void setTapis(Vector vector) {
+    public void setTapis(Vector<Carte> vector) {
         tapis = vector;
     }
 
     /**
      * @param vector Tas regroupé des cartes
      */
-    public void setTas(Vector vector) {
+    public void setTas(Vector<Carte> vector) {
         tas = vector;
     }
 
     /**
      * @return Annonces trouvées dans le jeu
      */
-    public Vector[] chercheAnnonce() {
+    public Vector<Annonce>[] chercheAnnonce() {
         for (int i = 0; i < annonces[i].size(); i++) {
             annonces[i].clear();
         }
@@ -292,14 +292,14 @@ public class JeuCartes {
     /**
      * @return Annonces des joueurs : Tableau indicé par le joueur et Vector d'Annonce
      */
-    public Vector[] getAnnonces() {
+    public Vector<Annonce>[] getAnnonces() {
         return annonces;
     }
 
     /**
      * @param vectors Annonces des joueurs : Tableau indicé par le joueur et Vector d'Annonce
      */
-    public void setAnnonces(Vector[] vectors) {
+    public void setAnnonces(Vector<Annonce>[] vectors) {
         annonces = vectors;
     }
 

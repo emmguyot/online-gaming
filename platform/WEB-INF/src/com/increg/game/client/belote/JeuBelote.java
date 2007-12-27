@@ -8,6 +8,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import com.increg.game.client.Annonce;
 import com.increg.game.client.Carte;
 import com.increg.game.client.Couleur;
 import com.increg.game.client.CouleurStd;
@@ -24,7 +25,7 @@ public class JeuBelote extends Jeu32Cartes {
      * 
      * Annonces Belote/Rebelote des joueurs : Tableau indicé par le joueur et Vector d'Annonce
      */
-    protected Vector[] belote;
+    protected Vector<Annonce>[] belote;
 
     /**
      * Constructeur
@@ -36,7 +37,7 @@ public class JeuBelote extends Jeu32Cartes {
         belote = new Vector[nbJoueur];
         
         for (int i = 0; i < annonces.length; i++) {
-            belote[i] = new Vector(2);
+            belote[i] = new Vector<Annonce>(2);
         }
 
     }
@@ -59,15 +60,15 @@ public class JeuBelote extends Jeu32Cartes {
             
             // Distribution des premières cartes
             for (int i = 0; i < mains.length; i++) {
-                Carte aCarte = (Carte) tas.remove(0);
+                Carte aCarte = tas.remove(0);
                 mains[(premierJoueur + i) % mains.length].add(aCarte);
                 
-                aCarte = (Carte) tas.remove(0);
+                aCarte = tas.remove(0);
                 mains[(premierJoueur + i) % mains.length].add(aCarte);
                 
                 // 3 ème carte ?
                 if (nbDebut == 3) {
-                    aCarte = (Carte) tas.remove(0);
+                    aCarte = tas.remove(0);
                     mains[(premierJoueur + i) % mains.length].add(aCarte);
                 }
             }
@@ -75,35 +76,35 @@ public class JeuBelote extends Jeu32Cartes {
             // Second tour
             // Distribution des premières cartes
             for (int i = 0; i < mains.length; i++) {
-                Carte aCarte = (Carte) tas.remove(0);
+                Carte aCarte = tas.remove(0);
                 mains[(premierJoueur + i) % mains.length].add(aCarte);
                 
-                aCarte = (Carte) tas.remove(0);
+                aCarte = tas.remove(0);
                 mains[(premierJoueur + i) % mains.length].add(aCarte);
                 
                 // 3 ème carte ?
                 if (nbDebut == 2) {
-                    aCarte = (Carte) tas.remove(0);
+                    aCarte = tas.remove(0);
                     mains[(premierJoueur + i) % mains.length].add(aCarte);
                 }
             }
         }
         else {
             // Première carte au preneur
-            Carte aCarte = (Carte) tas.remove(0);
+            Carte aCarte = tas.remove(0);
             mains[preneur].add(aCarte);
             
             // Distribue le reste
             for (int i = 0; i < mains.length; i++) {
-                aCarte = (Carte) tas.remove(0);
+                aCarte = tas.remove(0);
                 mains[(premierJoueur + i) % mains.length].add(aCarte);
                 
-                aCarte = (Carte) tas.remove(0);
+                aCarte = tas.remove(0);
                 mains[(premierJoueur + i) % mains.length].add(aCarte);
                 
                 // 3 ème carte ? Si pas preneur
                 if (((premierJoueur + i) % mains.length) != preneur) {
-                    aCarte = (Carte) tas.remove(0);
+                    aCarte = tas.remove(0);
                     mains[(premierJoueur + i) % mains.length].add(aCarte);
                 }
             }
@@ -136,7 +137,7 @@ public class JeuBelote extends Jeu32Cartes {
         
         // Boucle sur chaque main
         for (int joueur = 0; joueur < mains.length; joueur++) {
-            SortedSet mainTriee = new TreeSet(mains[joueur]);
+            SortedSet<Carte> mainTriee = new TreeSet<Carte>(mains[joueur]);
             
             mains[joueur].clear();
             mains[joueur].addAll(mainTriee);
@@ -220,7 +221,7 @@ public class JeuBelote extends Jeu32Cartes {
     /**
      * @return Annonces trouvées : Vecteur par joueur
      */
-    public Vector[] chercheAnnonce() {
+    public Vector<Annonce>[] chercheAnnonce() {
         
         for (int i = 0; i < annonces.length; i++) {
             annonces[i].clear();
@@ -448,7 +449,7 @@ public class JeuBelote extends Jeu32Cartes {
     /**
      * @return Belotes trouvées : Vecteur par joueur
      */
-    public Vector[] chercheBelote() {
+    public Vector<Annonce>[] chercheBelote() {
 
         // RAZ des belotes
         for (int i = 0; i < belote.length; i++) {
@@ -501,14 +502,14 @@ public class JeuBelote extends Jeu32Cartes {
     /**
      * @return Annonces Belote/Rebelote des joueurs : Tableau indicé par le joueur et Vector d'Annonce
      */
-    public Vector[] getBelote() {
+    public Vector<Annonce>[] getBelote() {
         return belote;
     }
 
     /**
      * @param vectors Annonces Belote/Rebelote des joueurs : Tableau indicé par le joueur et Vector d'Annonce
      */
-    public void setBelote(Vector[] vectors) {
+    public void setBelote(Vector<Annonce>[] vectors) {
         belote = vectors;
     }
 

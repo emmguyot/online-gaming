@@ -40,7 +40,7 @@ public abstract class Partie implements Comparable {
     /**
      * Joueurs spectateurs
      */
-    protected Vector spectateurs;
+    protected Vector<Joueur> spectateurs;
 
     /**
      * Titre de la partie
@@ -55,7 +55,7 @@ public abstract class Partie implements Comparable {
     /**
      * Score Vector des scores des différents "tours" joués
      */
-    protected Vector scores;
+    protected Vector<int[]> scores;
     
     /**
      * Etat de la partie en cours
@@ -107,10 +107,10 @@ public abstract class Partie implements Comparable {
      *
      */
     public Partie() {
-        spectateurs = new Vector();
+        spectateurs = new Vector<Joueur>();
         motDePasse = "";
         titre = "";
-        scores = new Vector();
+        scores = new Vector<int[]>();
         etat = new EtatPartieBelote();
         identifiant = 0;
         currentEvent = "";
@@ -179,7 +179,7 @@ public abstract class Partie implements Comparable {
     /**
      * @return Scores de la partie
      */
-    public Vector getScores() {
+    public Vector<int[]> getScores() {
         return scores;
     }
 
@@ -188,7 +188,7 @@ public abstract class Partie implements Comparable {
      */
     public int[] getCurrentScore() {
         if (scores.size() > 0) {
-            return (int[]) scores.get(scores.size() - 1);
+            return scores.get(scores.size() - 1);
         }
         else {
             return null;
@@ -212,7 +212,7 @@ public abstract class Partie implements Comparable {
     /**
      * @return Joueurs spectateurs
      */
-    public Vector getSpectateurs() {
+    public Vector<Joueur> getSpectateurs() {
         return spectateurs;
     }
 
@@ -221,7 +221,7 @@ public abstract class Partie implements Comparable {
      * @return un joueur spectateur
      */
     public Joueur getSpectateurs(int i) {
-        return (Joueur) spectateurs.get(i);
+        return spectateurs.get(i);
     }
 
     /**
@@ -244,7 +244,7 @@ public abstract class Partie implements Comparable {
     /**
      * @param fullScores Scores en cours
      */
-    public void setScore(Vector fullScores) {
+    public void setScore(Vector<int[]> fullScores) {
         scores = fullScores;
     }
 
@@ -279,7 +279,7 @@ public abstract class Partie implements Comparable {
     /**
      * @param vector Joueurs spectateurs 
      */
-    public void setSpectateurs(Vector vector) {
+    public void setSpectateurs(Vector<Joueur> vector) {
         spectateurs = vector;
     }
 
@@ -374,7 +374,7 @@ public abstract class Partie implements Comparable {
         }
         
         for (int i = 0; (!res && (i < spectateurs.size())); i++) {
-            res = ((Joueur) spectateurs.get(i)).equals(aJoueur);
+            res = spectateurs.get(i).equals(aJoueur);
         }
         return res;
     }
@@ -659,7 +659,7 @@ public abstract class Partie implements Comparable {
 
         int total = 0;
         for (int numTour = 0; numTour < scores.size(); numTour++) {
-            total += ((int[]) scores.get(numTour))[i];
+            total += scores.get(numTour)[i];
         }
 
         return total;

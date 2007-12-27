@@ -46,13 +46,13 @@ public class Chat {
      * Smiley disponibles (init par le decoder)
      * Chaque élément du vecteur est un Smiley
      */
-    protected static Vector smiley;
+    protected static Vector<Smiley> smiley;
     
     /**
      * Sons disponibles (init par le decoder)
      * Chaque élément du vecteur est un SmileySon
      */
-    protected static Vector son;
+    protected static Vector<SmileySon> son;
     
     /**
      * Texte du chat
@@ -195,14 +195,14 @@ public class Chat {
     /**
      * @return ensemble des Smiley possible
      */
-    public static Vector getSmiley() {
+    public static Vector<Smiley> getSmiley() {
         return smiley;
     }
 
     /**
      * @return ensemble des sons possibles
      */
-    public static Vector getSon() {
+    public static Vector<SmileySon> getSon() {
         return son;
     }
 
@@ -431,7 +431,7 @@ public class Chat {
          */
         public void startDocument() throws SAXException {
 
-            smiley = new Vector();
+            smiley = new Vector<Smiley>();
             
             super.startDocument();
         }
@@ -495,7 +495,7 @@ public class Chat {
          */
         public void startDocument() throws SAXException {
 
-            son = new Vector();
+            son = new Vector<SmileySon>();
             
             super.startDocument();
         }

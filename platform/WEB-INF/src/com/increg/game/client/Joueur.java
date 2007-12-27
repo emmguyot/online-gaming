@@ -95,7 +95,7 @@ public class Joueur extends PerfoMeter implements Comparable {
     /**
      * Historique des parties 
      */
-    protected Vector historique;
+    protected Vector<Partie> historique;
 
     /**
      * Joueur Système
@@ -109,7 +109,7 @@ public class Joueur extends PerfoMeter implements Comparable {
      */
     public Joueur() {
         super();
-        historique = new Vector();
+        historique = new Vector<Partie>();
         privilege = 0;
         couleur = "#000000";
     }
@@ -172,14 +172,14 @@ public class Joueur extends PerfoMeter implements Comparable {
     /**
      * @return Historique des parties
      */
-    public Vector getHistorique() {
+    public Vector<Partie> getHistorique() {
         return historique;
     }
 
     /**
      * @param vector Historique des parties
      */
-    public void setHistorique(Vector vector) {
+    public void setHistorique(Vector<Partie> vector) {
         historique = vector;
     }
 
