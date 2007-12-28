@@ -56,7 +56,7 @@ public class SecretChat extends JDialog implements ActionListener {
     /**
      * Liste des joueurs
      */
-    protected TreeSet lstJoueur;
+    protected TreeSet<String> lstJoueur;
 
     /**
      * Modèle contenant les données d'échange
@@ -67,14 +67,14 @@ public class SecretChat extends JDialog implements ActionListener {
      * @param a Aire
      * @param aLstJoueur liste des joueurs
      */
-    public SecretChat(AireMainModel a, Vector aLstJoueur) {
+    public SecretChat(AireMainModel a, Vector<Joueur> aLstJoueur) {
         super();
 
         // Sauvegarde les attributs
         aire = a;
-        lstJoueur = new TreeSet();
+        lstJoueur = new TreeSet<String>();
         for (int i = 0; i < aLstJoueur.size(); i++) {
-            lstJoueur.add(((Joueur) aLstJoueur.get(i)).getPseudo());
+            lstJoueur.add(aLstJoueur.get(i).getPseudo());
         }
 
         setTitle("Message secret");

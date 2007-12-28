@@ -8,6 +8,7 @@ package com.increg.game.client.belote.test;
 
 import java.util.Vector;
 
+import com.increg.game.client.Carte;
 import com.increg.game.client.belote.CouleurBelote;
 import com.increg.game.client.belote.EtatPartieBelote;
 import com.increg.game.client.belote.PartieBeloteModerne;
@@ -38,7 +39,7 @@ public class PartieBeloteModerneTest extends TestCase {
         CouleurBelote valetCoeur = new CouleurBelote(CouleurBelote.VALET, CouleurBelote.COEUR);
         CouleurBelote huitTrefle = new CouleurBelote(CouleurBelote.HUIT, CouleurBelote.TREFLE);
 
-        Vector tapis = new Vector();
+        Vector<Carte> tapis = new Vector<Carte>();
         tapis.add(valetCoeur);
         tapis.add(huitTrefle);
         
@@ -47,7 +48,7 @@ public class PartieBeloteModerneTest extends TestCase {
         CouleurBelote valetCarreau = new CouleurBelote(CouleurBelote.VALET, CouleurBelote.CARREAU);
         CouleurBelote roiCoeur = new CouleurBelote(CouleurBelote.ROI, CouleurBelote.COEUR);
 
-        Vector main = new Vector(); 
+        Vector<CouleurBelote> main = new Vector<CouleurBelote>(); 
         main.add(dixCarreau);
         main.add(dameCarreau);
         main.add(valetCarreau);

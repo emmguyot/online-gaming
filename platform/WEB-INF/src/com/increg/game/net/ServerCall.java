@@ -42,12 +42,17 @@ public class ServerCall {
     /**
      * Cache des images
      */
-    private WeakHashMap cacheImage;
+    private WeakHashMap<URL, ImageIcon> cacheImageIcon;
     
+    /**
+     * Cache des images
+     */
+    private WeakHashMap<URL, Image> cacheImage;
+
     /**
      * Cache des sons
      */
-    private WeakHashMap cacheSon;
+    private WeakHashMap<URL, AudioClip> cacheSon;
     
     /**
      * Constructeur 
@@ -59,8 +64,9 @@ public class ServerCall {
         // Stocke les attributs
         masterParent = parent;
 
-        cacheImage = new WeakHashMap();
-        cacheSon = new WeakHashMap();
+        cacheImageIcon = new WeakHashMap<URL, ImageIcon>();
+        cacheImage = new WeakHashMap<URL, Image>();
+        cacheSon = new WeakHashMap<URL, AudioClip>();
         
         // Il faut démarrer le thread
         try {
@@ -203,13 +209,14 @@ public class ServerCall {
         ImageIcon resultat = null;
 
         // Image dans le cache ?        
-        resultat = (ImageIcon) cacheImage.get(imageUrl);
+        resultat = cacheImageIcon.get(imageUrl);
         if (resultat == null) {
             // Non, on la charge
             resultat = new ImageIcon(masterParent.getAppletContext().getImage(imageUrl));
             if (!imageUrl.getProtocol().equals("jar")) {
                 // Stocke dans le cache pour la prochaine fois
-                cacheImage.put(imageUrl, resultat);
+                cacheImageIcon.put(imageUrl, resultat);
+                cacheImage.put(imageUrl, resultat.getImage());
             }
             masterParent.getLogger().finer(System.currentTimeMillis() + " : Cache fail > " + imageUrl);
         }
@@ -263,7 +270,7 @@ public class ServerCall {
         AudioClip resultat = null;
 
         // Image dans le cache ?        
-        resultat = (AudioClip) cacheSon.get(sonUrl);
+        resultat = cacheSon.get(sonUrl);
         if (resultat == null) {
             // non pas dans le cache
             if (doLoad) {
@@ -327,7 +334,7 @@ public class ServerCall {
     /**
      * @return Dictionaire du cache
      */
-    public Dictionary getCacheHandler() {
+    public Dictionary<URL, Image> getCacheHandler() {
         return new CacheDictionary(); 
     }
 
@@ -337,10 +344,10 @@ public class ServerCall {
      * Class dictionaire pour le cache
      * Charge si besoin les demandes 
      */
-    class CacheDictionary extends Dictionary {
+    class CacheDictionary extends Dictionary<URL, Image> {
 
         /**
-         * Par défault
+         * Par défaut
          */
         public CacheDictionary() {
             super();
@@ -349,14 +356,14 @@ public class ServerCall {
         /**
          * @see java.util.Dictionary#get(java.lang.Object)
          */
-        public synchronized Object get(Object key) {
-            Object res = cacheImage.get(key); 
+        public synchronized Image get(Object key) {
+            Image res = cacheImage.get(key); 
             if ((res == null) && (key instanceof URL)) {
                 // Chargement
-                res = getImageIcon((URL) key);
+                res = getImage((URL) key);
             }
             
-            return ((ImageIcon) res).getImage();
+            return res;
         }
 
         /**
@@ -376,9 +383,9 @@ public class ServerCall {
         /**
          * @see java.util.Dictionary#keys()
          */
-        public Enumeration keys() {
-            return new Enumeration() {
-                Iterator myIter;
+        public Enumeration<URL> keys() {
+            return new Enumeration<URL>() {
+                Iterator<URL> myIter;
 
                 public boolean hasMoreElements() {
                     if (myIter == null) {
@@ -387,7 +394,7 @@ public class ServerCall {
                     return myIter.hasNext();
                 }
 
-                public Object nextElement() {
+                public URL nextElement() {
                     if (myIter == null) {
                         myIter = cacheImage.keySet().iterator();
                     }
@@ -400,20 +407,20 @@ public class ServerCall {
         /**
          * @see java.util.Dictionary#elements()
          */
-        public Enumeration elements() {
-            return new Enumeration() {
-                Iterator myIter;
+        public Enumeration<Image> elements() {
+            return new Enumeration<Image>() {
+                Iterator<Image> myIter;
 
                 public boolean hasMoreElements() {
                     if (myIter == null) {
-                        myIter = cacheImage.entrySet().iterator();
+                        myIter = cacheImage.values().iterator();
                     }
                     return myIter.hasNext();
                 }
 
-                public Object nextElement() {
+                public Image nextElement() {
                     if (myIter == null) {
-                        myIter = cacheImage.entrySet().iterator();
+                        myIter = cacheImage.values().iterator();
                     }
                     return myIter.next();
                 }
@@ -424,16 +431,17 @@ public class ServerCall {
         /**
          * @see java.util.Dictionary#put(java.lang.Object, java.lang.Object)
          */
-        public Object put(Object key, Object value) {
-            return cacheImage.put(key, value);
+        public Image put(URL key, Image value) {
+        	cacheImageIcon.put(key, new ImageIcon(value));
+        	return cacheImage.put(key, value);
         }
 
         /**
          * @see java.util.Dictionary#remove(java.lang.Object)
          */
-        public Object remove(Object key) {
+        public Image remove(Object key) {
             // Ne fait rien
-            return key;
+            return null;
         }
 
     }

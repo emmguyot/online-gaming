@@ -18,6 +18,7 @@ import com.increg.commun.InCrEGBean;
 import com.increg.commun.exception.FctlException;
 import com.increg.game.bean.belote.PartieBeloteBean;
 import com.increg.game.client.Joueur;
+import com.increg.game.client.Partie;
 import com.increg.util.SimpleDateFormatEG;
 
 /**
@@ -181,7 +182,8 @@ public class JoueurBean extends Joueur implements InCrEGBean {
             aRS.close();
         }
         catch (Exception e) {
-            System.err.println("JoueurBean::Erreur dans constructeur sur pseudo : " + e.toString());
+        	System.err.println("JoueurBean::Erreur dans constructeur sur pseudo : " + e.toString());
+        	e.printStackTrace();
         }
         return res;
     }
@@ -369,17 +371,15 @@ public class JoueurBean extends Joueur implements InCrEGBean {
      * @param dbConnect Connexion à utiliser
      * @return Liste des historiques
      */
-    public Vector getHistorique (DBSession dbConnect) {
+    public Vector<Partie> getHistorique (DBSession dbConnect) {
         // Chargement de l'historique
-        historique = PartieBeloteBean.getPartieFromJoueur(dbConnect, Long.toString(cdJoueur));
-        return historique;
-    }
-    
-    /**
-     * Récupération de l'historique des parties du joueur à partir de la base
-     * @return Liste des historiques
-     */
-    public Vector getHistorique () {
+    	Vector<PartieBeloteBean> lstParties = PartieBeloteBean.getPartieFromJoueur(dbConnect, Long.toString(cdJoueur));
+    	historique = new Vector<Partie>(lstParties.size());
+    	
+    	for (PartieBeloteBean partieBeloteBean : lstParties) {
+			historique.add(partieBeloteBean.getMyPartie());
+		}
+    		
         return historique;
     }
     

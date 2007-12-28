@@ -41,12 +41,12 @@ public class ServerCallThread extends Thread {
     /**
      * Requêtes en cours et en attentes
      */
-    private LinkedList requests;
+    private LinkedList<StringBuffer> requests;
 
     /**
      * Classe en attente de retour des requêtes en cours et en attentes
      */
-    private LinkedList callers;
+    private LinkedList<ServerCallRequester> callers;
 
     /**
      * Thread doit s'arréter
@@ -76,7 +76,7 @@ public class ServerCallThread extends Thread {
     /**
      * Ensemble des connexions ouvertes ou non
      */
-    private HashMap connect;
+    private HashMap<String, HttpURLConnection> connect;
         
     /**
      * Constructeur
@@ -86,13 +86,13 @@ public class ServerCallThread extends Thread {
      */
     public ServerCallThread(String docBase, String session, ServerCallRequester caller) {
         super();
-        requests = new LinkedList();
-        callers = new LinkedList();
+        requests = new LinkedList<StringBuffer>();
+        callers = new LinkedList<ServerCallRequester>();
         shouldStop = false;
         defaultCaller = caller;
         documentBase = docBase;
         sessionId = session;
-        connect = new HashMap(2);
+        connect = new HashMap<String, HttpURLConnection>(2);
         // Chargement du rythme d'interrogation au serveur 
         // TODO homogénéiser la gestion de la configuration
         ResourceBundle resConfig = ResourceBundle.getBundle("configAire");
@@ -166,7 +166,7 @@ public class ServerCallThread extends Thread {
                     }
                 }
                 else {
-                    StringBuffer aRequest = (StringBuffer) requests.removeFirst();
+                    StringBuffer aRequest = requests.removeFirst();
 
                     if (isDynamicURL(aRequest)) {
                         // Constitue l'URL avec le dernier identifiant                    
@@ -189,7 +189,7 @@ public class ServerCallThread extends Thread {
                         // Mauvaise URL
                         caller.getLogger().severe("Erreur : URL erronée");
                     }
-                    caller = (ServerCallRequester) callers.removeFirst();
+                    caller = callers.removeFirst();
                     // TODO Suppression trace
                     if (caller.getLogger().isLoggable(Level.FINE)) {
                     	caller.getLogger().fine(theRequest.toString());
@@ -198,7 +198,7 @@ public class ServerCallThread extends Thread {
             }
             
             // Lance le chargement
-            aCon = (HttpURLConnection) connect.get(theRequest.getHost());
+            aCon = connect.get(theRequest.getHost());
             if (caller.getLogger().isLoggable(Level.FINEST)) {
                 caller.getLogger().finest(System.currentTimeMillis() + " : host=" + theRequest.getHost());
             }
@@ -220,7 +220,7 @@ public class ServerCallThread extends Thread {
                         aCon.setRequestProperty("Accept", "*/*");
                         aCon.setUseCaches(false);
                         // Sauvegarde la connexion pour réutiliser
-                        connect.put(theRequest.getHost(), aCon);
+                        connect.put(theRequest.getHost(), (HttpURLConnection) aCon);
                     }
                     // Log Optimisation Vitesse
                     if (caller.getLogger().isLoggable(Level.FINEST)) {
@@ -298,10 +298,10 @@ public class ServerCallThread extends Thread {
         }
         
         // Fermeture des connexions réseau
-        Set entry = connect.keySet();
-        for (Iterator keyIter = entry.iterator(); keyIter.hasNext();) {
-            String host = (String) keyIter.next();
-            aCon = (HttpURLConnection) connect.get(host);
+        Set<String> entry = connect.keySet();
+        for (Iterator<String> keyIter = entry.iterator(); keyIter.hasNext();) {
+            String host = keyIter.next();
+            aCon = connect.get(host);
             if (aCon != null) {
                 ((HttpURLConnection) aCon).disconnect();    
             }

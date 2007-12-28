@@ -133,7 +133,7 @@ public class ChatPanel extends JComponent implements ActionListener, MouseListen
     /**
      * Historique des messages saisis
      */
-    protected static Vector historique;
+    protected static Vector<String> historique;
     
     /**
      * Position dans l'historique des messages saisis
@@ -170,7 +170,7 @@ public class ChatPanel extends JComponent implements ActionListener, MouseListen
             currentColor = a.getMyJoueur().getCouleur();
         }
         if (historique == null) {
-            historique = new Vector(TAILLE_HISTORIQUE);
+            historique = new Vector<String>(TAILLE_HISTORIQUE);
             posHistorique = 0;
         }
         
@@ -272,12 +272,12 @@ public class ChatPanel extends JComponent implements ActionListener, MouseListen
      */
     protected ImageComboBox getChatSmiley() {
         
-        Vector smiley = Chat.getSmiley();
+        Vector<Smiley> smiley = Chat.getSmiley();
         String[] items = new String[smiley.size()];
         String[] url = new String[smiley.size()];
         int cpt = 0;
         for (int i = 0; i < smiley.size(); i++) {
-            Smiley aSmiley = (Smiley) smiley.get(i);
+            Smiley aSmiley = smiley.get(i);
 
             items[cpt] = aSmiley.getCode();
             url[cpt] = aSmiley.getImage();
@@ -425,12 +425,12 @@ public class ChatPanel extends JComponent implements ActionListener, MouseListen
      * Les smileys ont changé 
      */
     public void resetSmiley() {
-        Vector smiley = Chat.getSmiley();
+        Vector<Smiley> smiley = Chat.getSmiley();
         String[] items = new String[smiley.size()];
         String[] url = new String[smiley.size()];
         int cpt = 0;
         for (int i = 0; i < smiley.size(); i++) {
-            Smiley aSmiley = (Smiley) smiley.get(i);
+            Smiley aSmiley = smiley.get(i);
 
             items[cpt] = aSmiley.getCode();
             url[cpt] = aSmiley.getImage();
@@ -795,12 +795,12 @@ public class ChatPanel extends JComponent implements ActionListener, MouseListen
         // Gestion de l'historique
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (posHistorique > 0) {
-                chatEntry.setText((String) historique.get(--posHistorique)); 
+                chatEntry.setText(historique.get(--posHistorique)); 
             }
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (posHistorique < (historique.size() - 1)) {
-                chatEntry.setText((String) historique.get(++posHistorique)); 
+                chatEntry.setText(historique.get(++posHistorique)); 
             }
         }
     }

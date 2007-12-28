@@ -8,6 +8,8 @@ package com.increg.game.client.belote.test;
 
 import java.util.Vector;
 
+import com.increg.game.client.Annonce;
+import com.increg.game.client.Carte;
 import com.increg.game.client.Couleur;
 import com.increg.game.client.belote.AnnonceBelote;
 import com.increg.game.client.belote.AtoutBelote;
@@ -105,8 +107,8 @@ public class JeuBeloteTest extends TestCase {
         /**
          * 1er test : Rien à trouver
          */
-        Vector[] mains = new Vector[4];
-        mains[0] = new Vector();
+        Vector<Carte>[] mains = new Vector[4];
+        mains[0] = new Vector<Carte>();
         mains[0].add(septCarreau);        
         mains[0].add(neufCarreau);        
         mains[0].add(valetCarreau);        
@@ -115,7 +117,7 @@ public class JeuBeloteTest extends TestCase {
         mains[0].add(neufCoeur);        
         mains[0].add(valetCoeur);        
         mains[0].add(roiCoeur);        
-        mains[1] = new Vector();
+        mains[1] = new Vector<Carte>();
         mains[1].add(septPique);        
         mains[1].add(neufPique);        
         mains[1].add(valetPique);        
@@ -124,7 +126,7 @@ public class JeuBeloteTest extends TestCase {
         mains[1].add(neufTrefle);        
         mains[1].add(valetTrefle);        
         mains[1].add(roiTrefle);        
-        mains[2] = new Vector();
+        mains[2] = new Vector<Carte>();
         mains[2].add(huitCarreau);        
         mains[2].add(dameCarreau);        
         mains[2].add(dixCarreau);        
@@ -133,7 +135,7 @@ public class JeuBeloteTest extends TestCase {
         mains[2].add(dameCoeur);        
         mains[2].add(dixCoeur);        
         mains[2].add(asCoeur);        
-        mains[3] = new Vector();
+        mains[3] = new Vector<Carte>();
         mains[3].add(huitPique);        
         mains[3].add(damePique);        
         mains[3].add(dixPique);        
@@ -144,7 +146,7 @@ public class JeuBeloteTest extends TestCase {
         mains[3].add(asTrefle);        
 
         jeu.setMains(mains);
-        Vector[] annonces = jeu.chercheAnnonce();
+        Vector<Annonce>[] annonces = jeu.chercheAnnonce();
         Assert.assertEquals(annonces[0].size(), 0);
         Assert.assertEquals(annonces[1].size(), 0);
         Assert.assertEquals(annonces[2].size(), 0);
@@ -154,7 +156,7 @@ public class JeuBeloteTest extends TestCase {
          * 2ème test : Carrés à trouver dont "faux" carrés
          */
         mains = new Vector[4];
-        mains[0] = new Vector();
+        mains[0] = new Vector<Carte>();
         mains[0].add(septCarreau);        
         mains[0].add(neufCarreau);        
         mains[0].add(valetCarreau);        
@@ -163,7 +165,7 @@ public class JeuBeloteTest extends TestCase {
         mains[0].add(septCoeur);        
         mains[0].add(neufCoeur);        
         mains[0].add(septPique);        
-        mains[1] = new Vector();
+        mains[1] = new Vector<Carte>();
         mains[1].add(valetCoeur);        
         mains[1].add(roiCoeur);        
         mains[1].add(roiPique);        
@@ -172,7 +174,7 @@ public class JeuBeloteTest extends TestCase {
         mains[1].add(roiCarreau);        
         mains[1].add(valetTrefle);        
         mains[1].add(roiTrefle);        
-        mains[2] = new Vector();
+        mains[2] = new Vector<Carte>();
         mains[2].add(huitCarreau);        
         mains[2].add(dameCarreau);        
         mains[2].add(dixCarreau);        
@@ -181,7 +183,7 @@ public class JeuBeloteTest extends TestCase {
         mains[2].add(dameCoeur);        
         mains[2].add(dixCoeur);        
         mains[2].add(asCoeur);        
-        mains[3] = new Vector();
+        mains[3] = new Vector<Carte>();
         mains[3].add(huitPique);        
         mains[3].add(damePique);        
         mains[3].add(dixPique);        
@@ -203,7 +205,7 @@ public class JeuBeloteTest extends TestCase {
          * Tierce, 50
          */
         mains = new Vector[4];
-        mains[0] = new Vector(); // Carré de 7
+        mains[0] = new Vector<Carte>(); // Carré de 7
         mains[0].add(septCarreau);        
         mains[0].add(valetCarreau);        
         mains[0].add(dameCarreau);        
@@ -212,7 +214,7 @@ public class JeuBeloteTest extends TestCase {
         mains[0].add(septCoeur);        
         mains[0].add(neufCoeur);        
         mains[0].add(septPique);        
-        mains[1] = new Vector(); // Carré de rois
+        mains[1] = new Vector<Carte>(); // Carré de rois
         mains[1].add(valetCoeur);        
         mains[1].add(roiCoeur);        
         mains[1].add(damePique);        
@@ -221,7 +223,7 @@ public class JeuBeloteTest extends TestCase {
         mains[1].add(huitTrefle);        
         mains[1].add(valetTrefle);        
         mains[1].add(roiTrefle);        
-        mains[2] = new Vector(); // Tierce
+        mains[2] = new Vector<Carte>(); // Tierce
         mains[2].add(huitCarreau);        
         mains[2].add(neufCarreau);        
         mains[2].add(dixCarreau);        
@@ -230,7 +232,7 @@ public class JeuBeloteTest extends TestCase {
         mains[2].add(dameCoeur);        
         mains[2].add(dixCoeur);        
         mains[2].add(asCoeur);        
-        mains[3] = new Vector(); // 50
+        mains[3] = new Vector<Carte>(); // 50
         mains[3].add(huitPique);        
         mains[3].add(dixPique);        
         mains[3].add(asPique);        
@@ -255,7 +257,7 @@ public class JeuBeloteTest extends TestCase {
          * 4ème test : Tierce à l'atout, 50, 100 et 6 cartes 
          */
         mains = new Vector[4];
-        mains[0] = new Vector(); 
+        mains[0] = new Vector<Carte>(); 
         mains[0].add(septCarreau);        
         mains[0].add(asCarreau);        
         mains[0].add(dameCarreau);        
@@ -264,7 +266,7 @@ public class JeuBeloteTest extends TestCase {
         mains[0].add(septCoeur);        
         mains[0].add(neufCoeur);        
         mains[0].add(septPique);        
-        mains[1] = new Vector(); // Tierce
+        mains[1] = new Vector<Carte>(); // Tierce
         mains[1].add(valetCoeur);        
         mains[1].add(roiCoeur);        
         mains[1].add(huitPique);        
@@ -273,7 +275,7 @@ public class JeuBeloteTest extends TestCase {
         mains[1].add(huitTrefle);        
         mains[1].add(valetTrefle);        
         mains[1].add(roiTrefle);        
-        mains[2] = new Vector(); // 50
+        mains[2] = new Vector<Carte>(); // 50
         mains[2].add(huitCarreau);        
         mains[2].add(neufCarreau);        
         mains[2].add(dixCarreau);        
@@ -282,7 +284,7 @@ public class JeuBeloteTest extends TestCase {
         mains[2].add(dameCoeur);        
         mains[2].add(dixCoeur);        
         mains[2].add(asCoeur);        
-        mains[3] = new Vector(); // 100 à l'atout avec 6 cartes
+        mains[3] = new Vector<Carte>(); // 100 à l'atout avec 6 cartes
         mains[3].add(damePique);        
         mains[3].add(dixPique);        
         mains[3].add(asPique);        
@@ -339,8 +341,8 @@ public class JeuBeloteTest extends TestCase {
         AtoutBelote roiTrefle = new AtoutBelote(AtoutBelote.ROI, CouleurBelote.TREFLE);
         AtoutBelote asTrefle = new AtoutBelote(AtoutBelote.AS, CouleurBelote.TREFLE);
 
-        Vector[] mains = new Vector[4];
-        mains[0] = new Vector(); 
+        Vector<Carte>[] mains = new Vector[4];
+        mains[0] = new Vector<Carte>(); 
         mains[0].add(dameCarreau);        
         mains[0].add(huitTrefle);        
         mains[0].add(valetTrefle);        
@@ -349,7 +351,7 @@ public class JeuBeloteTest extends TestCase {
         mains[0].add(dameCoeur);        
         mains[0].add(dameTrefle);        
         mains[0].add(roiTrefle);        
-        mains[1] = new Vector(); 
+        mains[1] = new Vector<Carte>(); 
         mains[1].add(asCarreau);        
         mains[1].add(neufCarreau);        
         mains[1].add(asTrefle);        
@@ -358,7 +360,7 @@ public class JeuBeloteTest extends TestCase {
         mains[1].add(neufPique);        
         mains[1].add(damePique);        
         mains[1].add(dixPique);        
-        mains[2] = new Vector(); 
+        mains[2] = new Vector<Carte>(); 
         mains[2].add(septCarreau);        
         mains[2].add(roiCarreau);        
         mains[2].add(dixCoeur);        
@@ -367,7 +369,7 @@ public class JeuBeloteTest extends TestCase {
         mains[2].add(septCoeur);        
         mains[2].add(huitPique);        
         mains[2].add(huitCarreau);        
-        mains[3] = new Vector(); 
+        mains[3] = new Vector<Carte>(); 
         mains[3].add(dixCarreau);        
         mains[3].add(septTrefle);        
         mains[3].add(huitCoeur);        
@@ -382,7 +384,7 @@ public class JeuBeloteTest extends TestCase {
         jeu.triMains();
         
         
-        Vector[] annonces = jeu.chercheAnnonce();
+        Vector<Annonce>[] annonces = jeu.chercheAnnonce();
         Assert.assertEquals(annonces[0].size(), 1); // 100
         Assert.assertEquals(((AnnonceBelote) annonces[0].get(0)).getType(), AnnonceBelote.TYPE_CENT); // 100
         Assert.assertEquals(annonces[1].size(), 0); // Rien
@@ -430,8 +432,8 @@ public class JeuBeloteTest extends TestCase {
         AtoutBelote roiTrefle = new AtoutBelote(AtoutBelote.ROI, CouleurBelote.TREFLE);
         AtoutBelote asTrefle = new AtoutBelote(AtoutBelote.AS, CouleurBelote.TREFLE);
 
-        Vector[] mains = new Vector[4];
-        mains[0] = new Vector(); 
+        Vector<Carte>[] mains = new Vector[4];
+        mains[0] = new Vector<Carte>(); 
         mains[0].add(dameCarreau);        
         mains[0].add(huitTrefle);        
         mains[0].add(valetTrefle);        
@@ -440,7 +442,7 @@ public class JeuBeloteTest extends TestCase {
         mains[0].add(dameCoeur);        
         mains[0].add(dameTrefle);        
         mains[0].add(roiTrefle);        
-        mains[1] = new Vector(); 
+        mains[1] = new Vector<Carte>(); 
         mains[1].add(asCarreau);        
         mains[1].add(huitPique);        
         mains[1].add(asTrefle);        
@@ -450,7 +452,7 @@ public class JeuBeloteTest extends TestCase {
         mains[1].add(damePique);        
         mains[1].add(dixPique);        
         mains[1].add(neufCarreau);        
-        mains[2] = new Vector(); 
+        mains[2] = new Vector<Carte>(); 
         mains[2].add(septCarreau);        
         mains[2].add(roiCarreau);        
         mains[2].add(dixCoeur);        
@@ -459,7 +461,7 @@ public class JeuBeloteTest extends TestCase {
         mains[2].add(septCoeur);        
         mains[2].add(huitCarreau);        
         mains[2].add(neufCarreau);        
-        mains[3] = new Vector(); 
+        mains[3] = new Vector<Carte>(); 
         mains[3].add(dixCarreau);        
         mains[3].add(septTrefle);        
         mains[3].add(huitCoeur);        

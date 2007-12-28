@@ -6,27 +6,22 @@
  */
 package com.increg.game.ui.test;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageFilter;
 import java.awt.image.ImageObserver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 /**
@@ -83,7 +78,7 @@ public class TestIconeAnimSingle {
         aPopup.pack(); 
         aPopup.setResizable(false);
 
-        aPopup.show();
+        aPopup.setVisible(true);
     }
     /**
      * @see java.lang.Runnable#run()

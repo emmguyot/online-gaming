@@ -97,7 +97,7 @@ public class PartieBeloteBean extends PartieBean {
      * @param cdJoueur Code du joueur à charger
      * @return ensemble des parties du joueurs
      */
-    public static Vector getPartieFromJoueur(DBSession dbConnect, String cdJoueur) {
+    public static Vector<PartieBeloteBean> getPartieFromJoueur(DBSession dbConnect, String cdJoueur) {
 
         String reqSQL =
             "select * from partie, joueur where (partie.pseudo[1] = joueur.pseudo "
@@ -106,7 +106,7 @@ public class PartieBeloteBean extends PartieBean {
                 + "or partie.pseudo[4] = joueur.pseudo) and cdJoueur="
                 + cdJoueur
                 + "order by dtDebut desc";
-        Vector res = new Vector();
+        Vector<PartieBeloteBean> res = new Vector<PartieBeloteBean>();
 
         // Interroge la Base
         try {
@@ -129,11 +129,11 @@ public class PartieBeloteBean extends PartieBean {
      * @param idTournoi Code du tournoi à charger
      * @return ensemble des parties du tournoi
      */
-    public static Vector getPartieFromTournoi(DBSession dbConnect, String idTournoi) {
+    public static Vector<PartieBeloteBean> getPartieFromTournoi(DBSession dbConnect, String idTournoi) {
 
         // !TODO Implémentation tournoi à faire
         String reqSQL = "select * from partie where idTournoi=" + idTournoi;
-        Vector res = new Vector();
+        Vector<PartieBeloteBean> res = new Vector<PartieBeloteBean>();
 
         // Interroge la Base
         try {
@@ -173,15 +173,15 @@ public class PartieBeloteBean extends PartieBean {
         valeur.append(((PartieBelote) myPartie).isAnnonce());
         valeur.append(",");
 
-        if (dtDebut != null) {
+        if (getDtDebut() != null) {
             colonne.append("dtDebut,");
-            valeur.append(DBSession.quoteWith(formatDate.formatEG(dtDebut.getTime()), '\''));
+            valeur.append(DBSession.quoteWith(formatDate.formatEG(getDtDebut().getTime()), '\''));
             valeur.append(",");
         }
 
-        if (dtFin != null) {
+        if (getDtFin() != null) {
             colonne.append("dtFin,");
-            valeur.append(DBSession.quoteWith(formatDate.formatEG(dtFin.getTime()), '\''));
+            valeur.append(DBSession.quoteWith(formatDate.formatEG(getDtFin().getTime()), '\''));
             valeur.append(",");
         }
 
@@ -269,7 +269,7 @@ public class PartieBeloteBean extends PartieBean {
          * Si valeur contient " c'est remplacé par \"
          * Si valeur contient , la valeur est entre guillemets
          */
-        ArrayList res = new ArrayList();
+        ArrayList<String> res = new ArrayList<String>();
         boolean dansMot = false;
         boolean surrounded = false;
         StringBuffer mot = new StringBuffer();
@@ -341,7 +341,7 @@ public class PartieBeloteBean extends PartieBean {
         
         String[] resCh = new String[res.size()];
         for (int i = 0; i < res.size(); i++) {
-            resCh[i] = (String) res.get(i);
+            resCh[i] = res.get(i);
         }
         return resCh;
     }

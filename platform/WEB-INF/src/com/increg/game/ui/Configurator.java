@@ -40,7 +40,7 @@ public class Configurator extends DefaultHandler {
     /**
      * Eléments rencontrés : Donne la hiérarchie
      */
-    protected Stack elements;
+    protected Stack<String> elements;
 
     /**
      * Compteur des occurences de joueurs
@@ -348,12 +348,12 @@ public class Configurator extends DefaultHandler {
     /**
      * Vecteur de Position et taille des titres
      */
-    protected Vector rTitrePos;
+    protected Vector<Rectangle> rTitrePos;
     
     /**
      * Vecteur des titres
      */
-    protected Vector rTitre;
+    protected Vector<String> rTitre;
     
     /* ***************************************
      * Pour la salle (commence par s)
@@ -576,22 +576,22 @@ public class Configurator extends DefaultHandler {
     /**
      * Ensemble des boutons de prise
      */
-    private Vector sBoutonPrise;
+    private Vector<Rectangle> sBoutonPrise;
     
     /**
      * Ensemble des cartes sur le tapis
      */
-    private Vector sTapis;
+    private Vector<Rectangle> sTapis;
     
     /**
      * Ensemble des plis sur le tapis
      */
-    private Vector sPlis;
+    private Vector<Rectangle> sPlis;
 
     /**
      * Ensemble des images des plis sur le tapis
      */
-    private Vector sImagePlis;
+    private Vector<String> sImagePlis;
 
     /**
      * Position et taille de la sphere
@@ -699,14 +699,14 @@ public class Configurator extends DefaultHandler {
         rFond = "";
         rFondListe = "";
         rFont = null;
-        elements = new Stack();
+        elements = new Stack<String>();
         cptJoueur = 0;
-        sBoutonPrise = new Vector(5);
-        sTapis = new Vector(4);
-        sPlis = new Vector(2);
-        sImagePlis = new Vector(2);
-        rTitre = new Vector(3);
-        rTitrePos = new Vector(3);
+        sBoutonPrise = new Vector<Rectangle>(5);
+        sTapis = new Vector<Rectangle>(4);
+        sPlis = new Vector<Rectangle>(2);
+        sImagePlis = new Vector<String>(2);
+        rTitre = new Vector<String>(3);
+        rTitrePos = new Vector<Rectangle>(3);
     }
     
     /**
@@ -1199,7 +1199,7 @@ public class Configurator extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         super.endElement(uri, localName, qName);
         
-        if (!((String) elements.pop()).equals(qName)) {
+        if (!elements.pop().equals(qName)) {
             // Pas bon
             throw new SAXException("Hiérarchie non respectée pour " + elements.toString());
         }
@@ -1729,7 +1729,7 @@ public class Configurator extends DefaultHandler {
     /**
      * @return Ensemble des boutons de prise
      */
-    public Vector getSBoutonPrise() {
+    public Vector<Rectangle> getSBoutonPrise() {
         return sBoutonPrise;
     }
     /**
@@ -1737,13 +1737,13 @@ public class Configurator extends DefaultHandler {
      * @return Ensemble des boutons de prise
      */
     public Rectangle getSBoutonPrise(int i) {
-        return (Rectangle) sBoutonPrise.get(i);
+        return sBoutonPrise.get(i);
     }
 
     /**
      * @return Ensemble des cartes sur le tapis
      */
-    public Vector getSTapis() {
+    public Vector<Rectangle> getSTapis() {
         return sTapis;
     }
     /**
@@ -1751,13 +1751,13 @@ public class Configurator extends DefaultHandler {
      * @return Ensemble des cartes sur le tapis
      */
     public Rectangle getSTapis(int i) {
-        return (Rectangle) sTapis.get(i);
+        return sTapis.get(i);
     }
 
     /**
      * @return Ensemble des plis sur le tapis
      */
-    public Vector getSPlis() {
+    public Vector<Rectangle> getSPlis() {
         return sPlis;
     }
 
@@ -1766,13 +1766,13 @@ public class Configurator extends DefaultHandler {
      * @return Ensemble des plis sur le tapis
      */
     public Rectangle getSPlis(int i) {
-        return (Rectangle) sPlis.get(i);
+        return sPlis.get(i);
     }
 
     /**
      * @return Ensemble des Images des plis sur le tapis
      */
-    public Vector getSImagePlis() {
+    public Vector<String> getSImagePlis() {
         return sImagePlis;
     }
 
@@ -1781,7 +1781,7 @@ public class Configurator extends DefaultHandler {
      * @return Ensemble des Images des plis sur le tapis
      */
     public String getSImagePlis(int i) {
-        return (String) sImagePlis.get(i);
+        return sImagePlis.get(i);
     }
 
     /**
@@ -1939,7 +1939,7 @@ public class Configurator extends DefaultHandler {
     /**
      * @return Vecteur des titres
      */
-    public Vector getRTitre() {
+    public Vector<String> getRTitre() {
         return rTitre;
     }
 
@@ -1953,7 +1953,7 @@ public class Configurator extends DefaultHandler {
     /**
      * @return Vecteur de Position et taille des titres
      */
-    public Vector getRTitrePos() {
+    public Vector<Rectangle> getRTitrePos() {
         return rTitrePos;
     }
 
@@ -1962,7 +1962,7 @@ public class Configurator extends DefaultHandler {
      * @return Coo et Pos du titre
      */
     public Rectangle getRTitrePos(int i) {
-        return (Rectangle) rTitrePos.get(i);
+        return rTitrePos.get(i);
     }
 
     /**
@@ -1970,7 +1970,7 @@ public class Configurator extends DefaultHandler {
      * @return Texte du titre
      */
     public String getRTitre(int i) {
-        return (String) rTitre.get(i);
+        return rTitre.get(i);
     }
 
 

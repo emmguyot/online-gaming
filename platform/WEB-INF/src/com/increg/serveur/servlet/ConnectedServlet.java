@@ -1,9 +1,10 @@
 package com.increg.serveur.servlet;
 
-import com.increg.commun.*;
-import javax.servlet.*;
-import java.io.*;
-import javax.servlet.http.*;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 /**
  * Servlet générique permettant de suivre les connexions
  * Creation date: (08/07/2001 12:48:48)

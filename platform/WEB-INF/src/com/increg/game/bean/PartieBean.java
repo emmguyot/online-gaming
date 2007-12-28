@@ -31,22 +31,13 @@ public class PartieBean implements InCrEGBean {
     protected Partie myPartie;
 
     /**
-     * Date de début de la partie
-     */
-    protected Calendar dtDebut;
-    /**
-     * Date de fin de la partie
-     */
-    protected Calendar dtFin;    
-
-    /**
      * Constructeur à partir d'une partie
      * @param aPartie Partie associée au bean
      */
     public PartieBean(Partie aPartie) {
         myPartie = aPartie;
         
-        dtDebut = Calendar.getInstance();
+        myPartie.setDtDebut(Calendar.getInstance());
     }
     
     /**
@@ -59,8 +50,9 @@ public class PartieBean implements InCrEGBean {
         try {
             Timestamp aTime = rs.getTimestamp("dtDebut");
             if (aTime != null) {
-                dtDebut = Calendar.getInstance();  
-                dtDebut.setTime(aTime);
+                Calendar dt = Calendar.getInstance();
+                dt.setTime(aTime);
+                myPartie.setDtDebut(dt);  
             }
         }
         catch (SQLException e) {
@@ -72,8 +64,9 @@ public class PartieBean implements InCrEGBean {
         try {
             Timestamp aTime = rs.getTimestamp("dtFin");
             if (aTime != null) {
-                dtFin = Calendar.getInstance();  
-                dtFin.setTime(aTime);
+                Calendar dt = Calendar.getInstance();
+                dt.setTime(aTime);
+                myPartie.setDtFin(dt);  
             }
         }
         catch (SQLException e) {
@@ -133,33 +126,31 @@ public class PartieBean implements InCrEGBean {
         return 0;
     }
 
-
     /**
      * @return Date de début de la partie
      */
     public Calendar getDtDebut() {
-        return dtDebut;
+        return myPartie.getDtDebut();
     }
 
     /**
      * @return Date de fin de la partie
      */
     public Calendar getDtFin() {
-        return dtFin;
+        return myPartie.getDtFin();
     }
 
     /**
      * @param calendar Date de début de la partie
      */
     public void setDtDebut(Calendar calendar) {
-        dtDebut = calendar;
+        myPartie.setDtDebut(calendar);
     }
 
     /**
      * @param calendar Date de fin de la partie
      */
     public void setDtFin(Calendar calendar) {
-        dtFin = calendar;
+        myPartie.setDtFin(calendar);
     }
-
 }

@@ -78,22 +78,22 @@ public class GameEnvironment {
     /**
      * Liste des joueurs connectés
      */
-    protected Vector lstJoueur;
+    protected Vector<JoueurBean> lstJoueur;
 
     /**
      * Liste des joueurs connectés en double
      */
-    protected Vector lstJoueurDouble;
+    protected Vector<JoueurBean> lstJoueurDouble;
 
     /**
      * Liste des parties en cours ou activées pour les tournois
      */
-    protected Vector lstPartie;
+    protected Vector<PartieBeloteBean> lstPartie;
 
     /**
      * Liste des chats
      */
-    protected Vector lstChat;
+    protected Vector<ChatBean> lstChat;
 
     /**
      * Offset pour la liste des chats
@@ -123,24 +123,24 @@ public class GameEnvironment {
     /**
      * Paramètres de l'aire
      */
-    protected Map paramAire;
+    protected Map<Integer, String> paramAire;
     
     /**
      * Cache pour les mots interdits 
      */
-    protected Map cachePatternMotInterdit;
+    protected Map<String, Pattern> cachePatternMotInterdit;
     
     /**
      * Constructeur
      */
     public GameEnvironment() {
         // Init les attributs
-        lstJoueur = new Vector();
-        lstJoueurDouble = new Vector();
-        lstPartie = new Vector();
-        lstChat = new Vector();
+        lstJoueur = new Vector<JoueurBean>();
+        lstJoueurDouble = new Vector<JoueurBean>();
+        lstPartie = new Vector<PartieBeloteBean>();
+        lstChat = new Vector<ChatBean>();
         chatOffset = 0;
-        cachePatternMotInterdit = new HashMap();
+        cachePatternMotInterdit = new HashMap<String, Pattern>();
 
         ResourceBundle res = ResourceBundle.getBundle(GameSession.DEFAULT_CONFIG);
         try {
@@ -170,7 +170,7 @@ public class GameEnvironment {
     /**
 	 * @return Returns the paramAire.
 	 */
-	public Map getParamAire() {
+	public Map<Integer, String> getParamAire() {
 		return paramAire;
 	}
 
@@ -180,7 +180,7 @@ public class GameEnvironment {
 	 */
 	public String getParamAire(int code) {
 		if (paramAire != null) {
-			return (String) paramAire.get(new Integer(code));
+			return paramAire.get(new Integer(code));
 		}
 		else {
 			return null;
@@ -190,7 +190,7 @@ public class GameEnvironment {
 	/**
 	 * @param paramAire The paramAire to set.
 	 */
-	public void setParamAire(Map paramAire) {
+	public void setParamAire(Map<Integer, String> paramAire) {
 		this.paramAire = paramAire;
 	}
 
@@ -207,7 +207,7 @@ public class GameEnvironment {
 	 */
 	public void loadParamAire(DBSession dbConnect, boolean reload) {
 		if (paramAire == null) {
-			paramAire = new TreeMap();
+			paramAire = new TreeMap<Integer, String>();
 		}
 		
 		if (paramAire.isEmpty() || reload) {
@@ -247,7 +247,7 @@ public class GameEnvironment {
      */
     public JoueurBean getJoueur(int i) {
         if ((i >= 0) && (i < lstJoueur.size())) {
-            return (JoueurBean) lstJoueur.get(i);
+            return lstJoueur.get(i);
         } else {
             return null;
         }
@@ -262,7 +262,7 @@ public class GameEnvironment {
      */
     public Partie getPartie(int i) {
         if ((i >= 0) && (i < lstPartie.size())) {
-            return ((PartieBean) lstPartie.get(i)).getMyPartie();
+            return lstPartie.get(i).getMyPartie();
         } else {
             return null;
         }
@@ -280,7 +280,7 @@ public class GameEnvironment {
         boolean found = false;
         Partie aPartie = null;
         for (int i = 0; !found && (i < lstPartie.size()); i++) {
-            aPartie = ((PartieBean) lstPartie.get(i)).getMyPartie();
+            aPartie = lstPartie.get(i).getMyPartie();
             if (aPartie.getIdentifiant() == id) {
                 found = true;
             }
@@ -312,7 +312,7 @@ public class GameEnvironment {
     public void removeJoueur(JoueurBean aJoueur) {
         boolean done = false;
         for (int i = 0; (i < lstJoueur.size()) && !done; i++) {
-            if (((JoueurBean) lstJoueur.get(i)).getCdJoueur() == aJoueur
+            if (lstJoueur.get(i).getCdJoueur() == aJoueur
                     .getCdJoueur()) {
                 lstJoueur.remove(i);
                 done = true;
@@ -334,7 +334,7 @@ public class GameEnvironment {
     public void removeJoueurDouble(JoueurBean aJoueur) {
         boolean done = false;
         for (int i = 0; (i < lstJoueurDouble.size()) && !done; i++) {
-            if (((JoueurBean) lstJoueurDouble.get(i)).getCdJoueur() == aJoueur
+            if (lstJoueurDouble.get(i).getCdJoueur() == aJoueur
                     .getCdJoueur()) {
                 lstJoueurDouble.remove(i);
                 done = true;
@@ -409,7 +409,7 @@ public class GameEnvironment {
     /**
      * @return Liste de tout l'historique de chat
      */
-    public Vector getLstChat() {
+    public Vector<ChatBean> getLstChat() {
         return lstChat;
     }
 
@@ -418,7 +418,7 @@ public class GameEnvironment {
      *            Indice de départ
      * @return Liste de l'historique de chat depuis l'indice fourni
      */
-    public List getLstChat(long i) {
+    public List<ChatBean> getLstChat(long i) {
         if ((i - chatOffset) < 0) {
             i = chatOffset;
         }
@@ -432,14 +432,14 @@ public class GameEnvironment {
     /**
      * @return Liste des joueurs
      */
-    public Vector getLstJoueur() {
+    public Vector<JoueurBean> getLstJoueur() {
         return lstJoueur;
     }
 
     /**
      * @return Liste des parties (Bean)
      */
-    public Vector getLstPartie() {
+    public Vector<PartieBeloteBean> getLstPartie() {
         return lstPartie;
     }
 
@@ -475,7 +475,7 @@ public class GameEnvironment {
 				int nbPurge = -1;
 	    		int i = 0;
 				do {
-	        		vieuxChat = (ChatBean) lstChat.get(i);
+	        		vieuxChat = lstChat.get(i);
 	    			nbPurge++;
 	    			i++;
 				}
@@ -493,7 +493,7 @@ public class GameEnvironment {
          */
         boolean found = false;
         for (int i = 0; !found && (i < lstJoueur.size()); i++) {
-            if (((JoueurBean) lstJoueur.get(i)).equals(aJoueur)) {
+            if (lstJoueur.get(i).equals(aJoueur)) {
                 found = true;
                 // Mets l'ancien dans les double
                 lstJoueurDouble.add(lstJoueur.get(i));
@@ -537,7 +537,7 @@ public class GameEnvironment {
         	StringTokenizer token = new StringTokenizer(motsInterdits, ",");
         	while (chatOk && token.hasMoreElements()) {
 				String chainePattern = (String) token.nextElement();
-				Pattern pattern = (Pattern) cachePatternMotInterdit.get(chainePattern);
+				Pattern pattern = cachePatternMotInterdit.get(chainePattern);
 				try {
 					if (pattern == null) {
 						pattern = Pattern.compile(chainePattern, Pattern.CASE_INSENSITIVE);
@@ -642,7 +642,7 @@ public class GameEnvironment {
     /**
      * @return Liste des joueurs en double
      */
-    public Vector getLstJoueurDouble() {
+    public Vector<JoueurBean> getLstJoueurDouble() {
         return lstJoueurDouble;
     }
 
@@ -700,7 +700,7 @@ public class GameEnvironment {
     public void finPartie(GameSession aSession, int i) {
 
         DBSession dbConnect = aSession.getMyDBSession();
-        PartieBean thePartie = (PartieBean) lstPartie.get(i);
+        PartieBean thePartie = lstPartie.get(i);
 
         // Déjà finie ?
         if (thePartie.getDtFin() == null) {
@@ -708,7 +708,7 @@ public class GameEnvironment {
             thePartie.setDtFin(Calendar.getInstance());
 
             try {
-                ((PartieBean) lstPartie.get(i)).create(dbConnect);
+                lstPartie.get(i).create(dbConnect);
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (FctlException e) {
@@ -728,7 +728,7 @@ public class GameEnvironment {
      *            Numéro de la partie
      */
     public void restartPartie(int i) {
-        PartieBean thePartie = (PartieBean) lstPartie.get(i);
+        PartieBean thePartie = lstPartie.get(i);
 
         thePartie.setDtDebut(Calendar.getInstance());
         thePartie.setDtFin(null);

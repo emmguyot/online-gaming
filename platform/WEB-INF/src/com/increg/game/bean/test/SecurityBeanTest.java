@@ -6,16 +6,15 @@
  */
 package com.increg.game.bean.test;
 
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
 import com.increg.game.bean.GameSession;
 import com.increg.game.bean.SecurityBean;
-
-import junit.framework.TestCase;
-import junit.framework.Assert;
 
 /**
  * @author Manu

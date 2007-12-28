@@ -58,7 +58,7 @@ public class ListePartieAction extends AdminAction {
             reqSQL += " where dtDebut >= " + DBSession.quoteWith(intervalForm.getDebut(), '\'');
             reqSQL += " and dtDebut <= " + DBSession.quoteWith(intervalForm.getFin(), '\'');
             reqSQL += " order by dtDebut desc";
-            Vector res = new Vector();
+            Vector<PartieBeloteBean> res = new Vector<PartieBeloteBean>();
 
             // Interroge la Base
             try {

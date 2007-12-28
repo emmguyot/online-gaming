@@ -152,7 +152,7 @@ public class AfficheAire extends JPanel implements ActionListener, MouseListener
     /**
      * Titres
      */
-    private Vector titres;
+    private Vector<JLabel> titres;
 
     /**
      * Constructeur
@@ -398,7 +398,7 @@ public class AfficheAire extends JPanel implements ActionListener, MouseListener
      */
     protected void addTitres() {    
 
-        titres = new Vector(aire.getSkinConfig().getRTitre().size());
+        titres = new Vector<JLabel>(aire.getSkinConfig().getRTitre().size());
         
         for (int i = 0; i < aire.getSkinConfig().getRTitre().size(); i++) {
             JLabel titre = new JLabel(aire.getSkinConfig().getRTitre(i));
@@ -571,8 +571,8 @@ public class AfficheAire extends JPanel implements ActionListener, MouseListener
     public void refresh() {
 
         // Les joueurs
-        Vector lstJoueur = aire.getLstJoueur();
-        TreeSet tableauJoueur = new TreeSet(new StringCharOnlyComp());
+        Vector<Joueur> lstJoueur = aire.getLstJoueur();
+        TreeSet<String> tableauJoueur = new TreeSet<String>(new StringCharOnlyComp());
         for (int i = 0; i < lstJoueur.size(); i++) {
             Joueur aJoueur = (Joueur) lstJoueur.get(i);
             String pseudo = aJoueur.getPseudo();

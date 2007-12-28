@@ -5,6 +5,7 @@
  */
 package com.increg.game.client;
 
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Vector;
 
@@ -98,6 +99,15 @@ public abstract class Partie implements Comparable {
      */
     protected int scoreMaxPartie;
     
+    /**
+     * Date de début de la partie
+     */
+    protected Calendar dtDebut;
+    /**
+     * Date de fin de la partie
+     */
+    protected Calendar dtFin;    
+
     /* ***************************************
      * Méthodes
      * *************************************** */
@@ -708,5 +718,33 @@ public abstract class Partie implements Comparable {
 	/**
 	 * @param lstParam Paramètre de l'aire de jeu
 	 */
-	public abstract void setScoreMaxPartie(Map lstParam);
+	public abstract void setScoreMaxPartie(Map<Integer, String> lstParam);
+
+    /**
+     * @return Date de début de la partie
+     */
+    public Calendar getDtDebut() {
+        return dtDebut;
+    }
+
+    /**
+     * @return Date de fin de la partie
+     */
+    public Calendar getDtFin() {
+        return dtFin;
+    }
+
+    /**
+     * @param calendar Date de début de la partie
+     */
+    public void setDtDebut(Calendar calendar) {
+        dtDebut = calendar;
+    }
+
+    /**
+     * @param calendar Date de fin de la partie
+     */
+    public void setDtFin(Calendar calendar) {
+        dtFin = calendar;
+    }
 }

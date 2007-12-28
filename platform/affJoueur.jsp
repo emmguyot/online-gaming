@@ -1,5 +1,5 @@
 <%@ page import="com.increg.game.bean.JoueurBean,
-                com.increg.game.bean.PartieBean,
+                com.increg.game.client.Partie,
                 com.increg.game.client.belote.PartieBelote,
                 java.util.Iterator
 		" %>
@@ -34,14 +34,11 @@
             <th>Scores</th>
         </tr>
 <%
-        Iterator partieIter = aJoueur.getHistorique().iterator();
-        while (partieIter.hasNext()) {
-            PartieBean aPartieBean = (PartieBean) partieIter.next();
-            PartieBelote aPartie = (PartieBelote) aPartieBean.getMyPartie();
+        for (Partie aPartie : aJoueur.getHistorique()) {
 %>
             <tr>
                 <td><%= aPartie.toString() %></td>
-                <td><fmt:formatDate value="<%= aPartieBean.getDtDebut().getTime() %>" pattern="dd/MM/yyyy HH:mm" /></td>
+                <td><fmt:formatDate value="<%= aPartie.getDtDebut().getTime() %>" pattern="dd/MM/yyyy HH:mm" /></td>
                 <td><%= aPartie.getParticipant(0).getPseudo() %> et <%= aPartie.getParticipant(2).getPseudo() %> contre<br><%= aPartie.getParticipant(1).getPseudo() %> et <%= aPartie.getParticipant(3).getPseudo() %></td>
                 <td><%= aPartie.getScoreTotal(0) %><br><%= aPartie.getScoreTotal(1) %></td>
             </tr>

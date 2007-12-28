@@ -219,11 +219,11 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
     /**
      * Composant visible pour le Refresh : Optimisation
      */     
-    private Vector lstVisible;
+    private Vector<JComponent> lstVisible;
     /**
      * Composant invisible pour le Refresh : Optimisation
      */     
-    private Vector lstInvisible;
+    private Vector<JComponent> lstInvisible;
 
     /**
      * Timer de ramassage automatique
@@ -267,8 +267,8 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
         dialogOpen = false;
         lastEtat = -1;
         nbCarteTapis = 0;
-        lstVisible = new Vector();
-        lstInvisible = new Vector();
+        lstVisible = new Vector<JComponent>();
+        lstInvisible = new Vector<JComponent>();
         
         // Chargement des éléments
         try {
@@ -1128,10 +1128,10 @@ public abstract class AfficheSalle extends JPanel implements WindowListener, Act
          * Affichage groupé pour limiter les problèmes de multithread avec Swing
          */
         for (int i = 0; i < lstInvisible.size(); i++) {
-            ((JComponent) lstInvisible.get(i)).setVisible(false);
+            lstInvisible.get(i).setVisible(false);
         }
         for (int i = 0; i < lstVisible.size(); i++) {
-            ((JComponent) lstVisible.get(i)).setVisible(true);
+            lstVisible.get(i).setVisible(true);
         }
         lstVisible.clear();
         lstInvisible.clear();

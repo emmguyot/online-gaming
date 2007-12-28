@@ -55,10 +55,10 @@ public class ExclureAction extends AdminAction {
         GameEnvironment env = (GameEnvironment) getServlet().getServletContext().getAttribute("Env");
         DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
 
-        Vector lstToutesParties = (Vector) env.getLstPartie().clone();
+        Vector<PartieBean> lstToutesParties = (Vector<PartieBean>) env.getLstPartie().clone();
         
         initData(exclureForm, dbConnect, lstToutesParties);
-        exclureForm.setLstJoueur((Vector) env.getLstJoueur().clone());
+        exclureForm.setLstJoueur((Vector<JoueurBean>) env.getLstJoueur().clone());
         
         return mapping.findForward("page");
 	}
@@ -74,7 +74,7 @@ public class ExclureAction extends AdminAction {
         GameEnvironment env = (GameEnvironment) getServlet().getServletContext().getAttribute("Env");
         DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
 
-        Vector lstToutesParties = (Vector) env.getLstPartie().clone();
+        Vector<PartieBean> lstToutesParties = (Vector<PartieBean>) env.getLstPartie().clone();
         
         initData(exclureForm, dbConnect, lstToutesParties);
 
@@ -95,7 +95,7 @@ public class ExclureAction extends AdminAction {
         }
         
         // Maj après pour tenir compte de l'exclusion
-        exclureForm.setLstJoueur((Vector) env.getLstJoueur().clone());
+        exclureForm.setLstJoueur((Vector<JoueurBean>) env.getLstJoueur().clone());
         
         // TODO Envoi sur URL exclue.php?pseudo=...
         
@@ -114,7 +114,7 @@ public class ExclureAction extends AdminAction {
         GameEnvironment env = (GameEnvironment) getServlet().getServletContext().getAttribute("Env");
         DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
 
-        Vector lstToutesParties = (Vector) env.getLstPartie().clone();
+        Vector<PartieBean> lstToutesParties = (Vector<PartieBean>) env.getLstPartie().clone();
         
         initData(exclureForm, dbConnect, lstToutesParties);
             
@@ -146,7 +146,7 @@ public class ExclureAction extends AdminAction {
         
 
         // Maj après pour tenir compte de l'exclusion
-        exclureForm.setLstJoueur((Vector) env.getLstJoueur().clone());
+        exclureForm.setLstJoueur((Vector<JoueurBean>) env.getLstJoueur().clone());
         
         // TODO Envoi sur URL exclue.php?pseudo=...
         
@@ -160,15 +160,15 @@ public class ExclureAction extends AdminAction {
 	 * @param dbConnect
 	 * @param lstToutesParties
 	 */
-	private void initData(ExclureForm exclureForm, DBSession dbConnect, Vector lstToutesParties) {
+	private void initData(ExclureForm exclureForm, DBSession dbConnect, Vector<PartieBean> lstToutesParties) {
 		if (!StringUtils.isEmpty(exclureForm.getJoueur())) {
             exclureForm.setAJoueur(JoueurBean.getJoueurBeanFromPseudo(dbConnect, exclureForm.getJoueur()));
         }
         if (exclureForm.getAJoueur() != null) {
             // Chargement de la liste de ses parties
-            Enumeration enumToutesParties = lstToutesParties.elements();
+            Enumeration<PartieBean> enumToutesParties = lstToutesParties.elements();
             while (enumToutesParties.hasMoreElements()) {
-                PartieBean aPartie2 = (PartieBean) enumToutesParties.nextElement();
+                PartieBean aPartie2 = enumToutesParties.nextElement();
                 
                 if (aPartie2.getMyPartie().joueurVoitPartie(exclureForm.getAJoueur())) {
                     exclureForm.getLstPartie().add(aPartie2);
@@ -183,9 +183,9 @@ public class ExclureAction extends AdminAction {
 
         if (!StringUtils.isEmpty(exclureForm.getPartieComp())) {
             // Chargement de la liste de ses parties
-            Enumeration enumToutesParties = lstToutesParties.elements();
+            Enumeration<PartieBean> enumToutesParties = lstToutesParties.elements();
             while (enumToutesParties.hasMoreElements()) {
-                PartieBean aPartie2 = (PartieBean) enumToutesParties.nextElement();
+                PartieBean aPartie2 = enumToutesParties.nextElement();
                 
                 if (aPartie2.getMyPartie().getTitre().equals(exclureForm.getPartieComp())) {
                     exclureForm.setAPartieComp(aPartie2);

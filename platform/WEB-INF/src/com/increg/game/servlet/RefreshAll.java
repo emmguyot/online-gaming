@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.increg.game.bean.ChatBean;
 import com.increg.game.bean.GameEnvironment;
 import com.increg.game.bean.GameSession;
+import com.increg.game.bean.JoueurBean;
 import com.increg.game.client.AireMainModel;
 import com.increg.game.client.Couleur;
 import com.increg.game.client.Joueur;
@@ -62,9 +63,9 @@ public class RefreshAll extends ConnectedServlet {
         
         if (env.getLstJoueurDouble().contains(mySession.getMyJoueur())) {
             // Utilisation en double : Vires-en un...
-            Iterator joueurIter = env.getLstJoueurDouble().iterator();
+            Iterator<JoueurBean> joueurIter = env.getLstJoueurDouble().iterator();
             while (joueurIter.hasNext()) {
-                Joueur aJoueur = (Joueur) joueurIter.next();
+                Joueur aJoueur = joueurIter.next();
                 // Test égalité de pointeur
                 if (aJoueur == mySession.getMyJoueur()) {
                     // Doublon : Supprimes le ==> C'est fait au détachement de la session
@@ -122,9 +123,9 @@ public class RefreshAll extends ConnectedServlet {
             fullXml.append(">");
 
             // Les joueurs
-            Vector lstJoueur = env.getLstJoueur();
+            Vector<JoueurBean> lstJoueur = env.getLstJoueur();
             for (int i = 0; i < lstJoueur.size(); i++) {
-                Joueur aJoueur = (Joueur) lstJoueur.get(i);
+                Joueur aJoueur = lstJoueur.get(i);
                 subXml.append("<").append(AireMainModel.XML_TAG_JOUEUR)
                         .append(" ").append(AireMainModel.XML_ATT_PSEUDO).append("=\"").append(HTMLencoder.htmlEncode(aJoueur.getPseudo())).append("\" ");
                 subXml.append(AireMainModel.XML_ATT_AVATAR).append("=\"");
@@ -380,9 +381,9 @@ public class RefreshAll extends ConnectedServlet {
             // Le chat
             long lastSentId = 0;
             synchronized (env.getLstChat()) {
-                List lstChat = env.getLstChat(mySession.getLastChatSeen());
+                List<ChatBean> lstChat = env.getLstChat(mySession.getLastChatSeen());
                 for (int i = 0; i < lstChat.size(); i++) {
-                    ChatBean aChat = (ChatBean) lstChat.get(i);
+                    ChatBean aChat = lstChat.get(i);
                     lastSentId = aChat.getId();
                     
                     // Le chat n'est envoyé que si le joueur n'est pas celui qui est connecté

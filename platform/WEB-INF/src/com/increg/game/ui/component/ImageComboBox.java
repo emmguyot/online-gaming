@@ -68,17 +68,17 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
     /**
      * Listener d'événements
      */
-    protected static HashMap myListener = new HashMap(2);
+    protected static HashMap<String, Vector<ActionListener>> myListener = new HashMap<String, Vector<ActionListener>>(2);
 
     /**
      * Popups présentant les items
      */
-    protected static HashMap popups = new HashMap(2);
+    protected static HashMap<String, JFrame> popups = new HashMap<String, JFrame>(2);
 
     /**
      * Contenus des popups
      */
-    protected static HashMap contents = new HashMap(2);
+    protected static HashMap<String, JPanel> contents = new HashMap<String, JPanel>(2);
     
     /**
      * Aire contenant le tout
@@ -88,7 +88,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
     /**
      * Legende des icônes
      */
-    protected static HashMap legende = new HashMap(2);
+    protected static HashMap<String, JLabel> legende = new HashMap<String, JLabel>(2);
 
     /**
      * Timer permettant de fermer automatiquement la fenêtre des smileys
@@ -115,7 +115,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
         tailleX = (int) Math.ceil((0.0 + items.length) / tailleY);
         
         if (myListener.get(titre) == null) {
-            myListener.put(titre, new Vector());
+            myListener.put(titre, new Vector<ActionListener>());
         }
 
         super.addActionListener(this);
@@ -131,7 +131,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
         images = chImages;
         if (contents.get(titre) != null) {
 
-            JPanel aContent = (JPanel) contents.get(titre);
+            JPanel aContent = contents.get(titre);
             aContent.removeAll(); 
 
             for (int i = 0; i < images.length; i++) {
@@ -151,7 +151,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
             }
             
             aContent.invalidate();
-            JFrame popup = (JFrame) popups.get(titre);
+            JFrame popup = popups.get(titre);
 
             popup.pack();           
         }
@@ -162,7 +162,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
      */
     public void dispose() {
         if (popups.get(titre) != null) {
-            JFrame popup = (JFrame) popups.get(titre);
+            JFrame popup = popups.get(titre);
             popup.removeWindowListener(this);
             
             if (popup.getWindowListeners().length == 0) {
@@ -210,7 +210,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
 	        if (popups.get(titre) == null) {
 	            // Affiche la popup
 	            JPanel panelComplet = new JPanel(new BorderLayout());
-	            panelComplet.add((JPanel) contents.get(titre), BorderLayout.CENTER);
+	            panelComplet.add(contents.get(titre), BorderLayout.CENTER);
 	            JLabel aLegende = new JLabel(" ");
 	            aLegende.setHorizontalAlignment(SwingConstants.CENTER);
 	            panelComplet.add(aLegende, BorderLayout.SOUTH);
@@ -244,13 +244,13 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
         	timerClose.stop();
         }
 
-        if (((JFrame) popups.get(titre)).isVisible()) {
-            ((JFrame) popups.get(titre)).setVisible(false);
+        if (popups.get(titre).isVisible()) {
+            popups.get(titre).setVisible(false);
         }
         else {
-            ((JFrame) popups.get(titre)).setVisible(true);
+            popups.get(titre).setVisible(true);
             // Au cas où la fenêtre a été mise en icône
-            ((JFrame) popups.get(titre)).setExtendedState(JFrame.NORMAL);
+            popups.get(titre).setExtendedState(JFrame.NORMAL);
             timerClose.start();
         }
     }
@@ -261,8 +261,8 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
     public void mouseClicked(MouseEvent e) {
         
         if (contents.get(titre) != null) {
-            for (int i = 0; i < ((Vector) myListener.get(titre)).size(); i++) {
-                ActionListener aListener = (ActionListener) ((Vector) myListener.get(titre)).get(i);
+            for (int i = 0; i < myListener.get(titre).size(); i++) {
+                ActionListener aListener = myListener.get(titre).get(i);
 
                 aListener.actionPerformed(new ActionEvent(this, e.getID(), ((JLabel) e.getSource()).getToolTipText()));
             }
@@ -289,7 +289,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
      */
     public void mouseEntered(MouseEvent e) {
         if (legende.get(titre) != null) {
-            ((JLabel) legende.get(titre)).setText(((JLabel) e.getSource()).getToolTipText());
+            legende.get(titre).setText(((JLabel) e.getSource()).getToolTipText());
         }
     }
 
@@ -303,7 +303,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
      * @see javax.swing.AbstractButton#addActionListener(java.awt.event.ActionListener)
      */
     public void addActionListener(ActionListener l) {
-        ((Vector) myListener.get(titre)).add(l);
+        myListener.get(titre).add(l);
     }
 
     /**
@@ -312,10 +312,10 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
     public void removeAll() {
         super.removeActionListener(this);
         if (popups.get(titre) != null) {
-            JFrame popup = (JFrame) popups.get(titre);
+            JFrame popup = popups.get(titre);
             popup.removeWindowListener(this);
             if (contents.get(titre) != null) {
-                JPanel aContent = (JPanel) contents.get(titre);
+                JPanel aContent = contents.get(titre);
             
                 Component[] tabLabel = aContent.getComponents();
                 for (int iLabel = 0; iLabel < tabLabel.length; iLabel++) {
@@ -350,7 +350,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
      * @see javax.swing.AbstractButton#removeActionListener(java.awt.event.ActionListener)
      */
     public void removeActionListener(ActionListener l) {
-        ((Vector) myListener.get(titre)).remove(l);
+        myListener.get(titre).remove(l);
     }
 
     /**
@@ -365,7 +365,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
     public void windowClosing(WindowEvent e) {
     	synchronized (popups) {
 	        if (e.getSource() == popups.get(titre)) {
-	            ((JFrame) popups.get(titre)).removeWindowListener(this);
+	            popups.get(titre).removeWindowListener(this);
 	            popups.remove(titre);
 	        }
     	}
@@ -407,7 +407,7 @@ public class ImageComboBox extends JButton implements ActionListener, MouseListe
      */
     public void setActiveListener(ActionListener l) {
         if (contents.get(titre) != null) {
-            JPanel aContent = (JPanel) contents.get(titre);
+            JPanel aContent = contents.get(titre);
             
             Component[] tabLabel = aContent.getComponents();
             for (int iLabel = 0; iLabel < tabLabel.length; iLabel++) {

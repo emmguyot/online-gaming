@@ -158,12 +158,12 @@ public class ChatPanelPartie extends ChatPanel {
      * @return bouton créé
      */
     protected ImageComboBox getChatSon() {
-        Vector son = Chat.getSon();
+        Vector<SmileySon> son = Chat.getSon();
         String[] items = new String[son.size()];
         String[] url = new String[son.size()];
         int cpt = 0;
         for (int i = 0; i < son.size(); i++) {
-            SmileySon aSon = (SmileySon) son.get(i);
+            SmileySon aSon = son.get(i);
 
             items[cpt] = aSon.getCode();
             url[cpt] = aSon.getImage();

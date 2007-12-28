@@ -58,7 +58,7 @@ public class ListeChatAction extends AdminAction {
             reqSQL += " where dtCreat >= " + DBSession.quoteWith(intervalForm.getDebut(), '\'');
             reqSQL += " and dtCreat <= " + DBSession.quoteWith(intervalForm.getFin(), '\'');
             reqSQL += " order by dtCreat asc";
-            Vector res = new Vector();
+            Vector<ChatBean> res = new Vector<ChatBean>();
 
             // Interroge la Base
             try {

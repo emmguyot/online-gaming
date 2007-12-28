@@ -814,8 +814,8 @@ public abstract class PartieBelote extends Partie {
         scoreAnnNonPrennables = new int[PartieBelote.NB_JOUEUR / 2];
         scoreAnnPrennables = new int[PartieBelote.NB_JOUEUR / 2];
         
-        Vector[] annonces = ((JeuBelote) jeu).getAnnonces();
-        Vector[] belotes = ((JeuBelote) jeu).getBelote();
+        Vector<Annonce>[] annonces = ((JeuBelote) jeu).getAnnonces();
+        Vector<Annonce>[] belotes = ((JeuBelote) jeu).getBelote();
         
         for (int iJoueur = 0; iJoueur < annonces.length; iJoueur++) {
             for (int i = 0; i < annonces[iJoueur].size(); i++) {
@@ -839,14 +839,14 @@ public abstract class PartieBelote extends Partie {
      * @param annonces Tableau d'annonces par joueur
      * @return événements associés
      */
-    protected String filtreAnnonce(Vector[] annonces) {
+    protected String filtreAnnonce(Vector<Annonce>[] annonces) {
         
         Annonce annonceMax = null;
         int joueurMax = -1;
         String event = "";
-        Vector[] annoncesRefus = new Vector[annonces.length];
+        Vector<Annonce>[] annoncesRefus = new Vector[annonces.length];
         for (int i = 0; i < annonces.length; i++) {
-            annoncesRefus[i] = new Vector();
+            annoncesRefus[i] = new Vector<Annonce>();
         }
 
         for (int iJoueur = 0; iJoueur < PartieBelote.NB_JOUEUR; iJoueur++) {

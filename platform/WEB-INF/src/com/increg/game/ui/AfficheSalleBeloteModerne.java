@@ -41,7 +41,7 @@ public class AfficheSalleBeloteModerne extends AfficheSalle {
         String[] texte = {"non.gif", "pique.gif", "coeur.gif", "trefle.gif", "carreau.gif", "sansatout.gif", "toutatout.gif"};
         String[] hint = {"Passe", "Pique", "Coeur", "Trèfle", "Carreau", "Sans atout", "Tout atout"};
         
-        Vector bounds = salle.getSkinConfig().getSBoutonPrise();
+        Vector<Rectangle> bounds = salle.getSkinConfig().getSBoutonPrise();
         
         
         /**

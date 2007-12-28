@@ -70,32 +70,32 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
     /**
      * Liste des boutons Jouer de chaque partie : Chaque élément est un tableau de JButton
      */
-    protected Vector jouerButton;
+    protected Vector<JButton[]> jouerButton;
     
     /**
      * Texte représentant les pseudo des joueurs : Chaque élément est un tableau de JLabel
      */
-    protected Vector pseudoLabel;
+    protected Vector<JLabel[]> pseudoLabel;
     
     /**
      * Icône représentant l'avatar des joueurs : Chaque élément est un tableau de JLabel
      */
-    protected Vector avatarLabel;
+    protected Vector<JLabel[]> avatarLabel;
     
     /**
      * Texte de présentation de la partie : Chaque élément est un tableau de 3 JLabel
      */
-    protected Vector textePresent;
+    protected Vector<JLabel[]> textePresent;
 
     /**
      * Label du cadenas des parties privées : Chaque élément est JLabel (ou null)
      */
-    protected Vector cadenasLabel;
+    protected Vector<JLabel> cadenasLabel;
 
     /**
      * Label du tournoi des parties : Chaque élément est JLabel (ou null)
      */
-    protected Vector tournoiLabel;
+    protected Vector<JLabel> tournoiLabel;
 
     /**
      * Image pour les parties lockées
@@ -121,12 +121,12 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
         aire = a;
 
         // Initialise les attributs        
-        jouerButton = new Vector();
-        pseudoLabel = new Vector();
-        avatarLabel = new Vector();
-        textePresent = new Vector();
-        cadenasLabel = new Vector();
-        tournoiLabel = new Vector();
+        jouerButton = new Vector<JButton[]>();
+        pseudoLabel = new Vector<JLabel[]>();
+        avatarLabel = new Vector<JLabel[]>();
+        textePresent = new Vector<JLabel[]>();
+        cadenasLabel = new Vector<JLabel>();
+        tournoiLabel = new Vector<JLabel>();
         
         // Positionnement en direct
         setLayout(null);
@@ -167,11 +167,11 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
             if (i < getNbItem()) {
                 // Simple mise à jour : Toutes les infos, car en cas de suppression, il peut y avoir décallage
                 // récupère les éléments créés à la liste dans les attributs
-                jouer = (JButton[]) jouerButton.get(i);
-                avatar = (JLabel[]) avatarLabel.get(i);
-                pseudo = (JLabel[]) pseudoLabel.get(i);
-                cadenas = (JLabel) cadenasLabel.get(i);
-                tournoi = (JLabel) tournoiLabel.get(i);
+                jouer = jouerButton.get(i);
+                avatar = avatarLabel.get(i);
+                pseudo = pseudoLabel.get(i);
+                cadenas = cadenasLabel.get(i);
+                tournoi = tournoiLabel.get(i);
                 
                 fillTexte(partie, i);
                 fillCadenas(partie, i);
@@ -236,14 +236,14 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
             
             // Utilise toujours l'indice aire.getNbPartie() car suppression au fur et à mesure
             for (int j = 0; j < PartieBelote.NB_JOUEUR; j++) {
-                ((JButton[]) jouerButton.get(aire.getNbPartie()))[j].removeActionListener(this);
+                jouerButton.get(aire.getNbPartie())[j].removeActionListener(this);
             }
-            JButton[] jouer = (JButton[]) jouerButton.remove(aire.getNbPartie());
-            JLabel[] pseudo = (JLabel[]) pseudoLabel.remove(aire.getNbPartie());
-            JLabel[] avatar = (JLabel[]) avatarLabel.remove(aire.getNbPartie());
-            JLabel[] texte = (JLabel[]) textePresent.remove(aire.getNbPartie());
-            JLabel cadenas = (JLabel) cadenasLabel.remove(aire.getNbPartie());
-            JLabel tournoi = (JLabel) tournoiLabel.remove(aire.getNbPartie());
+            JButton[] jouer = jouerButton.remove(aire.getNbPartie());
+            JLabel[] pseudo = pseudoLabel.remove(aire.getNbPartie());
+            JLabel[] avatar = avatarLabel.remove(aire.getNbPartie());
+            JLabel[] texte = textePresent.remove(aire.getNbPartie());
+            JLabel cadenas = cadenasLabel.remove(aire.getNbPartie());
+            JLabel tournoi = tournoiLabel.remove(aire.getNbPartie());
             
             if (texte != null) {
                 remove(texte[0]);
@@ -311,7 +311,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
      */
     protected void fillTexte(PartieBelote partie, int numPartie) {
         
-        JLabel[] texte = (JLabel[]) textePresent.get(numPartie);
+        JLabel[] texte = textePresent.get(numPartie);
         
         /**
          * Mise à jour que si nécessaire : pour éviter clignotement
@@ -366,7 +366,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
      * @param numPartie emplacement de la partie dans la liste
      */
     protected void fillCadenas(PartieBelote partie, int numPartie) {
-        JLabel labelCadenas = (JLabel) cadenasLabel.get(numPartie);
+        JLabel labelCadenas = cadenasLabel.get(numPartie);
         
         if ((partie.isPrivate() && labelCadenas.getIcon() == null)) {
             // Partie privée
@@ -405,7 +405,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
      * @param numPartie emplacement de la partie dans la liste
      */
     protected void fillTournoi(PartieBelote partie, int numPartie) {
-        JLabel labelTournoi = (JLabel) tournoiLabel.get(numPartie);
+        JLabel labelTournoi = tournoiLabel.get(numPartie);
         
         boolean partieTournoi; 
         partieTournoi = (partie.getMyTournoi() != null) 
@@ -496,7 +496,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
      * @param numJoueur numéro du joueur de la partie concerné 
      */
     protected void fillBoutonJouer(PartieBelote partie, int numPartie, int numJoueur) {
-        JButton[] jouer = (JButton[]) jouerButton.get(numPartie);
+        JButton[] jouer = jouerButton.get(numPartie);
         
         if (partie.getParticipant(numJoueur) == null) {
             jouer[numJoueur].setVisible(true);
@@ -558,7 +558,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
      * @param numJoueur numéro du joueur de la partie concerné 
      */
     protected void fillTextePseudo(PartieBelote partie, int numPartie, int numJoueur) {
-        JLabel[] pseudo = (JLabel[]) pseudoLabel.get(numPartie);
+        JLabel[] pseudo = pseudoLabel.get(numPartie);
         
         if (partie.getParticipant(numJoueur) == null) {
             pseudo[numJoueur].setVisible(false);
@@ -622,7 +622,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
      * @param numJoueur numéro du joueur de la partie concerné 
      */
     protected void fillTexteAvatar(PartieBelote partie, int numPartie, int numJoueur) {
-        JLabel[] avatar = (JLabel[]) avatarLabel.get(numPartie);
+        JLabel[] avatar = avatarLabel.get(numPartie);
         
         if (partie.getParticipant(numJoueur) == null) {
             avatar[numJoueur].setVisible(false);
@@ -658,7 +658,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
         boolean found = false;
         for (int i = 0; !found && (i < getNbItem()); i++) {
             JButton[] jouer;
-            jouer = (JButton[]) jouerButton.get(i);
+            jouer = jouerButton.get(i);
             for (int j = 0; j < PartieBelote.NB_JOUEUR; j++) {
                 if ((jouer[j] != null) && (jouer[j] == e.getSource())) {
                     // Trouvé
@@ -715,7 +715,7 @@ public class PartiesTable extends ImageBasedTable implements ActionListener, Mou
         removeMouseListener(this);
         for (int i = 0; i < getNbItem(); i++) {
             for (int j = 0; j < PartieBelote.NB_JOUEUR; j++) {
-                ((JButton[]) jouerButton.get(i))[j].removeActionListener(this);
+                jouerButton.get(i)[j].removeActionListener(this);
             }
         }
 

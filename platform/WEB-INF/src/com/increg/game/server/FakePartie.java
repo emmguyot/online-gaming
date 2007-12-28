@@ -44,7 +44,7 @@ public class FakePartie extends Partie {
 	/**
 	 * @see com.increg.game.client.Partie#setScoreMaxPartie(java.util.Map)
 	 */
-	public void setScoreMaxPartie(Map lstParam) {
+	public void setScoreMaxPartie(Map<Integer, String> lstParam) {
 	}
 
 }

@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
+import java.awt.RenderingHints.Key;
 import java.util.HashMap;
 
 import javax.swing.JComponent;
@@ -266,7 +267,7 @@ public class CarteComponent extends JComponent {
         // Affichage
         //g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
         
-        HashMap renderOpts = new HashMap();
+        HashMap<Key, Object> renderOpts = new HashMap<Key, Object>();
 //        renderOpts.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 //       renderOpts.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
         renderOpts.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);

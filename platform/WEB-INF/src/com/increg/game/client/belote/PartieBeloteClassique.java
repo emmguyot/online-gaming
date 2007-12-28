@@ -150,22 +150,22 @@ public class PartieBeloteClassique extends PartieBelote {
     /**
      * @see com.increg.game.client.Partie#setScoreMaxPartie(java.util.Map)
      */
-	public void setScoreMaxPartie(Map lstParam) {
+	public void setScoreMaxPartie(Map<Integer, String> lstParam) {
     	String valeur;
         if ((myTournoi != null) && (myTournoi.getIdentifiant() > 0)) {
         	if (annonce) {
-            	valeur = (String) lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES_TOURNOI));
+            	valeur = lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES_TOURNOI));
         	}
         	else {
-            	valeur = (String) lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE_TOURNOI));
+            	valeur = lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE_TOURNOI));
         	}
         }
         else {
         	if (annonce) {
-            	valeur = (String) lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES));
+            	valeur = lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_AVEC_ANNONCES));
         	}
         	else {
-            	valeur = (String) lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE));
+            	valeur = lstParam.get(new Integer(PartieBeloteClassique.CD_PARAM_NB_POINT_BELOTE_CLASSIQUE_SS_ANNONCE));
         	}
         }
         if (valeur != null) {

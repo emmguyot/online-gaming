@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 
+import com.increg.game.bean.ParamBean;
+
 /**
  * @author Manu
  *
@@ -46,7 +48,7 @@ public class ParamAireForm extends AdminForm {
     /**
      * Liste des paramètres existants : Instance de la liste = sous classe Param
      */
-	protected Vector lstParam;
+	protected Vector<ParamBean> lstParam;
 
 	/* (non-Javadoc)
 	 * @see com.increg.game.struts.AdminForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
@@ -57,7 +59,7 @@ public class ParamAireForm extends AdminForm {
 		cdParam = "";
 		valParam = "";
 		libParam = "";
-		lstParam = new Vector();
+		lstParam = new Vector<ParamBean>();
 	}
 
 	/* (non-Javadoc)
@@ -84,14 +86,14 @@ public class ParamAireForm extends AdminForm {
 	/**
 	 * @return Returns the lstParam.
 	 */
-	public Vector getLstParam() {
+	public Vector<ParamBean> getLstParam() {
 		return lstParam;
 	}
 
 	/**
 	 * @param lstParam The lstParam to set.
 	 */
-	public void setLstParam(Vector lstParam) {
+	public void setLstParam(Vector<ParamBean> lstParam) {
 		this.lstParam = lstParam;
 	}
 

@@ -6,7 +6,6 @@ package com.increg.game.servlet;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -15,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.increg.commun.DBSession;
 import com.increg.game.bean.JoueurBean;
-import com.increg.game.bean.PartieBean;
-import com.increg.game.client.belote.PartieBelote;
+import com.increg.game.client.Partie;
 import com.increg.serveur.servlet.ConnectedServlet;
 
 /**
@@ -61,10 +59,7 @@ public class AffJoueur extends ConnectedServlet {
                 
                 // Calcul des gains
                 int nbGainSrv = 0;
-                Iterator partieIter = aJoueur.getHistorique().iterator();
-                while (partieIter.hasNext()) {
-                    PartieBean aPartieBean = (PartieBean) partieIter.next();
-                    PartieBelote aPartie = (PartieBelote) aPartieBean.getMyPartie();
+                for (Partie aPartie : aJoueur.getHistorique()) {
                     if (aPartie.getScoreTotal(0) > aPartie.getScoreTotal(1)) {
                         if ((aPartie.getParticipant(0).getPseudo().equals(request.getParameter("Pseudo")))
                                 || (aPartie.getParticipant(2).getPseudo().equals(request.getParameter("Pseudo")))) {
@@ -91,7 +86,7 @@ public class AffJoueur extends ConnectedServlet {
                 if (fin >= aJoueur.getHistorique().size()) {
                     fin = aJoueur.getHistorique().size();
                 }
-                aJoueur.setHistorique(new Vector(aJoueur.getHistorique().subList(deb, fin)));
+                aJoueur.setHistorique(new Vector<Partie>(aJoueur.getHistorique().subList(deb, fin)));
                 
                 forward(request, response, "/affJoueur.jsp");
             }

@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionMapping;
 
 import com.increg.game.bean.JoueurBean;
 import com.increg.game.bean.PartieBean;
+import com.increg.game.client.Joueur;
 
 /**
  * @author Manu
@@ -54,7 +55,7 @@ public class ExclureForm extends AdminForm {
     /**
      * Joueurs connectés
      */
-	protected Vector lstJoueur;
+	protected Vector<JoueurBean> lstJoueur;
     /**
      * Joueur sélectionné
      */
@@ -62,7 +63,7 @@ public class ExclureForm extends AdminForm {
     /**
      * Parties visibles par le joueur
      */
-	protected Vector lstPartie;
+	protected Vector<PartieBean> lstPartie;
     /**
      * Partie sélectionnée
      */
@@ -71,7 +72,7 @@ public class ExclureForm extends AdminForm {
     /**
      * Liste des parties
      */
-	protected Vector lstPartieComp;
+	protected Vector<PartieBean> lstPartieComp;
     /**
      * Partie sélectionnée
      */
@@ -79,7 +80,7 @@ public class ExclureForm extends AdminForm {
     /**
      * Liste des joueurs de la partie
      */
-	protected Vector lstJoueurPartie;
+	protected Vector<Joueur> lstJoueurPartie;
     /**
      * Joueur sélectionné dans la partie
      */
@@ -91,13 +92,13 @@ public class ExclureForm extends AdminForm {
 	public void reset(ActionMapping arg0, HttpServletRequest arg1) {
 		super.reset(arg0, arg1);
 		
-		lstJoueur = new Vector();
+		lstJoueur = new Vector<JoueurBean>();
 		aJoueur = null;
-		lstPartie = new Vector();
+		lstPartie = new Vector<PartieBean>();
 		aPartie = null;
-		lstPartieComp = new Vector();
+		lstPartieComp = new Vector<PartieBean>();
 		aPartieComp = null;
-		lstJoueurPartie = new Vector();
+		lstJoueurPartie = new Vector<Joueur>();
 		aJoueurPartie = null;
 		
 		joueur = "";
@@ -200,56 +201,56 @@ public class ExclureForm extends AdminForm {
 	/**
 	 * @return Returns the lstJoueur.
 	 */
-	public Vector getLstJoueur() {
+	public Vector<JoueurBean> getLstJoueur() {
 		return lstJoueur;
 	}
 
 	/**
 	 * @param lstJoueur The lstJoueur to set.
 	 */
-	public void setLstJoueur(Vector lstJoueur) {
+	public void setLstJoueur(Vector<JoueurBean> lstJoueur) {
 		this.lstJoueur = lstJoueur;
 	}
 
 	/**
 	 * @return Returns the lstJoueurPartie.
 	 */
-	public Vector getLstJoueurPartie() {
+	public Vector<Joueur> getLstJoueurPartie() {
 		return lstJoueurPartie;
 	}
 
 	/**
 	 * @param lstJoueurPartie The lstJoueurPartie to set.
 	 */
-	public void setLstJoueurPartie(Vector lstJoueurPartie) {
+	public void setLstJoueurPartie(Vector<Joueur> lstJoueurPartie) {
 		this.lstJoueurPartie = lstJoueurPartie;
 	}
 
 	/**
 	 * @return Returns the lstPartie.
 	 */
-	public Vector getLstPartie() {
+	public Vector<PartieBean> getLstPartie() {
 		return lstPartie;
 	}
 
 	/**
 	 * @param lstPartie The lstPartie to set.
 	 */
-	public void setLstPartie(Vector lstPartie) {
+	public void setLstPartie(Vector<PartieBean> lstPartie) {
 		this.lstPartie = lstPartie;
 	}
 
 	/**
 	 * @return Returns the lstPartieComp.
 	 */
-	public Vector getLstPartieComp() {
+	public Vector<PartieBean> getLstPartieComp() {
 		return lstPartieComp;
 	}
 
 	/**
 	 * @param lstPartieComp The lstPartieComp to set.
 	 */
-	public void setLstPartieComp(Vector lstPartieComp) {
+	public void setLstPartieComp(Vector<PartieBean> lstPartieComp) {
 		this.lstPartieComp = lstPartieComp;
 	}
 

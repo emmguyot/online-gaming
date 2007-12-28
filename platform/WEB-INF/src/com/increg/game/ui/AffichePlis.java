@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.Timer;
 
+import com.increg.game.client.Carte;
 import com.increg.game.client.Couleur;
 import com.increg.game.client.SalleModel;
 import com.increg.game.ui.component.CarteComponent;
@@ -28,7 +29,7 @@ public class AffichePlis extends JDialog implements ActionListener {
     /**
      * Plis à afficher
      */
-    protected List plis;
+    protected List<Carte> plis;
     
     /**
      * Tapis de jeu
@@ -52,7 +53,7 @@ public class AffichePlis extends JDialog implements ActionListener {
      * @param aPlis plis à afficher
      * @param aSalle Salle concernée
      */
-    public AffichePlis(Frame parent, String titre, List aPlis, SalleModel aSalle) {
+    public AffichePlis(Frame parent, String titre, List<Carte> aPlis, SalleModel aSalle) {
         // non Modale
         super(parent, false);
         

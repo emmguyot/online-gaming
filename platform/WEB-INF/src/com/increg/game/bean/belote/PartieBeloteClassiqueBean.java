@@ -104,7 +104,7 @@ public class PartieBeloteClassiqueBean extends PartieBeloteBean {
             for (int i = 0; i < tabScoreCh.length; i++) {
                 tabScore[i]  = Integer.parseInt(tabScoreCh[i]);
             }
-            Vector vScore = new Vector(1);
+            Vector<int[]> vScore = new Vector<int[]>(1);
             vScore.add(tabScore);
             
             ((PartieBeloteClassique) myPartie).setScore(vScore);

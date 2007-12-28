@@ -9,7 +9,6 @@ package com.increg.game.ui.test;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.image.ImageObserver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -91,7 +90,7 @@ public class TestIconeAnim {
         aPopup.pack(); 
         aPopup.setResizable(false);
 
-        aPopup.show();
+        aPopup.setVisible(true);
     }
     /**
      * @see java.lang.Runnable#run()

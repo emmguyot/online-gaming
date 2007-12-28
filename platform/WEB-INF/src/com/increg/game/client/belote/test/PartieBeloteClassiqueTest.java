@@ -8,6 +8,8 @@ package com.increg.game.client.belote.test;
 
 import java.util.Vector;
 
+import com.increg.game.client.Carte;
+import com.increg.game.client.Couleur;
 import com.increg.game.client.belote.AtoutBelote;
 import com.increg.game.client.belote.CouleurBelote;
 import com.increg.game.client.belote.EtatPartieBelote;
@@ -41,7 +43,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
         CouleurBelote dixTrefle = new CouleurBelote(CouleurBelote.DIX, CouleurBelote.TREFLE);
         AtoutBelote septCarreau = new AtoutBelote(CouleurBelote.SEPT, CouleurBelote.CARREAU);
 
-        Vector main = new Vector(); 
+        Vector<Couleur> main = new Vector<Couleur>(); 
         main.add(dixCarreau);
         main.add(asTrefle);
         main.add(dixTrefle);
@@ -50,7 +52,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
         /**
          * 1èr cas pas de tapis
          */
-        aPartie.getJeu().setTapis(new Vector());
+        aPartie.getJeu().setTapis(new Vector<Carte>());
         aPartie.getJeu().getMains()[0].addAll(main);
         
         Assert.assertEquals(aPartie.peutJouer(asTrefle), true);
@@ -63,7 +65,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
          * 2ème cas ouverture faite : Pas à l'atout
          * Partenaire n'a pas joué
          */
-        aPartie.getJeu().setTapis(new Vector());
+        aPartie.getJeu().setTapis(new Vector<Carte>());
         aPartie.getJeu().getTapis().add(new CouleurBelote(CouleurBelote.SEPT, CouleurBelote.TREFLE));
 
         Assert.assertEquals(aPartie.peutJouer(asTrefle), true);
@@ -75,7 +77,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
          * 3ème cas ouverture faite : Pas à l'atout
          * Partenaire n'a pas joué
          */
-        aPartie.getJeu().setTapis(new Vector());
+        aPartie.getJeu().setTapis(new Vector<Carte>());
         aPartie.getJeu().getTapis().add(new CouleurBelote(CouleurBelote.SEPT, CouleurBelote.COEUR));
 
         Assert.assertEquals(aPartie.peutJouer(asTrefle), false);
@@ -87,7 +89,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
          * 4ème cas ouverture faite : Pas à l'atout
          * Partenaire a joué
          */
-        aPartie.getJeu().setTapis(new Vector());
+        aPartie.getJeu().setTapis(new Vector<Carte>());
         aPartie.getJeu().getTapis().add(new CouleurBelote(CouleurBelote.DIX, CouleurBelote.COEUR));
         aPartie.getJeu().getTapis().add(new CouleurBelote(CouleurBelote.SEPT, CouleurBelote.COEUR));
 
@@ -100,7 +102,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
          * 5ème cas ouverture faite : A l'atout
          * Partenaire n'a pas joué
          */
-        aPartie.getJeu().setTapis(new Vector());
+        aPartie.getJeu().setTapis(new Vector<Carte>());
         aPartie.getJeu().getTapis().add(new AtoutBelote(AtoutBelote.HUIT, CouleurBelote.CARREAU));
 
         Assert.assertEquals(aPartie.peutJouer(asTrefle), false);
@@ -112,7 +114,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
          * 6ème cas ouverture faite : A l'atout
          * Partenaire a joué
          */
-        aPartie.getJeu().setTapis(new Vector());
+        aPartie.getJeu().setTapis(new Vector<Carte>());
         aPartie.getJeu().getTapis().add(new AtoutBelote(AtoutBelote.DAME, CouleurBelote.CARREAU));
         aPartie.getJeu().getTapis().add(new AtoutBelote(AtoutBelote.HUIT, CouleurBelote.CARREAU));
 
@@ -125,7 +127,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
          * 7ème cas ouverture faite : Pisse
          * Partenaire n'a pas joué
          */
-        aPartie.getJeu().setTapis(new Vector());
+        aPartie.getJeu().setTapis(new Vector<Carte>());
         aPartie.getJeu().getTapis().add(new AtoutBelote(AtoutBelote.NEUF, CouleurBelote.CARREAU));
 
         Assert.assertEquals(aPartie.peutJouer(asTrefle), false);
@@ -141,7 +143,7 @@ public class PartieBeloteClassiqueTest extends TestCase {
     public void testMaitresse() {
         PartieBeloteClassique aPartie = new PartieBeloteClassique();
         aPartie.setAtout(CouleurBelote.PIQUE);
-        Vector tapis = new Vector();
+        Vector<Carte> tapis = new Vector<Carte>();
         tapis.add(new CouleurBelote(7, 1));
         tapis.add(new CouleurBelote(4, 1));
         tapis.add(new CouleurBelote(3, 1));
