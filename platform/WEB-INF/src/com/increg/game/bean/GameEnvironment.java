@@ -885,7 +885,14 @@ public class GameEnvironment {
         ChatBean hiChat = new ChatBean();
         hiChat.setJoueurOrig(getSystem());
         hiChat.setStyle("<font color=\"green\"><b>");
-        hiChat.setText("Bonjour " + aJoueur.getPseudo() + " [salut]");
+        String msg = "Bonjour " + aJoueur.getPseudo() + " ";
+        if (lstJoueur.size() >= 4) {
+        	msg += lstJoueur.size() + " joueurs vous attendent pour jouer.";
+        }
+        else {
+        	msg += " Merci de patienter pour que d'autres joueurs puissent vous rejoindre et jouer avec vous.";
+        }
+        hiChat.setText(msg);
         hiChat.setPartie(aPartie);
         addChat(hiChat, null);
     }
