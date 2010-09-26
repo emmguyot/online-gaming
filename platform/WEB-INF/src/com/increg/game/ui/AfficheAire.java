@@ -175,7 +175,7 @@ public class AfficheAire extends JPanel implements ActionListener, MouseListener
             imageFd = aire.getImage(aire.getSkinConfig().getRFond());
         }
         catch (MalformedURLException e) {
-            a.getLogger().severe("URL fond invalide");
+            a.getLogger().severe("URL fond invalide :" + e.getMessage());
         }
         
         // Pas de layout pour positionner directement les éléments
