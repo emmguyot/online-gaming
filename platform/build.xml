@@ -1,7 +1,7 @@
 <project name="belote" default="applet">
 	<description description="Aire de jeux"></description>
 
-	<property name="tomcat" value="C:/Program Files/jakarta-tomcat-3.3.1" />
+	<property name="tomcat" value="C:/Tomcat/tomcatProd" />
     <property name="src" value="." />
     <property name="srcCommon" value="${src}/../salon" />
     <property name="work" value="./work" />
@@ -45,7 +45,8 @@
 
 	<!-- *************************************************************************** -->
 	<target description="Création du jar de l'applet pour l'aire" name="applet" depends="init">
-		<javac destdir="${build}/aire" compiler="modern" srcdir="${src}/WEB-INF/src" debug="true" listfiles="true" optimize="true">
+		<javac destdir="${build}/aire" compiler="modern" srcdir="${src}/WEB-INF/src" debug="true" listfiles="true" optimize="true"
+			classpath="${java.home}/lib/plugin.jar" >
 	 		<compilerarg value="-Xlint:unchecked"/>
 			<include name="com/increg/game/net/ServerCall.java" />
 			<include name="com/increg/game/net/ServerCallThread.java" />
@@ -120,7 +121,7 @@
 			<arg path="${src}/config.rgs" />
 			<arg path="${src}/config.log" />
 		</java>
-		<move file="${src}/applets/aire_obf.jar" tofile="${src}/applets/aire.jar" />
+		<!--<move file="${src}/applets/aire_obf.jar" tofile="${src}/applets/aire.jar" />-->
 		<signjar jar="${src}/applets/aire.jar" alias="emmguyot" storepass="${storepwd}"></signjar>
 		
 		<!-- Création du jar des ressources -->
@@ -129,9 +130,11 @@
 			<include name="images/**/*.jpg" />
 			<exclude name="images/**/VerifJava.gif" />
 		</jar>
+		<signjar jar="${src}/applets/aire_res.jar" alias="emmguyot" storepass="${storepwd}"></signjar>
 		<jar destfile="${src}/applets/aire_conf.jar" basedir="${src}" index="true">
 			<include name="conf/*.xml" />
 		</jar>
+		<signjar jar="${src}/applets/aire_conf.jar" alias="emmguyot" storepass="${storepwd}"></signjar>
 		<javac srcdir="${src}/WEB-INF/src/" target="1.1" fork="yes" destdir="${src}">
 			<filename name="VerifJava.java"/>
 		</javac>
@@ -191,4 +194,25 @@
 		<zip destfile="${build}/belote.war" baseDir="${tmpProd}" />
 	</target>
 
+	<target description="Mise en production" name="toProd" depends="init, applet">
+		<copy todir="${prod}" preservelastmodified="yes" verbose="yes" overwrite="true" >
+			<fileset dir="${src}">
+				<include name="WEB-INF/**/*.class" />
+				<include name="WEB-INF/**/*.tld" />
+				<include name="WEB-INF/**/*.xml" />
+				<include name="**/*.jsp" />
+				<include name="**/*.jar" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+				<include name="**/*.css" />
+				<include name="**/*.html" />
+				<include name="**/*.lnk" />
+				<exclude name="**/*.sql" />
+				<include name="*.class" />
+				<exclude name="example/*" />
+				<exclude name="WEB-INF/src/*" />
+				<exclude name="WEB-INF/src/**/*" />
+			</fileset>
+		</copy>
+	</target>
 </project>
