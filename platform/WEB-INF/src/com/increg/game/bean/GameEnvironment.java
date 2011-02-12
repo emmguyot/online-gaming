@@ -886,11 +886,13 @@ public class GameEnvironment {
         hiChat.setJoueurOrig(getSystem());
         hiChat.setStyle("<font color=\"green\"><b>");
         String msg = "Bonjour " + aJoueur.getPseudo() + " ";
-        if (lstJoueur.size() >= 4) {
-        	msg += lstJoueur.size() + " joueurs vous attendent pour jouer.";
-        }
-        else {
-        	msg += " Merci de patienter pour que d'autres joueurs puissent vous rejoindre et jouer avec vous.";
+        if (aPartie == null) {
+	        if (lstJoueur.size() >= 4) {
+	        	msg += (lstJoueur.size()-1) + " joueurs vous attendent pour jouer.";
+	        }
+	        else {
+	        	msg += " Merci de patienter pour que d'autres joueurs puissent vous rejoindre et jouer avec vous.";
+	        }
         }
         hiChat.setText(msg);
         hiChat.setPartie(aPartie);
