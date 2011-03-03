@@ -1,6 +1,8 @@
 package com.increg.serveur.servlet;
 
 import com.increg.commun.*;
+import com.increg.commun.exception.NoDatabaseException;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
@@ -56,8 +58,13 @@ public class CountSession implements HttpSessionBindingListener {
     	if (count == null) {
     		count = new Integer(0);
     		// Connexion à la base
-    		DBSession dbConnect = new DBSession();
-    		srvCtxt.setAttribute("dbSession", dbConnect);
+    		DBSession dbConnect;
+			try {
+				dbConnect = new DBSession();
+	    		srvCtxt.setAttribute("dbSession", dbConnect);
+			} catch (NoDatabaseException e) {
+				e.printStackTrace();
+			}
     //		System.out.println ("Connexion base");
     	}
     	srvCtxt.setAttribute("Count", new Integer(count.intValue() + 1));

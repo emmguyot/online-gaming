@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSessionBindingListener;
 
 import com.increg.commun.BasicSession;
 import com.increg.commun.DBSession;
+import com.increg.commun.exception.NoDatabaseException;
 import com.increg.commun.exception.UnauthorisedUserException;
 import com.increg.util.SimpleDateFormatEG;
 
@@ -151,7 +152,7 @@ public class GameSession extends BasicSession implements
      *             licence n'est pas correcte
      */
     public GameSession(ServletContext aCxt, String configName, String pseudo,
-            String crc) throws UnauthorisedUserException {
+            String crc) throws UnauthorisedUserException, NoDatabaseException {
         super();
         srvCtxt = aCxt;
         myDBSession = new DBSession(configName);
