@@ -82,9 +82,9 @@ public class AfficheRobot extends JDialog implements ActionListener, KeyListener
         getContentPane().add(Box.createVerticalStrut(12));
         getContentPane().add(getNbRobotsBox());
         getContentPane().add(Box.createVerticalStrut(11));
-        getContentPane().add(getLogOptionBox());
+        //getContentPane().add(getLogOptionBox());
         getContentPane().add(Box.createVerticalStrut(11));
-        getContentPane().add(getLogBox());
+        //getContentPane().add(getLogBox());
         getContentPane().add(Box.createVerticalStrut(17));
         getContentPane().add(getActionBox());
         getContentPane().add(Box.createVerticalStrut(11));

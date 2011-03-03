@@ -18,12 +18,19 @@
 package com.increg.game.client.test;
 
 import com.increg.game.client.AireMainModel;
+import com.increg.game.client.Joueur;
+import com.increg.game.ui.AireMain;
 
 /**
  * @author guyot_e
  *
  */
 public class Robot extends AireMainModel {
+
+	public Robot(AireMain a, Joueur j) {
+		super(a, j);
+		// TODO Auto-generated constructor stub
+	}
 
 	// Gestion des interactions serveurs
 	// Multi instance à vérifier
