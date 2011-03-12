@@ -1,6 +1,6 @@
 /*
  * Gestion de la purge des données et de l'optimisation de la base
- * Copyright (C) 2005 Emmanuel Guyot <See emmguyot on SourceForge>
+ * Copyright (C) 2005-2011 Emmanuel Guyot <See emmguyot on SourceForge>
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms 
  * of the GNU General Public License as published by the Free Software Foundation; either 
@@ -30,7 +30,6 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 
 import com.increg.commun.DBSession;
-import com.increg.game.bean.GameSession;
 
 /**
  * @author Manu
@@ -45,7 +44,7 @@ public class PurgeAction extends AdminAction {
 		// Alimentation des données : Pour affichage
 		PurgeForm purgeForm = (PurgeForm) form;
 		
-        DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
+		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
         
         String reqSQL = "select min(dtDebut) from Partie";
         ResultSet rs = dbConnect.doRequest(reqSQL);
@@ -81,7 +80,7 @@ public class PurgeAction extends AdminAction {
 
 		PurgeForm purgeForm = (PurgeForm) form;
 		
-        DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
+		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
         
 		ActionMessages errors = form.validate(mapping, request);
 		if (errors.isEmpty()) {
@@ -100,7 +99,7 @@ public class PurgeAction extends AdminAction {
 	public ActionForward purgeJoueur(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PurgeForm purgeForm = (PurgeForm) form;
 		
-        DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
+		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
         
 		ActionMessages errors = form.validate(mapping, request);
 		if (errors.isEmpty()) {
@@ -119,7 +118,7 @@ public class PurgeAction extends AdminAction {
 	public ActionForward purgeChat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PurgeForm purgeForm = (PurgeForm) form;
 		
-        DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
+		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
         
 		ActionMessages errors = form.validate(mapping, request);
 		if (errors.isEmpty()) {
@@ -137,7 +136,7 @@ public class PurgeAction extends AdminAction {
 	 */
 	public ActionForward optimise(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-		DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
+		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
 
 		ActionMessages errors = new ActionMessages();
 

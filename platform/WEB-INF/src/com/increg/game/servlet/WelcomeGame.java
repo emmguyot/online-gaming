@@ -1,3 +1,21 @@
+/*
+ * Servlet d'accès à l'aire : Initialisation de la session 
+ * Creation date: 14 avr. 2003
+ * Copyright (C) 2003-2011 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; 
+ * if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ */
 package com.increg.game.servlet;
 
 import java.io.IOException;
@@ -16,20 +34,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.increg.commun.DBSession;
+import com.increg.commun.PooledDBSession;
 import com.increg.commun.exception.FctlException;
 import com.increg.commun.exception.UnauthorisedUserException;
 import com.increg.game.bean.GameEnvironment;
 import com.increg.game.bean.GameSession;
 
 /**
- * Servlet d'accès à l'aire : Initialisation de la session Creation date: 14
- * avr. 2003
+ * 
  * 
  * @author Emmanuel GUYOT <emmguyot@wanadoo.fr>
  */
 public class WelcomeGame extends HttpServlet {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1735351089854005881L;
+
+	/**
      * Process incoming HTTP GET requests
      * 
      * @param request
@@ -103,8 +127,7 @@ public class WelcomeGame extends HttpServlet {
             // Création de la session
             boolean sessionOk = false;
             HttpSession mySession = request.getSession(true);
-
-            String fichConfig = GameSession.DEFAULT_CONFIG;
+    		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
 
             try {
                 request.setCharacterEncoding("UTF8");
@@ -157,7 +180,7 @@ public class WelcomeGame extends HttpServlet {
                 /**
                  * Controle de la limite des connexions
                  */
-                ResourceBundle resConfig = ResourceBundle.getBundle(fichConfig);
+                ResourceBundle resConfig = ResourceBundle.getBundle(GameSession.DEFAULT_CONFIG);
                 if (env.getLstJoueur().size() >= Integer.parseInt(resConfig
                         .getString("maxCnx"))) {
                     System.err
@@ -167,8 +190,7 @@ public class WelcomeGame extends HttpServlet {
 
                     try {
                         // Affectation du Bean Session
-                        myGame = new GameSession(getServletContext(),
-                                fichConfig, pseudo, crc);
+                    	myGame = new GameSession(getServletContext(), GameSession.DEFAULT_CONFIG, pseudo, crc, dbConnect);
 
                         if (env.isSecured()) {
                             // Recharge les données du joueur à partir du site
@@ -197,11 +219,11 @@ public class WelcomeGame extends HttpServlet {
                                     if (myGame.getMyJoueur().getCdJoueur() == 0) {
                                         // Création du nouveau joueur
                                         myGame.getMyJoueur().create(
-                                                myGame.getMyDBSession());
+                                        		dbConnect);
                                     } else {
                                         // Sauvegarde le joueur mise à jour
                                         myGame.getMyJoueur().maj(
-                                                myGame.getMyDBSession());
+                                        		dbConnect);
                                     }
                                 } catch (DataFormatException e) {
                                     System.err

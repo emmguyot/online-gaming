@@ -1,6 +1,7 @@
 /*
- * 
- * Copyright (C) 2003-2005 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * Objet Session de l'aire de jeu 
+ * Creation date: 8 avr. 2003 
+ * Copyright (C) 2003-2011 Emmanuel Guyot <See emmguyot on SourceForge> 
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms 
  * of the GNU General Public License as published by the Free Software Foundation; either 
@@ -31,11 +32,6 @@ import com.increg.commun.exception.NoDatabaseException;
 import com.increg.commun.exception.UnauthorisedUserException;
 import com.increg.util.SimpleDateFormatEG;
 
-/**
- * Objet Session de l'aire de jeu Creation date: 8 avr. 2003
- * 
- * @author Emmanuel GUYOT <emmguyot@wanadoo.fr>
- */
 public class GameSession extends BasicSession implements
         HttpSessionBindingListener {
 
@@ -48,11 +44,6 @@ public class GameSession extends BasicSession implements
      * Taille des paquets échangés
      */
     public static final int CHUNK_SIZE = 4096;
-
-    /**
-     * myDBSession Connection à la base de données
-     */
-    protected DBSession myDBSession;
 
     /**
      * myIdent Identification de l'utilisateur
@@ -152,25 +143,24 @@ public class GameSession extends BasicSession implements
      *             licence n'est pas correcte
      */
     public GameSession(ServletContext aCxt, String configName, String pseudo,
-            String crc) throws UnauthorisedUserException, NoDatabaseException {
+            String crc, DBSession dbConnect) throws UnauthorisedUserException, NoDatabaseException {
         super();
         srvCtxt = aCxt;
-        myDBSession = new DBSession(configName);
         frozen = false;
         // Récupération du chemin de sauvegarde
-        resConfig = ResourceBundle.getBundle(configName);
+        setResConfig(ResourceBundle.getBundle(configName));
         // Environnement de l'aire
         GameEnvironment env = (GameEnvironment) srvCtxt.getAttribute("Env");
-        env.loadParamAire(myDBSession);
+        env.loadParamAire(dbConnect);
 
         try {
             String passPhrase = resConfig.getString("passPhrase");
             if (env.isSecured()) {
                 // Contrôle de sécurité
-                security = new SecurityBean(pseudo, crc, passPhrase);
+                setSecurity(new SecurityBean(pseudo, crc, passPhrase));
             }
 
-            myJoueur = JoueurBean.getJoueurBeanFromPseudo(myDBSession, pseudo);
+            myJoueur = JoueurBean.getJoueurBeanFromPseudo(dbConnect, pseudo);
             if (myJoueur == null) {
                 // nouveau joueur
                 myJoueur = new JoueurBean();
@@ -179,7 +169,7 @@ public class GameSession extends BasicSession implements
                 try {
 	                myJoueur.setAvatarFaiblePerf(new URL("file:///images/avatar.gif"));
 	                myJoueur.setAvatarHautePerf(new URL("file:///images/avatar.gif"));
-                	myJoueur.create(myDBSession);
+                	myJoueur.create(dbConnect);
                 }
                 catch (Exception e) {
                 	e.printStackTrace();
@@ -240,16 +230,6 @@ public class GameSession extends BasicSession implements
     }
 
     /**
-     * Insert the method's description here. Creation date: (07/07/2001
-     * 20:02:11)
-     * 
-     * @return com.increg.salon.bean.DBSession
-     */
-    public DBSession getMyDBSession() {
-        return myDBSession;
-    }
-
-    /**
      * Insert the method's description here. Creation date: (08/07/2001
      * 18:04:58)
      * 
@@ -257,17 +237,6 @@ public class GameSession extends BasicSession implements
      */
     public JoueurBean getMyJoueur() {
         return myJoueur;
-    }
-
-    /**
-     * Insert the method's description here. Creation date: (07/07/2001
-     * 20:02:11)
-     * 
-     * @param newMyDBSession
-     *            com.increg.salon.bean.DBSession
-     */
-    private void setMyDBSession(DBSession newMyDBSession) {
-        myDBSession = newMyDBSession;
     }
 
     /**
@@ -523,11 +492,6 @@ public class GameSession extends BasicSession implements
             System.out.println(GameSession.dateToString(Calendar.getInstance())
                     + " Unbound(" + isValide() + ") : " + myJoueur.getPseudo()
                     + " reste : " + env.getLstJoueur().size());
-        }
-
-        if (myDBSession != null) {
-            myDBSession.close();
-            myDBSession = null;
         }
     }
 

@@ -1,6 +1,6 @@
 /*
- * 
- * Copyright (C) 2003-2005 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * Classe de l'environnement de l'aire
+ * Copyright (C) 2003-2011 Emmanuel Guyot <See emmguyot on SourceForge> 
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms 
  * of the GNU General Public License as published by the Free Software Foundation; either 
@@ -697,9 +697,8 @@ public class GameEnvironment {
      * @param i
      *            Numéro de la partie
      */
-    public void finPartie(GameSession aSession, int i) {
+    public void finPartie(GameSession aSession, DBSession dbConnect, int i) {
 
-        DBSession dbConnect = aSession.getMyDBSession();
         PartieBean thePartie = lstPartie.get(i);
 
         // Déjà finie ?

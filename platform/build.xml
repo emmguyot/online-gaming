@@ -140,7 +140,7 @@
 		</javac>
 	</target>
 	
-	<!-- *************************************************************************** -->
+	<!-- ************************ OBSOLETE *************************************************** -->
 	<target description="Recopie les fichiers dérivés" name="derived">
 		<copy todir="${src}" preservelastmodified="yes" verbose="yes" overwrite="true">
 			<fileset id="Common Files" dir="${srcCommon}">
@@ -200,6 +200,7 @@
 				<include name="WEB-INF/**/*.class" />
 				<include name="WEB-INF/**/*.tld" />
 				<include name="WEB-INF/**/*.xml" />
+				<include name="WEB-INF/**/*.properties" />
 				<include name="**/*.jsp" />
 				<include name="**/*.jar" />
 				<include name="**/*.gif" />
@@ -210,9 +211,13 @@
 				<exclude name="**/*.sql" />
 				<include name="*.class" />
 				<exclude name="example/*" />
+				<exclude name="WEB-INF/classes/config.properties" />
 				<exclude name="WEB-INF/src/*" />
 				<exclude name="WEB-INF/src/**/*" />
+				<exclude name="WEB-INF/srcLibertyLook/*" />
+				<exclude name="WEB-INF/srcLibertyLook/**/*" />
 			</fileset>
 		</copy>
+		<move file="${prod}/WEB-INF/classes/config.prod.properties" tofile="${prod}/WEB-INF/classes/config.properties"></move>
 	</target>
 </project>

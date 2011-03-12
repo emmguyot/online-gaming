@@ -2,8 +2,23 @@
 
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-app_2_4.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
+
+	<filter>
+	  <filter-name>DBSessionFilter</filter-name>
+	  <filter-class>com.increg.game.filter.DBSessionFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+	  <filter-name>DBSessionFilter</filter-name>
+	  <url-pattern>*.srv</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+	  <filter-name>DBSessionFilter</filter-name>
+	  <url-pattern>*.do</url-pattern>
+	</filter-mapping>
 
 	<!-- Standard Action Servlet Configuration (with debugging) -->
 	<servlet>

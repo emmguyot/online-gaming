@@ -1,6 +1,6 @@
 /*
  * Gestion de l'administration de l'aire de jeux
- * Copyright (C) 2001-2005 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * Copyright (C) 2001-2011 Emmanuel Guyot <See emmguyot on SourceForge> 
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms 
  * of the GNU General Public License as published by the Free Software Foundation; either 
@@ -113,7 +113,7 @@ public class AdminAction extends DispatchAction {
         }
         
         if (!erreur) {
-            DBSession dbConnect = mySession.getMyDBSession();
+    		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
 
             // Recherche le joueur sur ce pseudo
             JoueurBean anAdmin = JoueurBean.getJoueurBeanFromPseudo(dbConnect, pseudo);

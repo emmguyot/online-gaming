@@ -1,6 +1,6 @@
 /*
  * Affichage de l'historique des parties
- * Copyright (C) 2005 Emmanuel Guyot <See emmguyot on SourceForge>
+ * Copyright (C) 2005-2011 Emmanuel Guyot <See emmguyot on SourceForge>
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms 
  * of the GNU General Public License as published by the Free Software Foundation; either 
@@ -18,7 +18,6 @@
 package com.increg.game.struts;
 
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +31,6 @@ import org.apache.struts.action.ActionMessages;
 
 import com.increg.commun.DBSession;
 import com.increg.game.bean.ChatBean;
-import com.increg.game.bean.GameSession;
 
 /**
  * @author Manu
@@ -49,8 +47,7 @@ public class ListeChatAction extends AdminAction {
 		
 		ActionMessages errors = form.validate(mapping, request);
 		if (errors.isEmpty()) {
-	        DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
-	        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
 	
             // Charge son historique
             // Recherche le joueur sur ce pseudo

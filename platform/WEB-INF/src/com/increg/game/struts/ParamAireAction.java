@@ -1,6 +1,6 @@
 /*
  * Paramétrage de l'aire
- * Copyright (C) 2005 Emmanuel Guyot <See emmguyot on SourceForge>
+ * Copyright (C) 2005-2011 Emmanuel Guyot <See emmguyot on SourceForge>
  * 
  * This program is free software; you can redistribute it and/or modify it under the terms 
  * of the GNU General Public License as published by the Free Software Foundation; either 
@@ -32,7 +32,6 @@ import org.apache.struts.action.ActionMessages;
 
 import com.increg.commun.DBSession;
 import com.increg.game.bean.GameEnvironment;
-import com.increg.game.bean.GameSession;
 import com.increg.game.bean.ParamBean;
 
 /**
@@ -50,7 +49,7 @@ public class ParamAireAction extends AdminAction {
 
 		ActionMessages errors = new ActionMessages();
         GameEnvironment env = (GameEnvironment) getServlet().getServletContext().getAttribute("Env");
-        DBSession dbConnect = ((GameSession) request.getSession().getAttribute("mySession")).getMyDBSession();
+		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
 
         errors.add(precheck(dbConnect));
         

@@ -1,3 +1,20 @@
+/*
+ * Gère les diverses actions faites sur les clients 
+ * Copyright (C) 2003-2011 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; 
+ * if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ */
 /**
  * Created on 8 mai 2003 
  *
@@ -13,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.increg.commun.DBSession;
 import com.increg.game.bean.ChatBean;
 import com.increg.game.bean.GameEnvironment;
 import com.increg.game.bean.GameSession;
@@ -33,7 +51,12 @@ import com.increg.game.net.ServerCallThread;
  */
 public class DoAction extends ConnectedServlet {
 
-    /// TODO : Codification des actions pour améliorer le débit
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6905123695712442430L;
+
+	/// TODO : Codification des actions pour améliorer le débit
     /**
      * @see com.increg.game.servlet.ConnectedServlet#performTask(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -42,6 +65,7 @@ public class DoAction extends ConnectedServlet {
         GameEnvironment env = (GameEnvironment) getServletContext().getAttribute("Env");
         HttpSession session = request.getSession();
         GameSession mySession = (GameSession) session.getAttribute("mySession");
+		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
 
         // Dégelle la session
         mySession.setFrozen(false);
@@ -62,48 +86,48 @@ public class DoAction extends ConnectedServlet {
         String action = request.getParameter("Action");
 
         if (action.equals("init")) {
-            doInit(env, mySession);
+            doInit(env, mySession, dbConnect);
             // Indique au Refresh qu'il faut tout envoyer
             request.setAttribute("fullRefresh", "1");
         }
         else if (action.equals("addPartie")) {
-            doAddPartie(request, env, mySession);
+            doAddPartie(request, env, mySession, dbConnect);
         }
         else if (action.equals("addChat")) {
-            doAddChat(request, env, mySession);
+            doAddChat(request, env, mySession, dbConnect);
         }
         else if (action.equals("rejointPartie")) {
-            doRejointPartie(request, env, mySession);
+            doRejointPartie(request, env, mySession, dbConnect);
         }
         else if (action.equals("regardePartie")) {
-            doRegardePartie(request, env, mySession);
+            doRegardePartie(request, env, mySession, dbConnect);
         }
         else if (action.equals("coupe")) {
-            doCoupe(request, env, mySession);
+            doCoupe(request, env, mySession, dbConnect);
         }
         else if (action.equals("distrib")) {
-            doDistrib(request, env, mySession);
+            doDistrib(request, env, mySession, dbConnect);
         }
         else if (action.equals("decision")) {
-            doDecision(request, env, mySession);
+            doDecision(request, env, mySession, dbConnect);
         }
         else if (action.equals("joueCarte")) {
-            doJoueCarte(request, env, mySession);
+            doJoueCarte(request, env, mySession, dbConnect);
         }
         else if (action.equals("ramasseJeu")) {
-            doRamasse(request, env, mySession);
+            doRamasse(request, env, mySession, dbConnect);
         }
         else if (action.equals("scoreVu")) {
-            doScoreVu(request, env, mySession);
+            doScoreVu(request, env, mySession, dbConnect);
         }
         else if (action.equals("replay")) {
-            doReplay(request, env, mySession);
+            doReplay(request, env, mySession, dbConnect);
         }
         else if (action.equals("quittePartie")) {
-            doQuittePartie(request, env, mySession);
+            doQuittePartie(request, env, mySession, dbConnect);
         }
         else if (action.equals("quit")) {
-            doQuit(request, env, mySession);
+            doQuit(request, env, mySession, dbConnect);
         }
         else {
             System.err.println("Action non prévue : " + action);
@@ -132,7 +156,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doQuit(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doQuit(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         JoueurBean myJoueur = mySession.getMyJoueur();
         if (myJoueur != null) {
             // Dit au revoir..
@@ -147,7 +171,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doQuittePartie(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doQuittePartie(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         // Un joueur sort d'une partie
         String idPartie = request.getParameter("idPartie");
         
@@ -173,7 +197,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doRegardePartie(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doRegardePartie(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         // Un nouveau spectateur
         String idPartie = request.getParameter("idPartie");
         String mdp = request.getParameter("mdp");
@@ -223,7 +247,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doRejointPartie(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doRejointPartie(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         // Attributs de cette action
         String idPartie = request.getParameter("idPartie");
         String place = request.getParameter("place");
@@ -282,7 +306,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doReplay(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doReplay(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         // Attributs de cette action
         String idPartie = request.getParameter("idPartie");
         String want = request.getParameter("want");
@@ -319,7 +343,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doCoupe(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doCoupe(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         // Un nouveau spectateur
         String idPartie = request.getParameter("idPartie");
         String pos = request.getParameter("pos");
@@ -355,7 +379,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doDistrib(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doDistrib(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
 
         String idPartie = request.getParameter("idPartie");
         String nb = request.getParameter("nb");
@@ -390,7 +414,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doDecision(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doDecision(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
 
         String idPartie = request.getParameter("idPartie");
         String couleur = request.getParameter("couleur");
@@ -431,7 +455,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doJoueCarte(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doJoueCarte(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
 
         String idPartie = request.getParameter("idPartie");
         String couleur = request.getParameter("c");
@@ -492,7 +516,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doRamasse(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doRamasse(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
 
         String idPartie = request.getParameter("idPartie");
         
@@ -537,7 +561,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doScoreVu(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doScoreVu(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
 
         String idPartie = request.getParameter("idPartie");
         
@@ -559,7 +583,7 @@ public class DoAction extends ConnectedServlet {
                     if (aPartie.getEtat().getEtat() == EtatPartieBelote.ETAT_FIN_PARTIE) {
                         // Création de la partie en base de données
                         // & Averti le site pour le classement
-                        env.finPartie(mySession, i);
+                        env.finPartie(mySession, dbConnect, i);
                     }
                 }
 
@@ -579,7 +603,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doAddChat(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doAddChat(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         // Message de chat
         
         // Récupère les param spécifiques
@@ -593,7 +617,7 @@ public class DoAction extends ConnectedServlet {
         aChat.setText(msg);
         
         // TODO Optimisation : Recherche en mémoire plutot qu'en base. Base nécessaire si déconnexion, mais en second temps seulement
-        aChat.setJoueurOrig(JoueurBean.getJoueurBeanFromPseudo(mySession.getMyDBSession(), pseudo));
+        aChat.setJoueurOrig(JoueurBean.getJoueurBeanFromPseudo(dbConnect, pseudo));
         if (idPartie != null) {
             // Recherche la partie dans la liste des parties
             for (int j = 0; j < env.getLstPartie().size(); j++) {
@@ -604,7 +628,7 @@ public class DoAction extends ConnectedServlet {
             }
         }
         if (to != null) {
-            aChat.setJoueurDest(JoueurBean.getJoueurBeanFromPseudo(mySession.getMyDBSession(), to));
+            aChat.setJoueurDest(JoueurBean.getJoueurBeanFromPseudo(dbConnect, to));
             /**
              * Vérification que le joueur n'est pas dans la même partie que l'origine
              * Sinon : Rend le message visible par tous
@@ -628,7 +652,7 @@ public class DoAction extends ConnectedServlet {
         if (!couleur.equals("#000000")) {
             aChat.setStyle("<font color=\"" + couleur + "\">");
         }
-        env.addChat(aChat, mySession.getMyDBSession());
+        env.addChat(aChat, dbConnect);
         
         // Sauvegarde la couleur du joueur
         String oldCouleur = mySession.getMyJoueur().getCouleur();
@@ -636,7 +660,7 @@ public class DoAction extends ConnectedServlet {
         try {
             // Ne sauvegarde qu'en cas de changement
             if ((oldCouleur == null) || !oldCouleur.equals(couleur)) {
-                mySession.getMyJoueur().maj(mySession.getMyDBSession());
+                mySession.getMyJoueur().maj(dbConnect);
             }
         }
         catch (Exception e) {
@@ -650,7 +674,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doAddPartie(HttpServletRequest request, GameEnvironment env, GameSession mySession) {
+    protected void doAddPartie(HttpServletRequest request, GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         // Création d'une partie
         
         // Récupère les param spécifiques
@@ -668,7 +692,7 @@ public class DoAction extends ConnectedServlet {
         else {
             aPartie = new PartieBeloteModerne();
         }
-        aPartie.setOwner(JoueurBean.getJoueurBeanFromPseudo(mySession.getMyDBSession(), pseudo));
+        aPartie.setOwner(JoueurBean.getJoueurBeanFromPseudo(dbConnect, pseudo));
         aPartie.setTitre(titre);
         aPartie.setMotDePasse(motDePasse);
         aPartie.setAnnonce(annonce.equals("O"));
@@ -686,7 +710,7 @@ public class DoAction extends ConnectedServlet {
      * @param env Environnement
      * @param mySession Session
      */
-    protected void doInit(GameEnvironment env, GameSession mySession) {
+    protected void doInit(GameEnvironment env, GameSession mySession, DBSession dbConnect) {
         // Enregistre le joueur dans les joueurs présents
         JoueurBean myJoueur = mySession.getMyJoueur();
 

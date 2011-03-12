@@ -1,3 +1,21 @@
+/*
+ * Servlet Mère de TOUTES les servlets de l'aire de jeu
+ * Assure que l'utilisateur s'est correctement connecté et fait le ménage d'une transaction à une autre
+ * Copyright (C) 2001-2011 Emmanuel Guyot <See emmguyot on SourceForge> 
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms 
+ * of the GNU General Public License as published by the Free Software Foundation; either 
+ * version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; 
+ * if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ */
 package com.increg.game.servlet;
 
 import java.io.IOException;
@@ -10,25 +28,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-/**
- * Servlet Mère de TOUTES les servlets de l'aire de jeu
- * Assure que l'utilisateur s'est correctement connecté et fait le ménage d'une transaction à une autre
- * @author Emmanuel GUYOT <emmguyot@wanadoo.fr>
- */
+
 public abstract class ConnectedServlet extends HttpServlet {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8941863679957644460L;
+
+	/**
      * RAZ des points pouvant bloquer (Transaction d'une session, ...)
      * Creation date: (20/09/2001 21:04:54)
      * @param request Requête en cours de traitement
      */
     protected void cleanUp(HttpServletRequest request) {
 
-        HttpSession mySession = request.getSession(false);
-        GameSession myGame = (GameSession) mySession.getAttribute("mySession");
-        DBSession myDBSession = myGame.getMyDBSession();
+		DBSession dbConnect = (DBSession) request.getAttribute("DBSession");
 
-        myDBSession.cleanTransaction();
+        dbConnect.cleanTransaction();
     }
     /**
      * Process incoming HTTP GET requests 
